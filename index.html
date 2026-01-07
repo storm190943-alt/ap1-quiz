@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AP1 Lernquiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">AP1</div>
+      <div>
+        <div class="title">Lernquiz</div>
+        <div class="subtitle" id="bankInfo">lädt…</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="control">
+        <label for="mode">Modus</label>
+        <select id="mode">
+          <option value="learn">Lernmodus (mit Erklärungen)</option>
+          <option value="exam">Prüfungsmodus (Ergebnis am Ende)</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label for="count">Fragen</label>
+        <input id="count" type="number" min="5" max="200" value="25">
+      </div>
+
+      <button class="btn primary" id="startBtn">Start</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <div class="cardTitle">Filter</div>
+
+        <div class="control">
+          <label for="chapterSel">Kapitel</label>
+          <select id="chapterSel"></select>
+        </div>
+
+        <div class="control">
+          <label for="topicSel">Themen</label>
+          <select id="topicSel" multiple size="12"></select>
+          <div class="hint">Tipp: Mehrfachauswahl per Strg/⌘.</div>
+        </div>
+
+        <div class="control">
+          <label for="qSearch">Suche</label>
+          <input id="qSearch" type="search" placeholder="z.B. OSI, NAT, IPv6…">
+        </div>
+
+        <div class="row">
+          <label class="check"><input id="shuffleQ" type="checkbox" checked> Fragen mischen</label>
+          <label class="check"><input id="shuffleA" type="checkbox" checked> Antworten mischen</label>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="selectAllTopicsBtn">Alle Themen</button>
+          <button class="btn" id="clearTopicsBtn">Keine</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stats">
+          <div><span class="muted">Auswahl:</span> <strong id="selectionInfo">–</strong></div>
+          <div><span class="muted">Dein Verlauf (lokal):</span> <strong id="localStats">–</strong></div>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="copyLinkBtn">Link kopieren</button>
+          <button class="btn" id="resetStatsBtn">Statistik reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">Review</div>
+        <div class="muted small">Falsche Fragen werden hier gesammelt (nur lokal).</div>
+        <div class="row">
+          <button class="btn" id="redoWrongBtn">Falsche wiederholen</button>
+          <button class="btn" id="clearWrongBtn">Liste leeren</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div class="card" id="welcome">
+        <h1>Bereit?</h1>
+        <p class="muted">Wähle links Kapitel/Themen oder starte direkt. Im Lernmodus bekommst du nach jeder Antwort eine Erklärung.</p>
+        <ul class="muted">
+          <li>Per Link kannst du die Auswahl teilen (GitHub Pages geeignet).</li>
+          <li>Deine Trefferquote wird pro Thema im Browser gespeichert.</li>
+        </ul>
+      </div>
+
+      <div class="card" id="quiz" style="display:none">
+        <div class="quizHeader">
+          <div>
+            <div class="pill" id="progress">Frage –/–</div>
+            <div class="muted small" id="meta">–</div>
+          </div>
+          <div class="pill">Score: <strong id="score">0</strong></div>
+        </div>
+
+        <h2 id="question">…</h2>
+        <div class="answers" id="answers"></div>
+
+        <div class="explain" id="explain" style="display:none"></div>
+
+        <div class="quizFooter">
+          <div class="muted" id="feedback"></div>
+          <div class="row">
+            <button class="btn" id="skipBtn">Überspringen</button>
+            <button class="btn primary" id="nextBtn" disabled>Weiter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="result" style="display:none">
+        <h2>Ergebnis</h2>
+        <p id="summary"></p>
+        <div class="row">
+          <button class="btn primary" id="restartBtn">Nochmal</button>
+          <button class="btn" id="reviewWrongBtn">Falsche wiederholen</button>
+        </div>
+        <div class="divider"></div>
+        <div id="topicBreakdown"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
