@@ -1,0 +1,802 @@
+[
+  {
+    "id": "q1",
+    "chapter": 1,
+    "chapterTitle": "Grundlagen",
+    "topicId": "1.2",
+    "topicTitle": "Bits & Bytes",
+    "question": "Wie viele Bits hat ein Byte?",
+    "answers": [
+      "4",
+      "8",
+      "16",
+      "32"
+    ],
+    "correct": "8",
+    "explanation": "Ein Byte besteht aus 8 Bit.",
+    "source": {
+      "page": 1,
+      "section": "1.2"
+    }
+  },
+  {
+    "id": "q2",
+    "chapter": 1,
+    "chapterTitle": "Grundlagen",
+    "topicId": "1.3",
+    "topicTitle": "Zahlensysteme",
+    "question": "Wie viele Bit umfasst eine Hexadezimalstelle?",
+    "answers": [
+      "2 Bit",
+      "3 Bit",
+      "4 Bit",
+      "8 Bit"
+    ],
+    "correct": "4 Bit",
+    "explanation": "Eine Hexadezimalziffer entspricht 4 Bit.",
+    "source": {
+      "page": 1,
+      "section": "1.3"
+    }
+  },
+  {
+    "id": "q3",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Auf welcher OSI-Schicht arbeitet ein Switch typischerweise?",
+    "answers": [
+      "Schicht 1 (Physical)",
+      "Schicht 2 (Data Link)",
+      "Schicht 3 (Network)",
+      "Schicht 7 (Application)"
+    ],
+    "correct": "Schicht 2 (Data Link)",
+    "explanation": "Switches arbeiten üblicherweise auf der Sicherungsschicht (MAC-Adressen).",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q4",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Wie viele Schichten hat das OSI-Modell?",
+    "answers": [
+      "4",
+      "5",
+      "7",
+      "9"
+    ],
+    "correct": "7",
+    "explanation": "Das OSI-Modell besteht aus 7 Schichten.",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q5",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Wie viele Bit hat eine IPv4-Adresse?",
+    "answers": [
+      "16 Bit",
+      "32 Bit",
+      "64 Bit",
+      "128 Bit"
+    ],
+    "correct": "32 Bit",
+    "explanation": "IPv4 nutzt 32-Bit-Adressen (4 Oktette).",
+    "source": {
+      "page": 19,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q6",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Wie viele Bit hat eine IPv6-Adresse?",
+    "answers": [
+      "32 Bit",
+      "64 Bit",
+      "96 Bit",
+      "128 Bit"
+    ],
+    "correct": "128 Bit",
+    "explanation": "IPv6 nutzt 128-Bit-Adressen.",
+    "source": {
+      "page": 20,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q7",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welche Adresse ist die Loopback-Adresse bei IPv4?",
+    "answers": [
+      "0.0.0.0",
+      "127.0.0.1",
+      "169.254.0.1",
+      "255.255.255.255"
+    ],
+    "correct": "127.0.0.1",
+    "explanation": "Loopback in IPv4 ist 127.0.0.1.",
+    "source": {
+      "page": 20,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q8",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Was bedeutet APIPA?",
+    "answers": [
+      "Manuelle IP-Konfiguration",
+      "Automatisch zugewiesene Adresse ohne DHCP",
+      "Private Adresse für VLANs",
+      "Adressierung nur für Router"
+    ],
+    "correct": "Automatisch zugewiesene Adresse ohne DHCP",
+    "explanation": "APIPA (169.254.0.0/16) wird vergeben, wenn kein DHCP verfügbar ist.",
+    "source": {
+      "page": 20,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q9",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welche IPv6-Adresse ist die Loopback-Adresse?",
+    "answers": [
+      ":",
+      ":1",
+      "FF02::1",
+      "FE80::1"
+    ],
+    "correct": ":1",
+    "explanation": "In IPv6 ist die Loopback-Adresse ::1.",
+    "source": {
+      "page": 22,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q10",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welches IPv6-Präfix ist typisch für Link-Local-Adressen?",
+    "answers": [
+      "2000::/3",
+      "FE80::/10",
+      "FC00::/7",
+      "FF00::/8"
+    ],
+    "correct": "FE80::/10",
+    "explanation": "Link-Local ist FE80::/10.",
+    "source": {
+      "page": 22,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q11",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welche Aussage passt zu /64 bei IPv6?",
+    "answers": [
+      "Standard-Präfix für Netzwerke",
+      "Zuweisung für ISPs",
+      "Nur für Loopback",
+      "Nur für Multicast"
+    ],
+    "correct": "Standard-Präfix für Netzwerke",
+    "explanation": "/64 ist Standard für typische IPv6-Netzwerke.",
+    "source": {
+      "page": 22,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q12",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welcher Standard-Port gehört zu HTTPS?",
+    "answers": [
+      "21",
+      "22",
+      "80",
+      "443"
+    ],
+    "correct": "443",
+    "explanation": "HTTPS nutzt Port 443.",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q13",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welcher Standard-Port gehört zu DNS (typischerweise)?",
+    "answers": [
+      "25",
+      "53",
+      "67",
+      "110"
+    ],
+    "correct": "53",
+    "explanation": "DNS nutzt Port 53 (UDP/TCP).",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q14",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welcher Standard-Port gehört zu DHCP (Server)?",
+    "answers": [
+      "53",
+      "67",
+      "68",
+      "143"
+    ],
+    "correct": "67",
+    "explanation": "DHCP Server-Port ist 67 (Client 68).",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q15",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Was bedeutet SNAT?",
+    "answers": [
+      "Öffentliche → Private IP",
+      "Private → Öffentliche IP",
+      "Nur Port-Weiterleitung",
+      "Verschlüsselung von Traffic"
+    ],
+    "correct": "Private → Öffentliche IP",
+    "explanation": "SNAT übersetzt Quelladressen: privat → öffentlich.",
+    "source": {
+      "page": 19,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q16",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Was bedeutet DNAT?",
+    "answers": [
+      "Öffentliche → Private IP",
+      "Private → Öffentliche IP",
+      "Adressvergabe per DHCP",
+      "Routing zwischen VLANs"
+    ],
+    "correct": "Öffentliche → Private IP",
+    "explanation": "DNAT übersetzt Zieladressen: öffentlich → privat.",
+    "source": {
+      "page": 19,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q17",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Was bedeutet PAT?",
+    "answers": [
+      "Mehrere private Adressen teilen eine öffentliche IP (über Ports)",
+      "Nur statische Routen",
+      "Adressraum-Vergrößerung",
+      "Nur IPv6-Feature"
+    ],
+    "correct": "Mehrere private Adressen teilen eine öffentliche IP (über Ports)",
+    "explanation": "PAT ist Port Address Translation.",
+    "source": {
+      "page": 19,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q18",
+    "chapter": 3,
+    "chapterTitle": "Software",
+    "topicId": "3.3",
+    "topicTitle": "BIOS",
+    "question": "Was ist ein typisches Partitionsschema für UEFI-Boot?",
+    "answers": [
+      "MBR",
+      "GPT",
+      "FAT16",
+      "ext4"
+    ],
+    "correct": "GPT",
+    "explanation": "UEFI nutzt typischerweise GPT (BIOS eher MBR).",
+    "source": {
+      "page": 31,
+      "section": "3.3"
+    }
+  },
+  {
+    "id": "q19",
+    "chapter": 10,
+    "chapterTitle": "Qualitätsmanagement",
+    "topicId": "10.6",
+    "topicTitle": "PDCA",
+    "question": "Wofür steht PDCA?",
+    "answers": [
+      "Plan-Do-Check-Act",
+      "Protect-Detect-Contain-Analyze",
+      "Plan-Deploy-Control-Approve",
+      "Prepare-Do-Confirm-Apply"
+    ],
+    "correct": "Plan-Do-Check-Act",
+    "explanation": "PDCA ist ein Zyklus zur kontinuierlichen Verbesserung.",
+    "source": {
+      "page": 97,
+      "section": "10.6"
+    }
+  },
+  {
+    "id": "q20",
+    "chapter": 11,
+    "chapterTitle": "IT-Sicherheit und Datenschutz",
+    "topicId": "11.1",
+    "topicTitle": "Verfügbarkeit, Vertraulichkeit und Integrität",
+    "question": "Welche drei Schutzziele umfasst die CIA-Triade?",
+    "answers": [
+      "Correctness, Integrity, Availability",
+      "Confidentiality, Integrity, Availability",
+      "Confidentiality, Internet, Access",
+      "Control, Identity, Authorization"
+    ],
+    "correct": "Confidentiality, Integrity, Availability",
+    "explanation": "CIA = Vertraulichkeit, Integrität, Verfügbarkeit.",
+    "source": {
+      "page": 99,
+      "section": "11.1"
+    }
+  },
+  {
+    "id": "q21",
+    "chapter": 7,
+    "chapterTitle": "Projektmanagement",
+    "topicId": "7.3",
+    "topicTitle": "SMART",
+    "question": "Wofür steht das 'S' in SMART-Zielen?",
+    "answers": [
+      "Sicher",
+      "Spezifisch",
+      "Skaliert",
+      "Systematisch"
+    ],
+    "correct": "Spezifisch",
+    "explanation": "SMART-Ziele sind u.a. spezifisch und messbar.",
+    "source": {
+      "page": 54,
+      "section": "7.3"
+    }
+  },
+  {
+    "id": "q22",
+    "chapter": 7,
+    "chapterTitle": "Projektmanagement",
+    "topicId": "7.2",
+    "topicTitle": "Projektplanung",
+    "question": "Was beschreibt der 'kritische Weg' im Netzplan?",
+    "answers": [
+      "Den Pfad mit dem größten Puffer",
+      "Den längsten Pfad ohne Puffer, der die minimale Projektdauer bestimmt",
+      "Den kürzesten Pfad mit Reserve",
+      "Eine Liste aller Meilensteine"
+    ],
+    "correct": "Den längsten Pfad ohne Puffer, der die minimale Projektdauer bestimmt",
+    "explanation": "Der kritische Weg bestimmt die minimale Projektdauer (ohne Puffer).",
+    "source": {
+      "page": 55,
+      "section": "7.2"
+    }
+  },
+  {
+    "id": "q23",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welche OSI-Schicht ist für Routing und IP-Adressierung zuständig?",
+    "answers": [
+      "Schicht 2",
+      "Schicht 3",
+      "Schicht 4",
+      "Schicht 7"
+    ],
+    "correct": "Schicht 3",
+    "explanation": "Die Network Layer (Schicht 3) macht logische Adressierung/Routing.",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q24",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welche OSI-Schicht kümmert sich um zuverlässige/ unzuverlässige Übertragung zwischen Endgeräten?",
+    "answers": [
+      "Schicht 1",
+      "Schicht 3",
+      "Schicht 4",
+      "Schicht 6"
+    ],
+    "correct": "Schicht 4",
+    "explanation": "Die Transportschicht (Layer 4) regelt Transport (TCP/UDP).",
+    "source": {
+      "page": 25,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q25",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.9",
+    "topicTitle": "Energie",
+    "question": "Welche Formel beschreibt elektrische Leistung P?",
+    "answers": [
+      "P = U × I",
+      "U = P × I",
+      "I = U × P",
+      "P = U / I"
+    ],
+    "correct": "P = U × I",
+    "explanation": "Leistung: P = U × I.",
+    "source": {
+      "page": 29,
+      "section": "2.9"
+    }
+  },
+  {
+    "id": "q26",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.9",
+    "topicTitle": "Energie",
+    "question": "Welche Einheit hat elektrische Leistung?",
+    "answers": [
+      "Volt (V)",
+      "Ampere (A)",
+      "Watt (W)",
+      "Ohm (Ω)"
+    ],
+    "correct": "Watt (W)",
+    "explanation": "Leistung wird in Watt angegeben.",
+    "source": {
+      "page": 29,
+      "section": "2.9"
+    }
+  },
+  {
+    "id": "q27",
+    "chapter": 9,
+    "chapterTitle": "Support",
+    "topicId": "9.4",
+    "topicTitle": "Ticketsystem",
+    "question": "Was ist ein Ticket im IT-Support am ehesten?",
+    "answers": [
+      "Ein Passwort",
+      "Ein dokumentierter Vorgang/Supportfall mit Status",
+      "Ein Netzwerkpaket",
+      "Ein Software-Update"
+    ],
+    "correct": "Ein dokumentierter Vorgang/Supportfall mit Status",
+    "explanation": "Ticketsysteme dokumentieren und steuern Supportfälle.",
+    "source": {
+      "page": 4,
+      "section": "9.4"
+    }
+  },
+  {
+    "id": "q28",
+    "chapter": 5,
+    "chapterTitle": "Lizenzen",
+    "topicId": "5.2",
+    "topicTitle": "Lizenzarten",
+    "question": "Welche Lizenz passt am ehesten zu 'Open Source'?",
+    "answers": [
+      "Quellcode ist öffentlich einsehbar und nutzbar (je nach Lizenzbedingungen)",
+      "Quellcode ist immer geheim",
+      "Nur kostenlose Software ohne Rechte",
+      "Nur für Microsoft-Produkte"
+    ],
+    "correct": "Quellcode ist öffentlich einsehbar und nutzbar (je nach Lizenzbedingungen)",
+    "explanation": "Open Source bedeutet: Source Code öffentlich; Nutzung je nach Lizenz.",
+    "source": {
+      "page": 30,
+      "section": "5.2"
+    }
+  },
+  {
+    "id": "q29",
+    "chapter": 3,
+    "chapterTitle": "Software",
+    "topicId": "3.9",
+    "topicTitle": "Client-Server",
+    "question": "Was beschreibt ein Client-Server-Prinzip am besten?",
+    "answers": [
+      "Alle Geräte sind gleichberechtigt ohne zentrale Dienste",
+      "Clients nutzen Dienste/Ressourcen eines Servers",
+      "Nur WLAN-Verbindungen",
+      "Nur lokale Programme ohne Netzwerk"
+    ],
+    "correct": "Clients nutzen Dienste/Ressourcen eines Servers",
+    "explanation": "Client-Server: Server stellt Dienste bereit, Clients nutzen sie.",
+    "source": {
+      "page": 2,
+      "section": "3.9"
+    }
+  },
+  {
+    "id": "q30",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welcher Dienst dient dem Versand von E-Mails zwischen Mailservern?",
+    "answers": [
+      "IMAP",
+      "POP3",
+      "SMTP",
+      "DNS"
+    ],
+    "correct": "SMTP",
+    "explanation": "SMTP ist für den Versand zuständig.",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q31",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welcher Dienst ermöglicht serverbasierten E-Mail-Abruf mit Synchronisation?",
+    "answers": [
+      "IMAP",
+      "FTP",
+      "HTTP",
+      "DHCP"
+    ],
+    "correct": "IMAP",
+    "explanation": "IMAP synchronisiert E-Mails serverbasiert.",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q32",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.6",
+    "topicTitle": "Netzwerkprotokolle und OSI-Modell",
+    "question": "Welcher Dienst holt E-Mails typischerweise ab und löscht sie standardmäßig vom Server?",
+    "answers": [
+      "POP3",
+      "SMTP",
+      "DNS",
+      "SFTP"
+    ],
+    "correct": "POP3",
+    "explanation": "POP3 lädt ab; standardmäßig werden Mails vom Server gelöscht.",
+    "source": {
+      "page": 24,
+      "section": "2.6"
+    }
+  },
+  {
+    "id": "q33",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welcher Bereich ist ein privater IPv4-Adressbereich (Klasse C) laut Übersicht?",
+    "answers": [
+      "192.168.0.0 – 192.168.255.255",
+      "8.8.8.0 – 8.8.8.255",
+      "224.0.0.0 – 239.255.255.255",
+      "100.64.0.0 – 100.127.255.255"
+    ],
+    "correct": "192.168.0.0 – 192.168.255.255",
+    "explanation": "Private Klasse C: 192.168.0.0–192.168.255.255.",
+    "source": {
+      "page": 20,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q34",
+    "chapter": 7,
+    "chapterTitle": "Projektmanagement",
+    "topicId": "7.2",
+    "topicTitle": "Projektplanung",
+    "question": "Wie berechnet man den Gesamtpuffer (GP) im Netzplan?",
+    "answers": [
+      "GP = SAZ - FAZ (oder SEZ - FEZ)",
+      "GP = FAZ - FEZ",
+      "GP = FEZ - SAZ",
+      "GP = SEZ - SAZ"
+    ],
+    "correct": "GP = SAZ - FAZ (oder SEZ - FEZ)",
+    "explanation": "Gesamtpuffer: GP = SAZ - FAZ oder GP = SEZ - FEZ.",
+    "source": {
+      "page": 54,
+      "section": "7.2"
+    }
+  },
+  {
+    "id": "q35",
+    "chapter": 11,
+    "chapterTitle": "IT-Sicherheit und Datenschutz",
+    "topicId": "11.1",
+    "topicTitle": "Verfügbarkeit, Vertraulichkeit und Integrität",
+    "question": "Welches Schutzziel bedeutet: 'Daten und Systeme müssen stets zugänglich sein'?",
+    "answers": [
+      "Integrität",
+      "Verfügbarkeit",
+      "Vertraulichkeit",
+      "Authentizität"
+    ],
+    "correct": "Verfügbarkeit",
+    "explanation": "Verfügbarkeit = Systeme/Daten sollen zugänglich bleiben.",
+    "source": {
+      "page": 99,
+      "section": "11.1"
+    }
+  },
+  {
+    "id": "q36",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welche NAT-Variante nutzt Ports, damit mehrere private Adressen eine öffentliche IP teilen können?",
+    "answers": [
+      "SNAT",
+      "DNAT",
+      "PAT",
+      "SLAAC"
+    ],
+    "correct": "PAT",
+    "explanation": "PAT = Port Address Translation.",
+    "source": {
+      "page": 19,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q37",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.4",
+    "topicTitle": "Netzwerk",
+    "question": "Welche IPv6-Adresszuweisung beschreibt 'Selbstkonfiguration anhand Netzpräfix und MAC'?",
+    "answers": [
+      "DHCPv6",
+      "SLAAC",
+      "Statisch",
+      "NAT64"
+    ],
+    "correct": "SLAAC",
+    "explanation": "SLAAC: Stateless Address Autoconfiguration.",
+    "source": {
+      "page": 22,
+      "section": "2.4"
+    }
+  },
+  {
+    "id": "q38",
+    "chapter": 2,
+    "chapterTitle": "Hardware",
+    "topicId": "2.5",
+    "topicTitle": "Grafikkarte",
+    "question": "Was bedeutet VRAM bei Grafikkarten?",
+    "answers": [
+      "Videospeicher für Texturen und Bilddaten",
+      "Virtueller RAM des Betriebssystems",
+      "Verschlüsselungsmodul",
+      "Router-VLAN-Management"
+    ],
+    "correct": "Videospeicher für Texturen und Bilddaten",
+    "explanation": "VRAM speichert u.a. Texturen/Bilddaten.",
+    "source": {
+      "page": 22,
+      "section": "2.5"
+    }
+  },
+  {
+    "id": "q39",
+    "chapter": 3,
+    "chapterTitle": "Software",
+    "topicId": "3.1",
+    "topicTitle": "Softwarearten",
+    "question": "Welche Software ist speziell für eine Branche entwickelt?",
+    "answers": [
+      "Standardsoftware",
+      "Branchensoftware",
+      "Individualsoftware",
+      "Firmware"
+    ],
+    "correct": "Branchensoftware",
+    "explanation": "Branchensoftware richtet sich an eine bestimmte Branche.",
+    "source": {
+      "page": 30,
+      "section": "3.1"
+    }
+  },
+  {
+    "id": "q40",
+    "chapter": 6,
+    "chapterTitle": "Wirtschaft",
+    "topicId": "6.13",
+    "topicTitle": "Aufbauorganisation",
+    "question": "Welche Organisationsform kombiniert Funktion und Projektzugehörigkeit?",
+    "answers": [
+      "Einliniensystem",
+      "Mehrliniensystem",
+      "Stabliniensystem",
+      "Matrixorganisation"
+    ],
+    "correct": "Matrixorganisation",
+    "explanation": "Matrixorganisation kombiniert Linien- und Projektstruktur.",
+    "source": {
+      "page": 52,
+      "section": "6.13"
+    }
+  }
+]
