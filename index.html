@@ -3,130 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IHK AP1 Trainer - Komfort-Edition</title>
+    <title>IHK AP1 Profi-Trainer</title>
     <style>
         :root { --primary: #2563eb; --success: #16a34a; --error: #dc2626; --bg: #f1f5f9; --text: #0f172a; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 10px; display: flex; justify-content: center; margin: 0; }
-        .container { width: 100%; max-width: 700px; padding-top: 20px; }
+        .container { width: 100%; max-width: 750px; padding-top: 20px; }
         .card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px; }
         .hidden { display: none !important; }
         .btn { padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; font-size: 1rem; transition: 0.2s; }
         .primary-btn { background: var(--primary); color: white; }
-        
-        /* VERBESSERTE KLICK-ZONE */
-        .option-item { 
-            display: flex; 
-            align-items: center; 
-            padding: 18px; /* Größeres Padding für bessere Treffsicherheit */
-            border: 2px solid #e2e8f0; 
-            border-radius: 10px; 
-            margin-bottom: 12px; 
-            cursor: pointer; 
-            background: #fff; 
-            transition: all 0.2s; 
-            user-select: none; /* Verhindert Textmarkierung beim schnellen Klicken */
-        }
-        .option-item:hover { border-color: var(--primary); background: #f8fafc; }
-        .option-item.selected { border-color: var(--primary); background: #eff6ff; box-shadow: inset 0 0 0 1px var(--primary); }
+        .option-item { display: flex; align-items: center; padding: 16px; border: 2px solid #e2e8f0; border-radius: 10px; margin-bottom: 10px; cursor: pointer; background: #fff; transition: 0.2s; }
+        .option-item:hover { border-color: var(--primary); }
+        .option-item.selected { border-color: var(--primary); background: #eff6ff; }
         .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; border-width: 3px; }
         .wrong-ui { border-color: var(--error) !important; background: #fef2f2 !important; }
-        
-        input[type="checkbox"], input[type="radio"] { 
-            margin-right: 15px; 
-            transform: scale(1.4); 
-            pointer-events: none; /* Klick geht durch das Input aufs Feld */
-        }
-        
-        #explanation-box { background: #f8fafc; padding: 15px; border-left: 5px solid var(--primary); margin-top: 15px; font-size: 0.95rem; line-height: 1.5; border-radius: 0 8px 8px 0; }
+        input[type="text"] { width: 100%; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 1.1rem; box-sizing: border-box; }
         .progress-bar { background: #e2e8f0; height: 10px; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
         #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.4s; }
-        label { cursor: pointer; flex-grow: 1; pointer-events: none; }
+        #explanation-box { background: #f8fafc; padding: 15px; border-left: 5px solid var(--primary); margin-top: 15px; font-size: 0.95rem; line-height: 1.5; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="setup-screen" class="card">
-            <h1>IHK AP1 Trainer</h1>
-            <p>Optimiert für einfaches Klicken & Touch.</p>
-            <div style="margin-bottom: 20px;">
-                <label style="font-weight:600">Thema:</label>
-                <select id="topic-select" class="btn" style="background: white; border: 2px solid #e2e8f0; text-align: left;"></select>
-            </div>
+            <h1>IHK AP1 Trainer Plus</h1>
+            <p>Inklusive Rechenaufgaben & Lückentexten.</p>
+            <select id="topic-select" class="btn" style="background: white; border: 2px solid #e2e8f0; text-align: left;"></select>
             <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus</button>
             <button onclick="startQuiz('exam')" class="btn" style="background: #64748b; color: white;">Prüfungsmodus</button>
         </div>
 
         <div id="quiz-screen" class="card hidden">
             <div class="progress-bar"><div id="progress-fill"></div></div>
-            <div id="meta" style="font-size: 0.85rem; color: #64748b; margin-bottom: 8px; font-weight: bold; text-transform: uppercase;"></div>
-            <h2 id="question-text" style="margin-bottom: 20px;"></h2>
+            <div id="meta" style="font-size: 0.8rem; color: #64748b; font-weight: bold; margin-bottom: 5px;"></div>
+            <h2 id="question-text" style="margin-top:0"></h2>
             <div id="options-container"></div>
-            
             <div id="feedback-area" class="hidden">
-                <p id="feedback-text" style="font-weight: bold; font-size: 1.2rem; border-top: 1px solid #eee; padding-top: 15px;"></p>
+                <p id="feedback-text" style="font-weight: bold; font-size: 1.1rem; border-top: 1px solid #eee; padding-top: 15px;"></p>
                 <div id="explanation-box"></div>
             </div>
-
-            <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Antwort prüfen</button>
+            <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Prüfen</button>
             <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Nächste Frage</button>
         </div>
 
         <div id="result-screen" class="card hidden">
-            <h2>Ergebnis</h2>
+            <h2>Dein Ergebnis</h2>
             <p id="score-display" style="font-size: 1.3rem;"></p>
-            <button onclick="location.reload()" class="btn primary-btn">Quiz neu starten</button>
+            <button onclick="location.reload()" class="btn primary-btn">Neu starten</button>
         </div>
     </div>
 
     <script>
         const allQuestions = [
+            // --- HARDWARE / NETZWERK ---
             {
-                chapter: "1. Grundlagen",
-                type: "single",
-                question: "Welches Zahlensystem wird primär zur kompakten Darstellung von MAC-Adressen verwendet?",
-                options: ["Dezimalsystem", "Binärsystem", "Hexadezimalsystem", "Oktalsystem"],
-                correctAnswers: [2],
-                explanation: "MAC-Adressen werden hexadezimal (Basis 16) dargestellt, da 4 Bit genau durch eine hexadezimale Stelle (0-F) abgebildet werden können."
+                chapter: "Hardware", type: "input",
+                question: "Wie viele nutzbare Host-IP-Adressen hat ein /28 Subnetz?",
+                correctAnswers: ["14"],
+                explanation: "Ein /28 Netz hat 2^(32-28) = 16 Adressen. Abzüglich Netz-ID und Broadcast bleiben 14 nutzbare Adressen."
             },
             {
-                chapter: "2. Hardware",
-                type: "multi",
-                question: "Welche Merkmale treffen auf SSDs im Vergleich zu HDDs zu?",
-                options: ["Lautloser Betrieb", "Unempfindlich gegen Erschütterungen", "Geringere Zugriffszeiten", "Unbegrenzte Schreibzyklen"],
+                chapter: "Hardware", type: "input",
+                question: "Rechnen Sie die Hex-Zahl 'A' in eine Dezimalzahl um.",
+                correctAnswers: ["10"],
+                explanation: "Im Hexadezimalsystem steht A für 10, B für 11, C für 12 usw."
+            },
+            {
+                chapter: "Netzwerk", type: "multi",
+                question: "Welche Protokolle werden zur E-Mail-Übertragung oder zum Abruf genutzt?",
+                options: ["SMTP", "POP3", "IMAP", "SNMP", "FTP"],
                 correctAnswers: [0, 1, 2],
-                explanation: "SSDs haben keine mechanischen Teile (lautlos/robust) und extrem schnelle Zugriffszeiten. Aber: Die Speicherzellen haben eine begrenzte Anzahl an Schreibzyklen (TBW)."
+                explanation: "SMTP sendet, POP3 und IMAP empfangen Mails. SNMP ist für Netzwerkmanagement, FTP für Dateitransfer."
             },
+            // --- WIRTSCHAFT / RECHT ---
             {
-                chapter: "3. Software",
-                type: "single",
-                question: "Was ist die Hauptaufgabe des BIOS/UEFI beim Systemstart?",
-                options: ["Dateien im Explorer anzeigen", "Hardware initialisieren (POST) und Betriebssystem laden", "Internetverbindung herstellen", "Viren scannen"],
+                chapter: "Wirtschaft", type: "single",
+                question: "Wie nennt man die Versicherung, die bei Arbeitsunfällen eintritt?",
+                options: ["Rentenversicherung", "Berufsgenossenschaft", "Pflegeversicherung", "Arbeitslosenversicherung"],
                 correctAnswers: [1],
-                explanation: "Der Power-On Self-Test (POST) prüft die Hardware und übergibt dann an den Bootloader des Betriebssystems."
+                explanation: "Die Berufsgenossenschaften sind die Träger der gesetzlichen Unfallversicherung."
             },
             {
-                chapter: "3. Software",
-                type: "multi",
-                question: "Welche Cloud-Modelle werden nach der Art der Bereitstellung unterschieden?",
-                options: ["Public Cloud", "Hybrid Cloud", "SaaS Cloud", "Private Cloud"],
+                chapter: "Wirtschaft", type: "input",
+                question: "Wie hoch ist der Arbeitnehmeranteil (in %) am Beitrag zur Krankenversicherung ohne Zusatzbeitrag? (Zahl mit Komma, z.B. 7,3)",
+                correctAnswers: ["7,3"],
+                explanation: "Der allgemeine Beitragssatz beträgt 14,6%. Davon tragen AG und AN jeweils die Hälfte (7,3%)."
+            },
+            {
+                chapter: "Recht", type: "multi",
+                question: "Welche Angaben müssen zwingend in einem Ausbildungsvertrag stehen?",
+                options: ["Dauer der Probezeit", "Höhe der Vergütung", "Name der Eltern (bei Volljährigen)", "Beginn und Dauer der Ausbildung"],
                 correctAnswers: [0, 1, 3],
-                explanation: "Public, Private und Hybrid sind Bereitstellungsmodelle. SaaS ist ein Servicemodell (neben IaaS und PaaS)."
+                explanation: "Probezeit, Vergütung und Dauer sind Pflicht. Der Name der Eltern ist nur bei Minderjährigen Pflicht."
+            },
+            // --- PROJEKTMANAGEMENT ---
+            {
+                chapter: "Projekt", type: "input",
+                question: "Was ist der Gesamtpuffer (GP) eines Vorgangs auf dem kritischen Pfad?",
+                correctAnswers: ["0"],
+                explanation: "Der kritische Pfad zeichnet sich dadurch aus, dass alle Vorgänge einen Puffer von Null haben."
             },
             {
-                chapter: "4. Wirtschaft",
-                type: "single",
-                question: "Was besagt das ökonomische 'Minimalprinzip'?",
-                options: ["Ein gegebenes Ziel mit minimalen Mitteln erreichen.", "Mit gegebenen Mitteln das maximale Ziel erreichen.", "Wenig arbeiten für viel Geld.", "Mittel und Ziele immer minimieren."],
-                correctAnswers: [0],
-                explanation: "Minimalprinzip: Ziel steht fest, Mittelaufwand soll minimiert werden. (Maximalprinzip: Mittel stehen fest, Ziel soll maximiert werden)."
+                chapter: "Programmierung", type: "input",
+                question: "Welches SQL-Schlüsselwort wird verwendet, um Duplikate im Ergebnis zu vermeiden?",
+                correctAnswers: ["DISTINCT"],
+                explanation: "SELECT DISTINCT filtert doppelte Datensätze aus der Ergebnismenge."
             },
             {
-                chapter: "11. IT-Sicherheit",
-                type: "single",
-                question: "Was ist ein 'Phishing-Angriff'?",
-                options: ["Eindringen in Server über Sicherheitslücken.", "Erschleichen von Zugangsdaten über gefälschte E-Mails/Webseiten.", "Überlastung eines Webservers.", "Physischer Diebstahl von Hardware."],
+                chapter: "Hardware", type: "single",
+                question: "Welcher RAID-Level bietet die höchste Kapazität bei gleichzeitigem Schutz durch Parität bei 4 Platten?",
+                options: ["RAID 1", "RAID 5", "RAID 6", "RAID 10"],
                 correctAnswers: [1],
-                explanation: "Phishing ist Social Engineering, um Nutzer zur Preisgabe von Passwort oder Bankdaten zu bewegen."
+                explanation: "RAID 5 verliert nur die Kapazität einer Platte für Parität (n-1). RAID 6 verliert zwei (n-2) und RAID 10 die Hälfte (n/2)."
             }
         ];
 
@@ -137,7 +125,7 @@
 
         window.onload = function() {
             const select = document.getElementById('topic-select');
-            const chapters = ["Alle Themen", ...new Set(allQuestions.map(q => q.chapter))];
+            const chapters = ["Alle Themen", ...new Set(allQuestions.map(q => q.chapter))].sort();
             chapters.forEach(c => {
                 const opt = document.createElement('option');
                 opt.value = c === "Alle Themen" ? "all" : c;
@@ -159,32 +147,34 @@
         function showQuestion() {
             const q = quizData[currentIndex];
             document.getElementById('progress-fill').style.width = `${(currentIndex / quizData.length) * 100}%`;
-            document.getElementById('meta').innerText = `${q.chapter} | FRAGE ${currentIndex + 1} / ${quizData.length}`;
+            document.getElementById('meta').innerText = `${q.chapter.toUpperCase()} | FRAGE ${currentIndex + 1} / ${quizData.length}`;
             document.getElementById('question-text').innerText = q.question;
             const container = document.getElementById('options-container');
             container.innerHTML = '';
             
-            q.options.forEach((opt, idx) => {
-                const div = document.createElement('div');
-                div.className = 'option-item';
-                div.innerHTML = `<input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="ans" id="opt${idx}"> <label>${opt}</label>`;
-                
-                // DER FIX: Das ganze Div klickt
-                div.onclick = function() {
-                    const input = this.querySelector('input');
-                    if(q.type === 'single') {
-                        container.querySelectorAll('.option-item').forEach(i => {
-                            i.classList.remove('selected');
-                            i.querySelector('input').checked = false;
-                        });
-                        input.checked = true;
-                    } else {
-                        input.checked = !input.checked;
-                    }
-                    this.classList.toggle('selected', input.checked);
-                };
-                container.appendChild(div);
-            });
+            if(q.type === 'input') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = 'user-answer';
+                input.placeholder = 'Antwort eingeben...';
+                container.appendChild(input);
+                input.focus();
+            } else {
+                q.options.forEach((opt, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'option-item';
+                    div.innerHTML = `<input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="ans" id="opt${idx}"> <label style="margin-left:10px">${opt}</label>`;
+                    div.onclick = function() {
+                        const inp = this.querySelector('input');
+                        if(q.type === 'single') {
+                            container.querySelectorAll('.option-item').forEach(i => { i.classList.remove('selected'); i.querySelector('input').checked = false; });
+                            inp.checked = true;
+                        } else { inp.checked = !inp.checked; }
+                        this.classList.toggle('selected', inp.checked);
+                    };
+                    container.appendChild(div);
+                });
+            }
             document.getElementById('feedback-area').classList.add('hidden');
             document.getElementById('check-btn').classList.remove('hidden');
             document.getElementById('next-btn').classList.add('hidden');
@@ -192,19 +182,26 @@
 
         window.checkAnswer = function() {
             const q = quizData[currentIndex];
-            const items = document.querySelectorAll('.option-item');
-            const selected = [];
-            items.forEach((item, idx) => { if(item.querySelector('input').checked) selected.push(idx); });
-            if(selected.length === 0) return alert("Bitte wähle eine Antwort aus!");
-            const isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswers.sort());
+            let isCorrect = false;
+            
+            if(q.type === 'input') {
+                const val = document.getElementById('user-answer').value.trim().toLowerCase();
+                isCorrect = q.correctAnswers.some(a => a.toLowerCase() === val);
+            } else {
+                const selected = Array.from(document.querySelectorAll('input[name="ans"]:checked')).map(i => parseInt(i.id.replace('opt','')));
+                if(selected.length === 0) return alert("Wähle eine Antwort!");
+                isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswers.sort());
+            }
+
             if(isCorrect) score++;
+
             if(mode === 'learn') {
-                items.forEach((item, idx) => {
-                    if(q.correctAnswers.includes(idx)) item.classList.add('correct-ui');
-                    else if(selected.includes(idx)) item.classList.add('wrong-ui');
-                });
+                if(q.type !== 'input') {
+                    const items = document.querySelectorAll('.option-item');
+                    q.correctAnswers.forEach(idx => items[idx].classList.add('correct-ui'));
+                }
                 document.getElementById('feedback-area').classList.remove('hidden');
-                document.getElementById('feedback-text').innerHTML = isCorrect ? "<span style='color:var(--success)'>✔ RICHTIG</span>" : "<span style='color:var(--error)'>✖ FALSCH</span>";
+                document.getElementById('feedback-text').innerHTML = isCorrect ? "<span style='color:var(--success)'>✔ RICHTIG</span>" : `<span style='color:var(--error)'>✖ FALSCH (Lösung: ${q.correctAnswers.join(', ')})</span>`;
                 document.getElementById('explanation-box').innerText = q.explanation;
                 document.getElementById('check-btn').classList.add('hidden');
                 document.getElementById('next-btn').classList.remove('hidden');
@@ -221,7 +218,7 @@
             document.getElementById('quiz-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
             const p = Math.round((score/quizData.length)*100);
-            document.getElementById('score-display').innerHTML = `Du hast <b>${score} von ${quizData.length}</b> richtig (${p}%).<br>${p >= 50 ? 'Bestanden! 🎉' : 'Das reicht noch nicht. Weiter üben! 📚'}`;
+            document.getElementById('score-display').innerHTML = `Ergebnis: <b>${score}/${quizData.length}</b> (${p}%).<br>${p >= 50 ? 'Bestanden! 🎉' : 'Nicht bestanden. 📚'}`;
         }
     </script>
 </body>
