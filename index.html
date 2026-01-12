@@ -3,127 +3,648 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IHK AP1 Profi-Trainer</title>
+    <title>IHK AP1 Master 2026</title>
     <style>
-        :root { --primary: #2563eb; --success: #16a34a; --error: #dc2626; --bg: #f1f5f9; --text: #0f172a; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 10px; display: flex; justify-content: center; margin: 0; }
-        .container { width: 100%; max-width: 750px; padding-top: 20px; }
-        .card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px; }
+        :root { --primary: #2563eb; --success: #16a34a; --error: #dc2626; --bg: #f8fafc; --text: #0f172a; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 15px; display: flex; justify-content: center; margin: 0; }
+        .container { width: 100%; max-width: 850px; }
+        .card { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-top: 15px; border: 1px solid #e2e8f0; }
         .hidden { display: none !important; }
-        .btn { padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; font-size: 1rem; transition: 0.2s; }
+        .btn { padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 12px; font-size: 1rem; transition: all 0.2s; }
         .primary-btn { background: var(--primary); color: white; }
-        .option-item { display: flex; align-items: center; padding: 16px; border: 2px solid #e2e8f0; border-radius: 10px; margin-bottom: 10px; cursor: pointer; background: #fff; transition: 0.2s; }
-        .option-item:hover { border-color: var(--primary); }
+        .option-item { display: flex; align-items: center; padding: 18px; border: 2px solid #f1f5f9; border-radius: 12px; margin-bottom: 12px; cursor: pointer; background: #fff; }
         .option-item.selected { border-color: var(--primary); background: #eff6ff; }
-        .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; border-width: 3px; }
+        .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; }
         .wrong-ui { border-color: var(--error) !important; background: #fef2f2 !important; }
-        input[type="text"] { width: 100%; padding: 15px; border: 2px solid #ccc; border-radius: 8px; font-size: 1.1rem; box-sizing: border-box; }
-        .progress-bar { background: #e2e8f0; height: 10px; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
-        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.4s; }
-        #explanation-box { background: #f8fafc; padding: 15px; border-left: 5px solid var(--primary); margin-top: 15px; font-size: 0.95rem; line-height: 1.5; }
+        input[type="text"] { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1.1rem; }
+        .progress-bar { background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 25px; }
+        #progress-fill { background: var(--primary); height: 100%; width: 0%; border-radius: 4px; transition: 0.4s; }
+        #explanation-box { background: #f1f5f9; padding: 20px; border-radius: 10px; border-left: 6px solid var(--primary); margin-top: 20px; font-size: 0.95rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="setup-screen" class="card">
-            <h1>IHK AP1 Trainer Plus</h1>
-            <p>Inklusive Rechenaufgaben & Lückentexten.</p>
-            <select id="topic-select" class="btn" style="background: white; border: 2px solid #e2e8f0; text-align: left;"></select>
+            <h1>AP1 Fokus 2026</h1>
+            <p>Vollständiger Katalog basierend auf dem neuen U-Form Plan (Jan 2025).</p>
+            <select id="topic-select" class="btn" style="background: #fff; border: 2px solid #e2e8f0;"></select>
             <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus</button>
-            <button onclick="startQuiz('exam')" class="btn" style="background: #64748b; color: white;">Prüfungsmodus</button>
+            <button onclick="startQuiz('exam')" class="btn" style="background: #334155; color: white;">Prüfungssimulation</button>
         </div>
 
         <div id="quiz-screen" class="card hidden">
             <div class="progress-bar"><div id="progress-fill"></div></div>
-            <div id="meta" style="font-size: 0.8rem; color: #64748b; font-weight: bold; margin-bottom: 5px;"></div>
-            <h2 id="question-text" style="margin-top:0"></h2>
+            <div id="meta" style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; margin-bottom: 8px;"></div>
+            <h2 id="question-text" style="margin-top:0; line-height: 1.4;"></h2>
             <div id="options-container"></div>
             <div id="feedback-area" class="hidden">
-                <p id="feedback-text" style="font-weight: bold; font-size: 1.1rem; border-top: 1px solid #eee; padding-top: 15px;"></p>
+                <p id="feedback-text"></p>
                 <div id="explanation-box"></div>
             </div>
             <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Prüfen</button>
-            <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Nächste Frage</button>
+            <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Weiter</button>
         </div>
 
-        <div id="result-screen" class="card hidden">
-            <h2>Dein Ergebnis</h2>
-            <p id="score-display" style="font-size: 1.3rem;"></p>
-            <button onclick="location.reload()" class="btn primary-btn">Neu starten</button>
+        <div id="result-screen" class="card hidden" style="text-align: center;">
+            <div id="result-icon" style="font-size: 4rem;"></div>
+            <h2 id="result-title"></h2>
+            <p id="score-display"></p>
+            <button onclick="location.reload()" class="btn primary-btn">Neustart</button>
         </div>
     </div>
 
     <script>
-        const allQuestions = [
-            // --- HARDWARE / NETZWERK ---
-            {
-                chapter: "Hardware", type: "input",
-                question: "Wie viele nutzbare Host-IP-Adressen hat ein /28 Subnetz?",
-                correctAnswers: ["14"],
-                explanation: "Ein /28 Netz hat 2^(32-28) = 16 Adressen. Abzüglich Netz-ID und Broadcast bleiben 14 nutzbare Adressen."
-            },
-            {
-                chapter: "Hardware", type: "input",
-                question: "Rechnen Sie die Hex-Zahl 'A' in eine Dezimalzahl um.",
-                correctAnswers: ["10"],
-                explanation: "Im Hexadezimalsystem steht A für 10, B für 11, C für 12 usw."
-            },
-            {
-                chapter: "Netzwerk", type: "multi",
-                question: "Welche Protokolle werden zur E-Mail-Übertragung oder zum Abruf genutzt?",
-                options: ["SMTP", "POP3", "IMAP", "SNMP", "FTP"],
-                correctAnswers: [0, 1, 2],
-                explanation: "SMTP sendet, POP3 und IMAP empfangen Mails. SNMP ist für Netzwerkmanagement, FTP für Dateitransfer."
-            },
-            // --- WIRTSCHAFT / RECHT ---
-            {
-                chapter: "Wirtschaft", type: "single",
-                question: "Wie nennt man die Versicherung, die bei Arbeitsunfällen eintritt?",
-                options: ["Rentenversicherung", "Berufsgenossenschaft", "Pflegeversicherung", "Arbeitslosenversicherung"],
-                correctAnswers: [1],
-                explanation: "Die Berufsgenossenschaften sind die Träger der gesetzlichen Unfallversicherung."
-            },
-            {
-                chapter: "Wirtschaft", type: "input",
-                question: "Wie hoch ist der Arbeitnehmeranteil (in %) am Beitrag zur Krankenversicherung ohne Zusatzbeitrag? (Zahl mit Komma, z.B. 7,3)",
-                correctAnswers: ["7,3"],
-                explanation: "Der allgemeine Beitragssatz beträgt 14,6%. Davon tragen AG und AN jeweils die Hälfte (7,3%)."
-            },
-            {
-                chapter: "Recht", type: "multi",
-                question: "Welche Angaben müssen zwingend in einem Ausbildungsvertrag stehen?",
-                options: ["Dauer der Probezeit", "Höhe der Vergütung", "Name der Eltern (bei Volljährigen)", "Beginn und Dauer der Ausbildung"],
-                correctAnswers: [0, 1, 3],
-                explanation: "Probezeit, Vergütung und Dauer sind Pflicht. Der Name der Eltern ist nur bei Minderjährigen Pflicht."
-            },
-            // --- PROJEKTMANAGEMENT ---
-            {
-                chapter: "Projekt", type: "input",
-                question: "Was ist der Gesamtpuffer (GP) eines Vorgangs auf dem kritischen Pfad?",
-                correctAnswers: ["0"],
-                explanation: "Der kritische Pfad zeichnet sich dadurch aus, dass alle Vorgänge einen Puffer von Null haben."
-            },
-            {
-                chapter: "Programmierung", type: "input",
-                question: "Welches SQL-Schlüsselwort wird verwendet, um Duplikate im Ergebnis zu vermeiden?",
-                correctAnswers: ["DISTINCT"],
-                explanation: "SELECT DISTINCT filtert doppelte Datensätze aus der Ergebnismenge."
-            },
-            {
-                chapter: "Hardware", type: "single",
-                question: "Welcher RAID-Level bietet die höchste Kapazität bei gleichzeitigem Schutz durch Parität bei 4 Platten?",
-                options: ["RAID 1", "RAID 5", "RAID 6", "RAID 10"],
-                correctAnswers: [1],
-                explanation: "RAID 5 verliert nur die Kapazität einer Platte für Parität (n-1). RAID 6 verliert zwei (n-2) und RAID 10 die Hälfte (n/2)."
-            }
-        ];
+const allQuestions = [
+    // --- 1. GRUNDLAGEN (KI, BITS & BYTES) ---
+    {
+        chapter: "1. Grundlagen", type: "single",
+        question: "Wie wird ein neuronales Netzwerk bezeichnet, das über besonders viele Zwischenschichten (Hidden Layer) verfügt?",
+        options: ["Shallow Learning", "Deep Learning", "Supervised Learning"],
+        correctAnswers: [1],
+        explanation: "Deep Learning nutzt Deep Neural Networks mit vielen Hidden-Layern."
+    },
+    {
+        chapter: "1. Grundlagen", type: "input",
+        question: "Wie viele Bits ergeben genau ein Byte?",
+        correctAnswers: ["8"],
+        explanation: "Acht Bits bilden die kleinste adressierbare Einheit, das Byte."
+    },
+    {
+        chapter: "1. Grundlagen", type: "input",
+        question: "Rechnen Sie 2 MiB in Kibibyte (KiB) um. (Nur die Zahl)",
+        correctAnswers: ["2048"],
+        explanation: "Im binären System gilt: 1 MiB = 1024 KiB. 2 * 1024 = 2048."
+    },
+    {
+        chapter: "1. Grundlagen", type: "single",
+        question: "Welches Lernverhalten liegt vor, wenn Trainingsdaten vorab klassifiziert (gelabelt) wurden?",
+        options: ["Unsupervised Learning", "Reinforcement Learning", "Supervised Learning"],
+        correctAnswers: [2],
+        explanation: "Supervised Learning benötigt beschriftete Daten für bessere Ergebnisse."
+    },
+    {
+        chapter: "1. Grundlagen", type: "single",
+        question: "Welche Form der KI ist darauf spezialisiert, eine klar definierte Aufgabe effizient zu lösen (z.B. Gesichtserkennung)?",
+        options: ["Starke KI (General AI)", "Schwache KI (Narrow AI)", "Supervised KI"],
+        correctAnswers: [1],
+        explanation: "Schwache KI ist auf ein enges Gebiet begrenzt. [Lernzettel 1.1]"
+    },
+    {
+        chapter: "1. Grundlagen", type: "input",
+        question: "Berechnen Sie die Datenmenge in Mebibyte (MiB) für ein Foto mit 8.388.608 Bytes. (Nur Zahl)",
+        correctAnswers: ["8"],
+        explanation: "8.388.608 / 1024 / 1024 = 8 MiB. [Lernzettel 1.2]"
+    },
 
-        let quizData = [];
-        let currentIndex = 0;
-        let score = 0;
-        let mode = 'learn';
+    // --- 2. HARDWARE (RAID, USV, ERGONOMIE) ---
+    {
+        chapter: "2. Hardware", type: "multi",
+        question: "Nennen Sie drei Vorteile einer SSD gegenüber einer klassischen HDD.",
+        options: ["Geringere Lautstärke", "Höhere Robustheit (keine Mechanik)", "Niedrigerer Preis pro TB", "Schnellere Zugriffszeiten"],
+        correctAnswers: [0, 1, 3],
+        explanation: "SSDs sind leiser, robuster und schneller, aber teurer pro TB."
+    },
+    {
+        chapter: "2. Hardware", type: "input",
+        question: "Berechnen Sie die Leistung (P) eines Geräts bei 230V und 0,5A in Watt.",
+        correctAnswers: ["115"],
+        explanation: "P = U * I. 230V * 0,5A = 115W."
+    },
+    {
+        chapter: "2. Hardware", type: "single",
+        question: "Welche USV-Klasse bietet Schutz vor Frequenzschwankungen und hat keine Umschaltzeit?",
+        options: ["VFD (Offline)", "VI (Line-Interactive)", "VFI (Online/Doppelwandler)"],
+        correctAnswers: [2],
+        explanation: "VFI ist spannungs- und frequenzunabhängig (Online-Betrieb)."
+    },
+    {
+        chapter: "2. Hardware", type: "input",
+        question: "Wie viele Festplatten können in einem RAID-5-Verbund aus 4 Platten maximal ausfallen?",
+        correctAnswers: ["1"],
+        explanation: "RAID 5 verkraftet durch die verteilte Parität den Ausfall einer Platte."
+    },
+    {
+        chapter: "2. Hardware", type: "multi",
+        question: "Welche Komponenten gehören zur klassischen Von-Neumann-Architektur?",
+        options: ["Rechenwerk", "Steuerwerk", "Grafikeinheit", "Speicherwerk", "Eingabe-/Ausgabewerk"],
+        correctAnswers: [0, 1, 3, 4],
+        explanation: "Die VNA besteht aus diesen fünf Grundeinheiten."
+    },
+    {
+        chapter: "2. Hardware", type: "input",
+        question: "Ermitteln Sie den PUE-Wert eines Rechenzentrums, wenn die IT-Leistung 100 kW und die Gesamtleistung 160 kW beträgt.",
+        correctAnswers: ["1.6", "1,6"],
+        explanation: "PUE = Gesamtleistung / IT-Leistung. 160 / 100 = 1,6. [Lernzettel 2.9]"
+    },
+    {
+        chapter: "2. Hardware", type: "multi",
+        question: "Welche RAID-Level nutzen das Verfahren des 'Mirroring' (Spiegelung)?",
+        options: ["RAID 0", "RAID 1", "RAID 5", "RAID 10"],
+        correctAnswers: [1, 3],
+        explanation: "RAID 1 spiegelt direkt, RAID 10 ist ein Mirroring von Stripes."
+    },
+    {
+        chapter: "2. Hardware", type: "multi",
+        question: "Nennen Sie drei Kriterien der Barrierefreiheit an einem IT-Arbeitsplatz.",
+        options: ["Einsatz von Screenreadern", "Verstellbare Schreibtischhöhe", "Hoher Kontrast in der Software", "Mechanische RGB-Tastaturen", "Skalierbare Schriftgrößen"],
+        correctAnswers: [0, 2, 4],
+        explanation: "Barrierefreiheit umfasst visuelle, akustische und motorische Unterstützung."
+    },
 
-        window.onload = function() {
+    // --- 3. SOFTWARE (CLOUD, QUALITÄT) ---
+    {
+        chapter: "3. Software", type: "single",
+        question: "Welcher Boot-Modus wird benötigt, um Partitionen größer als 2 TB (GPT) zu verwalten?",
+        options: ["Legacy BIOS", "UEFI", "Secure Boot"],
+        correctAnswers: [1],
+        explanation: "UEFI unterstützt den GPT-Standard für große Laufwerke."
+    },
+    {
+        chapter: "3. Software", type: "input",
+        question: "Wie nennt man das Cloud-Modell, das eine vollständige Entwicklungsumgebung bereitstellt?",
+        correctAnswers: ["PaaS", "Platform as a Service"],
+        explanation: "PaaS bietet Plattformen zum Erstellen und Testen von Anwendungen."
+    },
+    {
+        chapter: "3. Software", type: "multi",
+        question: "Welche Aspekte gehören zur Beurteilung der Softwarequalität (ISO 25010)?",
+        options: ["Benutzerfreundlichkeit", "Wartbarkeit", "Anschaffungspreis", "Zuverlässigkeit"],
+        correctAnswers: [0, 1, 3],
+        explanation: "ISO 25010 definiert technische Merkmale; der Preis gehört nicht dazu."
+    },
+
+    // --- 4. NETZWERK (OSI, IP, PROTOKOLLE) ---
+    {
+        chapter: "4. Netzwerk", type: "input",
+        question: "Welchen Standard-Port nutzt das unverschlüsselte HTTP-Protokoll?",
+        correctAnswers: ["80"],
+        explanation: "HTTP nutzt Port 80, während HTTPS Port 443 belegt."
+    },
+    {
+        chapter: "4. Netzwerk", type: "single",
+        question: "Auf welcher OSI-Schicht erfolgt die IP-Adressierung und das Routing?",
+        options: ["Schicht 2", "Schicht 3 (Vermittlungsschicht)", "Schicht 4"],
+        correctAnswers: [1],
+        explanation: "Layer 3 (Network) ist für das Routing zuständig."
+    },
+    {
+        chapter: "4. Netzwerk", type: "input",
+        question: "Wie viele Bits hat eine IPv6-Adresse?",
+        correctAnswers: ["128"],
+        explanation: "IPv6 nutzt 128-Bit-Adressen zur Erweiterung des Adressraums."
+    },
+    {
+        chapter: "4. Netzwerk", type: "input",
+        question: "Wie viele nutzbare Host-Adressen stehen in einem Subnetz mit der Maske /28 zur Verfügung?",
+        correctAnswers: ["14"],
+        explanation: "32 - 28 = 4 Bits. 2^4 = 16. Abzüglich Netz-ID und Broadcast bleiben 14 Hosts."
+    },
+
+    // --- 6. WIRTSCHAFT (DB, MARKT, SOZIALES) ---
+    {
+        chapter: "6. Wirtschaft", type: "input",
+        question: "Berechnen Sie den Deckungsbeitrag: Erlös 100€, variable Kosten 60€.",
+        correctAnswers: ["40"],
+        explanation: "DB = Erlös - variable Kosten. 100 - 60 = 40."
+    },
+    {
+        chapter: "6. Wirtschaft", type: "single",
+        question: "Welche Sozialversicherung wird allein vom Arbeitgeber getragen?",
+        options: ["Krankenversicherung", "Rentenversicherung", "Unfallversicherung", "Arbeitslosenversicherung"],
+        correctAnswers: [2],
+        explanation: "Die gesetzliche Unfallversicherung zahlt der Arbeitgeber allein. [Lernzettel 6.4]"
+    },
+    {
+        chapter: "6. Wirtschaft", type: "single",
+        question: "Welche Marktform liegt vor, wenn sich wenige große Anbieter und viele Nachfrager gegenüberstehen?",
+        options: ["Monopol", "Polypol", "Oligopol"],
+        correctAnswers: [2],
+        explanation: "Beispiel: Mobilfunkmarkt oder Tankstellen."
+    },
+
+    // --- 7. PROJEKTMANAGEMENT ---
+    {
+        chapter: "7. Projektmanagement", type: "single",
+        question: "Wer erstellt das Lastenheft?",
+        options: ["Der Auftragnehmer", "Der Auftraggeber", "Der Projektleiter"],
+        correctAnswers: [1],
+        explanation: "Der Auftraggeber formuliert seine Anforderungen im Lastenheft."
+    },
+    {
+        chapter: "7. Projektmanagement", type: "input",
+        question: "Wofür steht das 'M' im SMART-Prinzip?",
+        correctAnswers: ["Messbar"],
+        explanation: "Ziele müssen messbar sein, um den Erfolg zu prüfen."
+    },
+    {
+        chapter: "7. Projektmanagement", type: "input",
+        question: "Wie hoch ist der Gesamtpuffer eines Vorgangs auf dem kritischen Pfad?",
+        correctAnswers: ["0"],
+        explanation: "Vorgänge auf dem kritischen Pfad haben keinen Puffer."
+    },
+
+    // --- 8. ENTWICKLUNG (UML, SQL) ---
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Welches UML-Diagramm eignet sich am besten, um die Funktionen eines Systems aus Nutzersicht darzustellen?",
+        options: ["Klassendiagramm", "Use-Case-Diagramm", "Aktivitätsdiagramm"],
+        correctAnswers: [1],
+        explanation: "Das Anwendungsfalldiagramm (Use-Case) zeigt Akteure und deren Ziele."
+    },
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Welches UML-Diagramm visualisiert das zeitliche Verhalten von Objekten?",
+        options: ["Klassendiagramm", "Sequenzdiagramm", "Aktivitätsdiagramm"],
+        correctAnswers: [1],
+        explanation: "Das Sequenzdiagramm zeigt Nachrichtenflüsse über die Zeit."
+    },
+
+    // --- 11. SECURITY & DATENSCHUTZ (CIA, TOM, DSGVO) ---
+    {
+        chapter: "11. Security", type: "multi",
+        question: "Nennen Sie die drei Schutzziele der Informationssicherheit (CIA-Triade).",
+        options: ["Verfügbarkeit", "Benutzerfreundlichkeit", "Vertraulichkeit", "Integrität"],
+        correctAnswers: [0, 2, 3],
+        explanation: "Confidentiality, Integrity, Availability."
+    },
+    {
+        chapter: "11. Security", type: "input",
+        question: "Wie nennt man die Sicherheitszone zwischen einem internen Netzwerk und dem Internet?",
+        correctAnswers: ["DMZ", "Demilitarisierte Zone"],
+        explanation: "In der DMZ stehen öffentlich erreichbare Server."
+    },
+    {
+        chapter: "11. Security", type: "single",
+        question: "Welches Sicherheitskonzept verfolgt den Ansatz 'Niemandem vertrauen, immer verifizieren'?",
+        options: ["Bring Your Own Device", "Zero Trust", "Social Engineering"],
+        correctAnswers: [1],
+        explanation: "Zero Trust ist der moderne Standard für Netzwerksicherheit."
+    },
+    {
+        chapter: "11. Security", type: "input",
+        question: "Welche Behörde muss bei einer Datenpanne innerhalb von 72 Stunden informiert werden?",
+        correctAnswers: ["Aufsichtsbehörde", "Landesdatenschutzbeauftragter"],
+        explanation: "Art. 33 DSGVO schreibt die Meldung an die Aufsichtsbehörde vor."
+    },
+    // --- 1. ERGÄNZUNG GRUNDLAGEN (ZAHLENSYSTEME) ---
+    {
+        chapter: "1. Grundlagen", type: "input",
+        question: "Wie lautet die Binärdarstellung der Dezimalzahl 12? (4 Bits)",
+        correctAnswers: ["1100"],
+        explanation: "8 + 4 = 12. Also 1100 in Binär. [Lernzettel 1.3]"
+    },
+    {
+        chapter: "1. Grundlagen", type: "single",
+        question: "Wie viele Bits umfasst genau eine Hexadezimalstelle?",
+        options: ["2 Bit", "4 Bit", "8 Bit"],
+        correctAnswers: [1],
+        explanation: "Eine Hexadezimalstelle (0-F) entspricht genau einem Nibble (4 Bit). [Lernzettel 1.3]"
+    },
+    {
+        chapter: "1. Grundlagen", type: "input",
+        question: "Stellen Sie die Zahl 77 im BCD-Code (Binary Coded Decimal) dar.",
+        correctAnswers: ["0111 0111", "01110111"],
+        explanation: "Beim BCD wird jede Ziffer einzeln in 4 Bit umgewandelt. 7 = 0111. [Lernzettel 1.3]"
+    },
+
+    // --- 2. ERGÄNZUNG HARDWARE (ARCHITEKTUREN & BUSSE) ---
+    {
+        chapter: "2. Hardware", type: "single",
+        question: "Welche CPU-Architektur nutzt getrennte Busse und Speicher für Daten und Programme?",
+        options: ["Von-Neumann-Architektur", "Harvard-Architektur", "CISC-Architektur"],
+        correctAnswers: [1],
+        explanation: "Die Harvard-Architektur trennt Befehls- und Datenspeicher für höhere Geschwindigkeit. [Lernzettel 2.1]"
+    },
+    {
+        chapter: "2. Hardware", type: "input",
+        question: "Welcher Bus in der Von-Neumann-Architektur übermittelt die Adressen der Speicherzellen?",
+        correctAnswers: ["Adressbus"],
+        explanation: "Der Adressbus ist unidirektional und gibt den Ort der Daten an. [Lernzettel 2.1]"
+    },
+    {
+        chapter: "2. Hardware", type: "single",
+        question: "Was kennzeichnet die RISC-Architektur im Vergleich zu CISC?",
+        options: ["Komplexe Befehle in Hardware", "Minimaler Satz einfacher Befehle (Ein-Takt-Zyklen)", "Höherer Stromverbrauch"],
+        correctAnswers: [1],
+        explanation: "RISC nutzt einfache Befehle, die meist in einem Takt ausgeführt werden. [Lernzettel 2.1]"
+    },
+
+    // --- 7. ERGÄNZUNG PROJEKTMANAGEMENT (EPK & NETZPLAN) ---
+    {
+        chapter: "7. Projektmanagement", type: "multi",
+        question: "Welche Elemente sind Grundbestandteile einer EPK (Ereignisgesteuerte Prozesskette)?",
+        options: ["Ereignis", "Funktion", "Klasse", "Konnektoren (AND/OR/XOR)"],
+        correctAnswers: [0, 1, 3],
+        explanation: "Eine EPK besteht aus Ereignissen, Funktionen und logischen Verknüpfungen. [Lernzettel 7.2]"
+    },
+    {
+        chapter: "7. Projektmanagement", type: "single",
+        question: "Darf eine EPK mit einer Funktion beginnen?",
+        options: ["Ja", "Nein"],
+        correctAnswers: [1],
+        explanation: "Eine EPK muss immer mit einem Ereignis starten und enden. [Lernzettel 7.2]"
+    },
+    {
+        chapter: "7. Projektmanagement", type: "input",
+        question: "Wie berechnet man den Gesamtpuffer (GP) im Netzplan? (Formel-Kürzel)",
+        correctAnswers: ["SAZ - FAZ", "SEZ - FEZ"],
+        explanation: "GP = Spätester Anfang minus frühesten Anfang. [Lernzettel 7.2]"
+    },
+
+    // --- 8. ERGÄNZUNG SOFTWARE-ENTWICKLUNG (UML & SQL) ---
+    {
+        chapter: "8. Entwicklung", type: "multi",
+        question: "Welche Beziehungen gibt es im UML-Klassendiagramm?",
+        options: ["Assoziation", "Vererbung", "Kompilation", "Aggregation"],
+        correctAnswers: [0, 1, 3],
+        explanation: "Assoziation, Vererbung und Aggregation/Komposition sind Standard. [Lernzettel 8.8]"
+    },
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Was darf ein Primärschlüssel (Primary Key) in einer Datenbank niemals sein?",
+        options: ["Eine Zahl", "NULL (leer)", "Ein Fremdschlüssel"],
+        correctAnswers: [1],
+        explanation: "Ein Primärschlüssel muss eindeutig sein und darf keinen NULL-Wert enthalten. [Lernzettel 8.11]"
+    },
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Welche Anomalie tritt auf, wenn beim Löschen eines Datensatzes unbeabsichtigt andere wichtige Infos verloren gehen?",
+        options: ["Einfügeanomalie", "Änderungsanomalie", "Löschanomalie"],
+        correctAnswers: [2],
+        explanation: "Das ist die Löschanomalie. [Lernzettel 8.11]"
+    },
+
+    // --- 11. ERGÄNZUNG SECURITY (RECHT & MASCHNAHMEN) ---
+    {
+        chapter: "11. Security", type: "single",
+        question: "Was ist der Unterschied zwischen Anonymisierung und Pseudonymisierung?",
+        options: [
+            "Anonymisierung ist umkehrbar", 
+            "Anonymisierung ist dauerhaft nicht mehr rückführbar", 
+            "Es gibt keinen Unterschied"],
+        correctAnswers: [1],
+        explanation: "Anonymisierte Daten lassen keinen Bezug zur Person mehr zu. [Lernzettel 11.11]"
+    },
+    // --- 11. ERGÄNZUNG SECURITY (BACKUP-STRATEGIEN) ---
+    {
+        chapter: "11. Security", type: "single",
+        question: "Welche Sicherungsart sichert alle seit der letzten VOLLsicherung geänderten Daten und setzt das Archivbit NICHT zurück?",
+        options: ["Inkrementelle Sicherung", "Differenzielle Sicherung", "Spiegelung"],
+        correctAnswers: [1],
+        explanation: "Die differenzielle Sicherung baut immer auf der letzten Vollanwendung auf. [Lernzettel 11.25]"
+    },
+    {
+        chapter: "11. Security", type: "input",
+        question: "Wie nennt man das Prinzip, bei dem 3 Kopien auf 2 verschiedenen Medien existieren und 1 Kopie außer Haus gelagert wird?",
+        correctAnswers: ["3-2-1-Regel", "3-2-1"],
+        explanation: "Die 3-2-1-Regel ist der Standard für sichere Backup-Konzepte. [Lernzettel 11.25]"
+    },
+
+    // --- 2. ERGÄNZUNG HARDWARE & ÖKOLOGIE (GREEN IT) ---
+    {
+        chapter: "2. Hardware", type: "multi",
+        question: "Welche Maßnahmen fördern die Nachhaltigkeit (Green IT) in einem Rechenzentrum?",
+        options: ["Verwendung von Abwärme zum Heizen", "Erhöhung der Server-Virtualisierung", "Nutzung von USVs mit VFD-Klasse statt VFI", "Erhöhung des PUE-Wertes"],
+        correctAnswers: [0, 1],
+        explanation: "Virtualisierung spart Hardware; Abwärmenutzung verbessert die Energiebilanz. Ein niedrigerer PUE ist besser! [Lernzettel 2.9]"
+    },
+
+    // --- 8. ERGÄNZUNG ENTWICKLUNG (UML & TESTING) ---
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Welches UML-Diagramm zeigt die verschiedenen Zustände, die ein Objekt während seines Lebenszyklus einnehmen kann?",
+        options: ["Klassendiagramm", "Zustandsdiagramm", "Anwendungsfalldiagramm"],
+        correctAnswers: [1],
+        explanation: "Zustandsdiagramme (State Charts) modellieren Zustandsübergänge bei Ereignissen. [Lernzettel 8.5]"
+    },
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Wie nennt man einen Test, bei dem der Quellcode bekannt ist und die interne Logik geprüft wird?",
+        options: ["Black-Box-Test", "White-Box-Test", "User Acceptance Test"],
+        correctAnswers: [1],
+        explanation: "White-Box sieht 'in die Box' (den Code) hinein. [Lernzettel 3.4]"
+    },
+
+    // --- 6. ERGÄNZUNG WIRTSCHAFT (RECHNUNGSWESEN) ---
+    {
+        chapter: "6. Wirtschaft", type: "input",
+        question: "Berechnen Sie die Eigenkapitalquote: Eigenkapital 200.000€, Gesamtkapital 1.000.000€. (In %)",
+        correctAnswers: ["20"],
+        explanation: "EK-Quote = (Eigenkapital / Gesamtkapital) * 100. [Lernzettel 6.12]"
+    },
+    {
+        chapter: "6. Wirtschaft", type: "single",
+        question: "Was beschreibt die 'Gewährleistung' (Sachmängelhaftung) im Gegensatz zur Garantie?",
+        options: ["Freiwillige Leistung des Herstellers", "Gesetzliche Verpflichtung des Verkäufers", "Eine Art Versicherung"],
+        correctAnswers: [1],
+        explanation: "Gewährleistung ist gesetzlich (24 Monate), Garantie ist eine freiwillige Zusage. [Lernzettel 6.3]"
+    },
+
+    // --- 4. ERGÄNZUNG NETZWERK (DRAHTLOSE NETZE) ---
+    {
+        chapter: "4. Netzwerk", type: "single",
+        question: "Welches Verschlüsselungsverfahren gilt aktuell als der sicherste Standard für WLAN-Verbindungen?",
+        options: ["WEP", "WPA2", "WPA3"],
+        correctAnswers: [2],
+        explanation: "WPA3 ist der modernste Standard und löst WPA2 ab. [Lernzettel 4.7]"
+    },
+    // --- 1. GRUNDLAGEN (KI & ZAHLENSYSTEME) ---
+    {
+        chapter: "1. Grundlagen", type: "single",
+        question: "Welches Lernverhalten bei KI benötigt Vorarbeit durch Beschriftung der Daten, erzielt aber bessere Ergebnisse?",
+        options: ["Unüberwachtes Lernen", "Überwachtes Lernen (Supervised)", "Deep Fake"],
+        correctAnswers: [1],
+        explanation: "Beim Supervised Learning werden Trainingsdaten klassifiziert (beschriftet). [Lernzettel 1.1]"
+    },
+    {
+        chapter: "1. Grundlagen", type: "input",
+        question: "Wie viele Bits umfasst eine Oktalstelle genau?",
+        correctAnswers: ["3"],
+        explanation: "Eine Oktalstelle (0-7) entspricht 3 Bit. [Lernzettel 1.3]"
+    },
+
+    // --- 2. HARDWARE (CPU & SPEICHER) ---
+    {
+        chapter: "2. Hardware", type: "multi",
+        question: "Welche Komponenten gehören zu den Funktionsblöcken der Von-Neumann-Architektur?",
+        options: ["Rechenwerk (ALU)", "Leit- & Steuerwerk (CU)", "Grafikwerk (GPU)", "Speicherwerk (RAM)", "E/A-Werk"],
+        correctAnswers: [0, 1, 3, 4],
+        explanation: "Die klassische Architektur umfasst ALU, CU, RAM und IO-Unit. [Lernzettel 2.1]"
+    },
+    {
+        chapter: "2. Hardware", type: "input",
+        question: "Berechnen Sie die Datenrate (in MB/s) für DDR4-3200 RAM bei 8 Byte Busbreite.",
+        correctAnswers: ["51200"],
+        explanation: "Formel: Takt (3200) * 2 * Busbreite (8) = 51200 MB/s. [Lernzettel 2.2]"
+    },
+
+    // --- 6. WIRTSCHAFT (MARKT & VERTRIEB) ---
+    {
+        chapter: "6. Wirtschaft", type: "single",
+        question: "Welche Marktform liegt vor, wenn nur wenige große Anbieter vielen Nachfolgern gegenüberstehen?",
+        options: ["Monopol", "Oligopol", "Polypol"],
+        correctAnswers: [1],
+        explanation: "Beispiel: Automobilindustrie oder Mobilfunkanbieter. [Lernzettel 6.6]"
+    },
+    {
+        chapter: "6. Wirtschaft", type: "single",
+        question: "Wie nennt man den Vertrieb, wenn der Hersteller ohne Zwischenhändler direkt an Endkunden verkauft?",
+        options: ["Indirekter Vertrieb", "Franchising", "Direkter Vertrieb"],
+        correctAnswers: [2],
+        explanation: "Direkter Absatzweg spart Margen für Zwischenhändler. [Lernzettel 6.7]"
+    },
+
+    // --- 7. PROJEKTMANAGEMENT (TEAMS & METHODEN) ---
+    {
+        chapter: "7. Projektmanagement", type: "single",
+        question: "In welcher Teambildungs-Phase nach Tuckman werden Regeln aufgestellt und Rollen final akzeptiert?",
+        options: ["Storming", "Norming", "Performing", "Adjourning"],
+        correctAnswers: [1],
+        explanation: "Norming ist die Phase der Konsolidierung und Regelbildung. [Lernzettel 7.5]"
+    },
+    {
+        chapter: "7. Projektmanagement", type: "input",
+        question: "Wofür steht das 'A' in der SMART-Formel zur Zieldefinition?",
+        correctAnswers: ["Akzeptiert", "Attraktiv"],
+        explanation: "Ziele müssen von den Beteiligten akzeptiert/attraktiv sein. [Lernzettel 7.3]"
+    },
+
+    // --- 8. ENTWICKLUNG (SQL & UML) ---
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Welcher SQL-Befehl gehört zur Data Manipulation Language (DML) und fügt Daten ein?",
+        options: ["CREATE", "INSERT", "SELECT", "UPDATE"],
+        correctAnswers: [1],
+        explanation: "INSERT INTO wird verwendet, um neue Datensätze zu erzeugen. [Lernzettel 8.12]"
+    },
+    {
+        chapter: "8. Entwicklung", type: "multi",
+        question: "Welche Symbole werden in der Chen-Notation für ein Entity-Relationship-Diagramm (ERD) genutzt?",
+        options: ["Rechteck (Entität)", "Raute (Beziehung)", "Ellipse (Attribut)", "Kreis (Startpunkt)"],
+        correctAnswers: [0, 1, 2],
+        explanation: "Entitäten sind Rechtecke, Attribute Ellipsen und Beziehungen Rauten. [Lernzettel 8.12]"
+    },
+
+    // --- 11. SECURITY (RECHT & TECHNIK) ---
+    {
+        chapter: "11. Security", type: "input",
+        question: "Ab wie vielen Personen, die ständig mit automatisierter Datenverarbeitung beschäftigt sind, ist ein DSB (Datenschutzbeauftragter) Pflicht?",
+        correctAnswers: ["20"],
+        explanation: "Gemäß § 38 BDSG ab 20 Personen. [Lernzettel 11.4]"
+    },
+    {
+        chapter: "11. Security", type: "single",
+        question: "Welches Schutzziel stellt sicher, dass der Absender einer Nachricht seine Urheberschaft nicht leugnen kann?",
+        options: ["Verfügbarkeit", "Nichtabstreitbarkeit", "Integrität"],
+        correctAnswers: [1],
+        explanation: "Wird oft durch digitale Signaturen erreicht. [Lernzettel 11.1 / 11.23]"
+    },
+    {
+        chapter: "11. Security", type: "single",
+        question: "Was beschreibt das 'WORM-Prinzip' bei der Datenspeicherung?",
+        options: ["Write Once Read Many", "Wipe On Read Mode", "Web Object Risk Model"],
+        correctAnswers: [0],
+        explanation: "Daten können nur einmal geschrieben, aber oft gelesen werden (Revisionssicherheit). [Lernzettel 11.1]"
+    },
+
+    // --- 7. ERGÄNZUNG PROJEKTMANAGEMENT (EPK & LOGIK) ---
+    {
+        chapter: "7. Projektmanagement", type: "single",
+        question: "Welcher Konnektor in einer EPK erfordert, dass genau eine von zwei Bedingungen erfüllt sein muss (entweder/oder)?",
+        options: ["AND (Und)", "OR (Oder)", "XOR (Exklusives Oder)"],
+        correctAnswers: [2],
+        explanation: "XOR (eXclusive OR) lässt nur genau einen Pfad zu. [Lernzettel 7.2]"
+    },
+    {
+        chapter: "7. Projektmanagement", type: "multi",
+        question: "Welche Aussagen zur EPK-Modellierung sind korrekt?",
+        options: ["Ein Ereignis darf kein Entscheidungsträger sein.", "Nach einem Ereignis darf niemals direkt ein weiteres Ereignis folgen.", "Eine EPK kann mit einer Funktion enden.", "Funktionen sind Zeitverbraucher."],
+        correctAnswers: [0, 1, 3],
+        explanation: "Eine EPK muss immer mit einem Ereignis starten/enden. Ereignisse lösen Funktionen aus. [Lernzettel 7.2]"
+    },
+
+    // --- 2. ERGÄNZUNG HARDWARE (RAID & USV) ---
+    {
+        chapter: "2. Hardware", type: "input",
+        question: "Wie viele Festplatten werden für ein RAID 10 mindestens benötigt?",
+        correctAnswers: ["4"],
+        explanation: "RAID 10 ist ein Mirror von Stripes und benötigt mind. zwei gespiegelte Paare. [Lernzettel 2.3]"
+    },
+    {
+        chapter: "2. Hardware", type: "single",
+        question: "Welche USV schützt zwar vor Netzausfall, leitet aber Netzstörungen (Spitzen) oft direkt an die Geräte weiter?",
+        options: ["VFD (Offline)", "VI (Line-Interactive)", "VFI (Online)"],
+        correctAnswers: [0],
+        explanation: "VFD (Voltage and Frequency Dependent) bietet den geringsten Schutz. [Lernzettel 2.8]"
+    },
+
+    // --- 6. ERGÄNZUNG WIRTSCHAFT (SOZIALVERSICHERUNG & FINANZEN) ---
+    {
+        chapter: "6. Wirtschaft", type: "multi",
+        question: "Welche der folgenden Versicherungen gehören zum gesetzlichen Sozialversicherungssystem?",
+        options: ["Pflegeversicherung", "Haftpflichtversicherung", "Rentenversicherung", "Hausratversicherung", "Arbeitslosenversicherung"],
+        correctAnswers: [0, 2, 4],
+        explanation: "Die 5 Säulen sind: Kranken-, Renten-, Arbeitslosen-, Pflege- und Unfallversicherung. [Lernzettel 6.4]"
+    },
+    {
+        chapter: "6. Wirtschaft", type: "input",
+        question: "Wie nennt man die Kennzahl, die das Verhältnis vom Gewinn zum eingesetzten Eigenkapital beschreibt? (Ein Wort)",
+        correctAnswers: ["Eigenkapitalrentabilität", "EK-Rentabilität"],
+        explanation: "Gewinn / Eigenkapital * 100. [Lernzettel 6.12]"
+    },
+
+    // --- 8. ERGÄNZUNG ENTWICKLUNG (UML DETAILS) ---
+    {
+        chapter: "8. Entwicklung", type: "single",
+        question: "Was beschreibt eine 'Komposition' im UML-Klassendiagramm im Vergleich zur Aggregation?",
+        options: ["Teile können ohne das Ganze existieren.", "Teile sind vom Ganzen existenziell abhängig (Tod des Ganzen = Tod der Teile).", "Eine einfache Vererbung."],
+        correctAnswers: [1],
+        explanation: "Die Komposition ist die strengere Form (ausgefüllte Raute). [Lernzettel 8.8]"
+    },
+    {
+        chapter: "8. Entwicklung", type: "input",
+        question: "Wie nennt man die Kardinalität, wenn ein Projektleiter genau ein Projekt leitet und ein Projekt genau einen Leiter hat?",
+        correctAnswers: ["1:1"],
+        explanation: "Dies ist eine eindeutige Eins-zu-eins-Beziehung. [Lernzettel 8.12]"
+    },
+
+    // --- 11. ERGÄNZUNG SECURITY (ANGREIFER & METHODEN) ---
+    {
+        chapter: "11. Security", type: "single",
+        question: "Wie nennt man die Methode, bei der Angreifer Menschen manipulieren, um an vertrauliche Informationen zu gelangen?",
+        options: ["Brute Force", "Social Engineering", "SQL Injection"],
+        correctAnswers: [1],
+        explanation: "Social Engineering nutzt den 'Faktor Mensch' als Schwachstelle. [Lernzettel 11.15]"
+    },
+    {
+        chapter: "11. Security", type: "input",
+        question: "Welches kryptographische Verfahren nutzt zwei verschiedene Schlüssel (Public & Private Key)?",
+        correctAnswers: ["Asymmetrische Verschlüsselung", "Asymmetrisch"],
+        explanation: "Asymmetrische Verfahren (wie RSA) nutzen ein Schlüsselpaar. [Lernzettel 11.23]"
+    },
+
+    // --- 3. ERGÄNZUNG SOFTWARE (RECHT & ARTEN) ---
+    {
+        chapter: "3. Software", type: "single",
+        question: "Wie nennt man Software, deren Quellcode für jeden frei einsehbar und veränderbar ist?",
+        options: ["Shareware", "Open Source", "Proprietäre Software"],
+        correctAnswers: [1],
+        explanation: "Open Source erlaubt die Einsicht und Modifikation des Codes. [Lernzettel 3.1]"
+    },
+    {
+        chapter: "3. Software", type: "input",
+        question: "Welche Software-Beurteilungskategorie nach ISO 25010 prüft, wie leicht die Software auf eine andere Umgebung übertragen werden kann?",
+        correctAnswers: ["Übertragbarkeit", "Portabilität"],
+        explanation: "Portability beschreibt die Eignung zur Übertragung in andere Umgebungen. [Lernzettel 3.2]"
+    },
+];
+
+function addQuestion(newQuest) {
+    allQuestions.push(newQuest);
+}
+        let quizData = []; let currentIndex = 0; let score = 0; let mode = 'learn';
+
+        window.onload = () => {
             const select = document.getElementById('topic-select');
             const chapters = ["Alle Themen", ...new Set(allQuestions.map(q => q.chapter))].sort();
             chapters.forEach(c => {
@@ -134,11 +655,12 @@
             });
         };
 
-        window.startQuiz = function(m) {
+        window.startQuiz = (m) => {
             mode = m;
             const filter = document.getElementById('topic-select').value;
             quizData = filter === 'all' ? [...allQuestions] : allQuestions.filter(q => q.chapter === filter);
             quizData.sort(() => Math.random() - 0.5);
+            currentIndex = 0; score = 0;
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
             showQuestion();
@@ -153,24 +675,18 @@
             container.innerHTML = '';
             
             if(q.type === 'input') {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.id = 'user-answer';
-                input.placeholder = 'Antwort eingeben...';
-                container.appendChild(input);
+                container.innerHTML = `<input type="text" id="user-answer" placeholder="Antwort eingeben..." autocomplete="off">`;
+                const input = document.getElementById('user-answer');
                 input.focus();
+                input.onkeypress = (e) => { if(e.key === 'Enter') checkAnswer(); };
             } else {
                 q.options.forEach((opt, idx) => {
                     const div = document.createElement('div');
                     div.className = 'option-item';
-                    div.innerHTML = `<input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="ans" id="opt${idx}"> <label style="margin-left:10px">${opt}</label>`;
-                    div.onclick = function() {
-                        const inp = this.querySelector('input');
-                        if(q.type === 'single') {
-                            container.querySelectorAll('.option-item').forEach(i => { i.classList.remove('selected'); i.querySelector('input').checked = false; });
-                            inp.checked = true;
-                        } else { inp.checked = !inp.checked; }
-                        this.classList.toggle('selected', inp.checked);
+                    div.innerHTML = `<span style="flex:1">${opt}</span>`;
+                    div.onclick = () => {
+                        if(q.type === 'single') container.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+                        div.classList.toggle('selected');
                     };
                     container.appendChild(div);
                 });
@@ -180,45 +696,45 @@
             document.getElementById('next-btn').classList.add('hidden');
         }
 
-        window.checkAnswer = function() {
+        window.checkAnswer = () => {
             const q = quizData[currentIndex];
-            let isCorrect = false;
+            let correct = false;
             
             if(q.type === 'input') {
-                const val = document.getElementById('user-answer').value.trim().toLowerCase();
-                isCorrect = q.correctAnswers.some(a => a.toLowerCase() === val);
+                const val = document.getElementById('user-answer').value.trim().replace(',', '.');
+                correct = q.correctAnswers.some(a => a.toLowerCase().replace(',', '.') === val.toLowerCase());
             } else {
-                const selected = Array.from(document.querySelectorAll('input[name="ans"]:checked')).map(i => parseInt(i.id.replace('opt','')));
-                if(selected.length === 0) return alert("Wähle eine Antwort!");
-                isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswers.sort());
+                const selected = Array.from(document.querySelectorAll('.option-item')).map((el, i) => el.classList.contains('selected') ? i : null).filter(n => n !== null);
+                if(selected.length === 0) return;
+                correct = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswers.sort());
             }
 
-            if(isCorrect) score++;
+            if(correct) score++;
 
             if(mode === 'learn') {
-                if(q.type !== 'input') {
-                    const items = document.querySelectorAll('.option-item');
-                    q.correctAnswers.forEach(idx => items[idx].classList.add('correct-ui'));
-                }
-                document.getElementById('feedback-area').classList.remove('hidden');
-                document.getElementById('feedback-text').innerHTML = isCorrect ? "<span style='color:var(--success)'>✔ RICHTIG</span>" : `<span style='color:var(--error)'>✖ FALSCH (Lösung: ${q.correctAnswers.join(', ')})</span>`;
+                const fb = document.getElementById('feedback-text');
+                fb.innerHTML = correct ? `<span style="color:var(--success)">✔ Richtig</span>` : `<span style="color:var(--error)">✖ Falsch. Lösung: ${q.correctAnswers.map(a => q.type === 'input' ? a : q.options[a]).join(', ')}</span>`;
                 document.getElementById('explanation-box').innerText = q.explanation;
+                document.getElementById('feedback-area').classList.remove('hidden');
                 document.getElementById('check-btn').classList.add('hidden');
                 document.getElementById('next-btn').classList.remove('hidden');
             } else { nextQuestion(); }
         };
 
-        window.nextQuestion = function() {
+        window.nextQuestion = () => {
             currentIndex++;
             if(currentIndex < quizData.length) showQuestion();
-            else showResult();
+            else showResults();
         };
 
-        function showResult() {
+        function showResults() {
             document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
+            const screen = document.getElementById('result-screen');
+            screen.classList.remove('hidden');
             const p = Math.round((score/quizData.length)*100);
-            document.getElementById('score-display').innerHTML = `Ergebnis: <b>${score}/${quizData.length}</b> (${p}%).<br>${p >= 50 ? 'Bestanden! 🎉' : 'Nicht bestanden. 📚'}`;
+            document.getElementById('result-icon').innerText = p >= 50 ? '🏆' : '📚';
+            document.getElementById('result-title').innerText = p >= 50 ? 'Bestanden!' : 'Noch mal lernen!';
+            document.getElementById('score-display').innerHTML = `Du hast <b>${score}/${quizData.length}</b> Punkte (${p}%).`;
         }
     </script>
 </body>
