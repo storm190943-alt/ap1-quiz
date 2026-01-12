@@ -3,125 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IHK AP1 Prüfungstrainer - Komplettversion</title>
+    <title>IHK AP1 Trainer - 2026 Edition</title>
     <style>
         :root { --primary: #2563eb; --success: #16a34a; --error: #dc2626; --bg: #f1f5f9; --text: #0f172a; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 10px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 750px; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 10px; display: flex; justify-content: center; margin: 0; }
+        .container { width: 100%; max-width: 700px; padding-top: 20px; }
         .card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px; }
-        .hidden { display: none; }
-        .btn { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; font-size: 1rem; transition: 0.2s; }
+        .hidden { display: none !important; }
+        .btn { padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; font-size: 1rem; transition: background 0.2s; -webkit-tap-highlight-color: transparent; }
         .primary-btn { background: var(--primary); color: white; }
         .primary-btn:hover { background: #1d4ed8; }
-        .option-item { display: block; padding: 14px; border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .option-item { display: flex; align-items: center; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; margin-bottom: 12px; cursor: pointer; background: #fff; transition: 0.2s; position: relative; }
+        .option-item:hover { border-color: #cbd5e1; }
         .option-item.selected { border-color: var(--primary); background: #eff6ff; }
-        .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; }
+        .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; border-width: 3px; }
         .wrong-ui { border-color: var(--error) !important; background: #fef2f2 !important; }
-        #explanation-box { background: #f8fafc; padding: 15px; border-left: 5px solid var(--primary); margin-top: 15px; font-size: 0.95rem; line-height: 1.4; }
-        .progress-bar { background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
-        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.3s; }
+        input[type="checkbox"], input[type="radio"] { margin-right: 15px; transform: scale(1.3); cursor: pointer; pointer-events: none; }
+        #explanation-box { background: #f8fafc; padding: 15px; border-left: 5px solid var(--primary); margin-top: 15px; font-size: 0.95rem; line-height: 1.5; border-radius: 0 8px 8px 0; }
+        .progress-bar { background: #e2e8f0; height: 10px; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
+        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.4s; }
+        h1, h2 { margin-top: 0; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="setup-screen" class="card">
-            <h1>IHK AP1 Trainer</h1>
-            <p>Fragen basierend auf dem Lernzettel (v1.0)</p>
+            <h1>IHK AP1 Prüfungstrainer</h1>
+            <p>Themen nach dem 2025/26 Prüfungskatalog.</p>
             <div style="margin-bottom: 20px;">
-                <label>Kapitel wählen:</label>
-                <select id="topic-select" class="btn" style="background: white; border: 2px solid #e2e8f0; text-align: left;">
-                    <option value="all">Alle Kapitel gemischt</option>
-                </select>
+                <label style="font-weight:600">Bereich wählen:</label>
+                <select id="topic-select" class="btn" style="background: white; border: 2px solid #e2e8f0; text-align: left;"></select>
             </div>
-            <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus (mit Feedback)</button>
-            <button onclick="startQuiz('exam')" class="btn" style="background: #64748b; color: white;">Prüfungsmodus (Stille Auswertung)</button>
+            <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus starten</button>
+            <button onclick="startQuiz('exam')" class="btn" style="background: #64748b; color: white;">Prüfungsmodus</button>
         </div>
 
         <div id="quiz-screen" class="card hidden">
             <div class="progress-bar"><div id="progress-fill"></div></div>
-            <div id="meta" style="font-size: 0.8rem; color: #64748b; margin-bottom: 5px;"></div>
-            <h2 id="question-text" style="font-size: 1.2rem; margin-top: 0;"></h2>
+            <div id="meta" style="font-size: 0.85rem; color: #64748b; margin-bottom: 8px; font-weight: bold;"></div>
+            <h2 id="question-text"></h2>
             <div id="options-container"></div>
+            
             <div id="feedback-area" class="hidden">
-                <hr><p id="feedback-text" style="font-weight: bold;"></p>
+                <p id="feedback-text" style="font-weight: bold; font-size: 1.1rem; border-top: 1px solid #eee; pt: 15px;"></p>
                 <div id="explanation-box"></div>
             </div>
-            <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Antwort prüfen</button>
-            <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Nächste Frage</button>
+
+            <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Prüfen</button>
+            <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Weiter</button>
         </div>
 
         <div id="result-screen" class="card hidden">
-            <h2>Ergebnis</h2>
-            <p id="score-display" style="font-size: 1.2rem;"></p>
-            <button onclick="location.reload()" class="btn primary-btn">Neu starten</button>
+            <h2>Abschluss-Auswertung</h2>
+            <p id="score-display" style="font-size: 1.3rem;"></p>
+            <button onclick="location.reload()" class="btn primary-btn">Neustart</button>
         </div>
     </div>
 
     <script>
         const allQuestions = [
             {
-                chapter: "1. Grundlagen",
-                type: "single",
-                question: "In welchem Zahlensystem wird die IP-Adresse 192.168.0.1 üblicherweise für Menschen dargestellt?",
-                options: ["Hexadezimalsystem", "Dezimalsystem (Dotted Decimal)", "Binärsystem", "Oktalsystem"],
-                correctAnswers: [1],
-                explanation: "IPv4-Adressen werden für Menschen in vier Dezimalzahlen (0-255), getrennt durch Punkte, dargestellt."
-            },
-            {
-                chapter: "2. Hardware",
+                chapter: "Hardware",
                 type: "multi",
-                question: "Welche RAID-Level bieten Redundanz (Schutz vor Festplattenausfall)?",
-                options: ["RAID 0", "RAID 1", "RAID 5", "RAID 10"],
-                correctAnswers: [1, 2, 3],
-                explanation: "RAID 0 (Striping) bietet keine Redundanz. RAID 1 spiegelt, RAID 5 nutzt Parität und RAID 10 kombiniert beides."
+                question: "Welche RAID-Level benötigen mindestens 3 Festplatten?",
+                options: ["RAID 0", "RAID 1", "RAID 5", "RAID 6", "RAID 10"],
+                correctAnswers: [2, 3, 4],
+                explanation: "RAID 5 (min. 3), RAID 6 (min. 4) und RAID 10 (min. 4) benötigen mehr als zwei Platten. RAID 0 und 1 funktionieren bereits mit 2 Platten."
             },
             {
-                chapter: "2. Hardware",
+                chapter: "Netzwerk",
                 type: "single",
-                question: "Wie groß ist der Adressraum von IPv6?",
-                options: ["32 Bit", "64 Bit", "128 Bit", "256 Bit"],
-                correctAnswers: [2],
-                explanation: "IPv6 nutzt 128 Bit, was ca. 340 Sextillionen Adressen ermöglicht."
-            },
-            {
-                chapter: "4. Wirtschaft",
-                type: "multi",
-                question: "Welche Personen sind laut BGB 'beschränkt geschäftsfähig'?",
-                options: ["Kinder unter 7 Jahren", "Minderjährige von 7 bis 17 Jahren", "Personen mit dauerhafter geistiger Störung", "Personen ab 18 Jahren"],
+                question: "Was ist die korrekte Subnetzmaske für ein /27 Netzwerk?",
+                options: ["255.255.255.192", "255.255.255.224", "255.255.255.240", "255.255.255.128"],
                 correctAnswers: [1],
-                explanation: "Minderjährige (7-17 J.) sind beschränkt geschäftsfähig. Unter 7 J. ist man geschäftsunfähig, ab 18 J. voll geschäftsfähig."
+                explanation: "/27 bedeutet 24 Bit (255.255.255) + 3 Bit im letzten Oktett (128+64+32 = 224)."
             },
             {
-                chapter: "5. Projektmanagement",
+                chapter: "Wirtschaft",
                 type: "single",
-                question: "In einem Netzplan ist der GP (Gesamtpuffer) eines Vorgangs 0. Was bedeutet das?",
-                options: ["Der Vorgang ist unwichtig.", "Der Vorgang liegt auf dem kritischen Pfad.", "Der Vorgang kann beliebig verschoben werden.", "Das Projekt ist bereits verspätet."],
-                correctAnswers: [1],
-                explanation: "Vorgänge mit GP=0 haben keinen Spielraum. Sie bilden den kritischen Pfad. Jede Verzögerung hier verschiebt das Projektende."
+                question: "Wie hoch ist die aktuelle Beitragsbemessungsgrenze in der Rentenversicherung (West) ca.?",
+                options: ["3.500 €", "5.200 €", "8.050 €", "12.000 €"],
+                correctAnswers: [2],
+                explanation: "Die Beitragsbemessungsgrenzen werden jährlich angepasst, liegen aber für die RV deutlich über 7000-8000 Euro pro Monat."
             },
             {
-                chapter: "11. IT-Sicherheit",
+                chapter: "IT-Sicherheit",
                 type: "multi",
-                question: "Welche Faktoren gehören zur Kategorie 'Inhärenz' bei der 2FA?",
-                options: ["Fingerabdruck", "Gesichtsscan", "Einmal-Passwort (OTP)", "Smartcard", "Retina-Scan"],
-                correctAnswers: [0, 1, 4],
-                explanation: "Inhärenz bezieht sich auf körperliche Merkmale (Biometrie) wie Fingerabdruck, Gesicht oder Augen."
+                question: "Welche Verfahren sind asymmetrische Verschlüsselungsmethoden?",
+                options: ["AES", "RSA", "Diffie-Hellman", "DES", "ECC"],
+                correctAnswers: [1, 2, 4],
+                explanation: "RSA, Diffie-Hellman und ECC nutzen ein Schlüsselpaar (Public/Private). AES und DES sind symmetrisch."
             },
             {
-                chapter: "2. Hardware",
+                chapter: "Projektmanagement",
                 type: "single",
-                question: "Welche Schicht des OSI-Modells ist für das Routing von Paketen (IP) zuständig?",
-                options: ["Layer 1 (Physical)", "Layer 2 (Data Link)", "Layer 3 (Network)", "Layer 4 (Transport)"],
-                correctAnswers: [2],
-                explanation: "Layer 3 (Vermittlungsschicht) nutzt IP-Adressen, um den besten Weg für Datenpakete durch das Netzwerk zu finden."
-            },
-            {
-                chapter: "10. Entwicklung",
-                type: "single",
-                question: "Was ist der Hauptvorteil eines agilen Modells (z.B. Scrum) gegenüber dem Wasserfallmodell?",
-                options: ["Es ist billiger.", "Es benötigt keine Dokumentation.", "Flexibilität bei Anforderungsänderungen während der Laufzeit.", "Man weiß von Anfang an genau, wann man fertig ist."],
-                correctAnswers: [2],
-                explanation: "Agile Methoden erlauben es, auf Änderungen des Kunden schnell zu reagieren, da in kurzen Zyklen (Iterationen) gearbeitet wird."
+                question: "Was beschreibt der 'Rückwärtspass' in der Netzplantechnik?",
+                options: ["Berechnung der frühestmöglichen Termine.", "Berechnung der spätestmöglichen Termine.", "Ermittlung der Kosten.", "Optimierung der Ressourcen."],
+                correctAnswers: [1],
+                explanation: "Der Vorwärtspass berechnet die frühesten Termine, der Rückwärtspass ausgehend vom Projektende die spätestmöglichen (SEZ/SAZ)."
             }
         ];
 
@@ -130,41 +109,51 @@
         let score = 0;
         let mode = 'learn';
 
-        const select = document.getElementById('topic-select');
-        [...new Set(allQuestions.map(q => q.chapter))].sort().forEach(c => {
-            const opt = document.createElement('option');
-            opt.value = c; opt.innerText = c;
-            select.appendChild(opt);
-        });
+        window.onload = function() {
+            const select = document.getElementById('topic-select');
+            const chapters = ["Alle Themen", ...new Set(allQuestions.map(q => q.chapter))];
+            chapters.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c === "Alle Themen" ? "all" : c;
+                opt.innerText = c;
+                select.appendChild(opt);
+            });
+        };
 
-        function startQuiz(m) {
+        window.startQuiz = function(m) {
             mode = m;
             const filter = document.getElementById('topic-select').value;
             quizData = filter === 'all' ? [...allQuestions] : allQuestions.filter(q => q.chapter === filter);
             quizData.sort(() => Math.random() - 0.5);
+            currentIndex = 0; score = 0;
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
             showQuestion();
-        }
+        };
 
         function showQuestion() {
             const q = quizData[currentIndex];
             document.getElementById('progress-fill').style.width = `${(currentIndex / quizData.length) * 100}%`;
-            document.getElementById('meta').innerText = `${q.chapter} | Frage ${currentIndex + 1}/${quizData.length} (${q.type === 'multi' ? 'Mehrfachauswahl' : 'Einfachauswahl'})`;
+            document.getElementById('meta').innerText = `${q.chapter.toUpperCase()} | FRAGE ${currentIndex + 1} / ${quizData.length}`;
             document.getElementById('question-text').innerText = q.question;
             const container = document.getElementById('options-container');
             container.innerHTML = '';
             q.options.forEach((opt, idx) => {
                 const div = document.createElement('div');
                 div.className = 'option-item';
-                div.innerHTML = `<input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="ans" id="opt${idx}" value="${idx}"> <label for="opt${idx}">${opt}</label>`;
-                div.onclick = (e) => {
-                    if(e.target.tagName !== 'INPUT') {
-                        const input = div.querySelector('input');
-                        input.checked = q.type === 'single' ? true : !input.checked;
+                div.innerHTML = `<input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" id="opt${idx}"> <label>${opt}</label>`;
+                div.onclick = function() {
+                    const input = this.querySelector('input');
+                    if(q.type === 'single') {
+                        container.querySelectorAll('.option-item').forEach(i => {
+                            i.classList.remove('selected');
+                            i.querySelector('input').checked = false;
+                        });
+                        input.checked = true;
+                    } else {
+                        input.checked = !input.checked;
                     }
-                    if(q.type === 'single') container.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
-                    div.classList.toggle('selected', div.querySelector('input').checked);
+                    this.classList.toggle('selected', input.checked);
                 };
                 container.appendChild(div);
             });
@@ -173,34 +162,38 @@
             document.getElementById('next-btn').classList.add('hidden');
         }
 
-        function checkAnswer() {
+        window.checkAnswer = function() {
             const q = quizData[currentIndex];
-            const selected = Array.from(document.querySelectorAll('input[name="ans"]:checked')).map(i => parseInt(i.value));
-            if(selected.length === 0) return alert("Wähle eine Antwort!");
+            const items = document.querySelectorAll('.option-item');
+            const selected = [];
+            items.forEach((item, idx) => { if(item.querySelector('input').checked) selected.push(idx); });
+            if(selected.length === 0) return alert("Bitte wähle eine Antwort!");
             const isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswers.sort());
             if(isCorrect) score++;
             if(mode === 'learn') {
-                const container = document.getElementById('options-container');
-                q.correctAnswers.forEach(idx => container.children[idx].classList.add('correct-ui'));
-                selected.forEach(idx => { if(!q.correctAnswers.includes(idx)) container.children[idx].classList.add('wrong-ui'); });
+                items.forEach((item, idx) => {
+                    if(q.correctAnswers.includes(idx)) item.classList.add('correct-ui');
+                    else if(selected.includes(idx)) item.classList.add('wrong-ui');
+                });
                 document.getElementById('feedback-area').classList.remove('hidden');
-                document.getElementById('feedback-text').innerHTML = isCorrect ? "✅ Richtig!" : "❌ Falsch!";
+                document.getElementById('feedback-text').innerHTML = isCorrect ? "<span style='color:var(--success)'>✔ RICHTIG</span>" : "<span style='color:var(--error)'>✖ FALSCH</span>";
                 document.getElementById('explanation-box').innerText = q.explanation;
                 document.getElementById('check-btn').classList.add('hidden');
                 document.getElementById('next-btn').classList.remove('hidden');
             } else { nextQuestion(); }
-        }
+        };
 
-        function nextQuestion() {
+        window.nextQuestion = function() {
             currentIndex++;
             if(currentIndex < quizData.length) showQuestion();
             else showResult();
-        }
+        };
 
         function showResult() {
             document.getElementById('quiz-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
-            document.getElementById('score-display').innerHTML = `Ergebnis: <b>${score} von ${quizData.length}</b> (${Math.round(score/quizData.length*100)}%)`;
+            const p = Math.round((score/quizData.length)*100);
+            document.getElementById('score-display').innerHTML = `Du hast <b>${score} von ${quizData.length}</b> richtig (${p}%).<br>${p >= 50 ? 'Bestanden! 🎉' : 'Nochmal üben! 📚'}`;
         }
     </script>
 </body>
