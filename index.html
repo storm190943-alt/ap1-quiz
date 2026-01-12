@@ -3,65 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IHK AP1 Quiz-Trainer</title>
-    <link rel="stylesheet" href="style.css">
+    <title>IHK AP1 Prüfungstrainer - Komplettversion</title>
+    <style>
+        :root { --primary: #2563eb; --success: #16a34a; --error: #dc2626; --bg: #f1f5f9; --text: #0f172a; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 10px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 750px; }
+        .card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 10px; }
+        .hidden { display: none; }
+        .btn { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; font-size: 1rem; transition: 0.2s; }
+        .primary-btn { background: var(--primary); color: white; }
+        .primary-btn:hover { background: #1d4ed8; }
+        .option-item { display: block; padding: 14px; border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+        .option-item.selected { border-color: var(--primary); background: #eff6ff; }
+        .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; }
+        .wrong-ui { border-color: var(--error) !important; background: #fef2f2 !important; }
+        #explanation-box { background: #f8fafc; padding: 15px; border-left: 5px solid var(--primary); margin-top: 15px; font-size: 0.95rem; line-height: 1.4; }
+        .progress-bar { background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.3s; }
+    </style>
 </head>
 <body>
-    <div id="app" class="container">
-        <header>
-            <h1>IHK AP1 Prüfungstrainer</h1>
-            <div class="stats-bar">
-                <span id="progress-text">Frage: 0/0</span>
-                <span id="score-info">Score: 0</span>
+    <div class="container">
+        <div id="setup-screen" class="card">
+            <h1>IHK AP1 Trainer</h1>
+            <p>Fragen basierend auf dem Lernzettel (v1.0)</p>
+            <div style="margin-bottom: 20px;">
+                <label>Kapitel wählen:</label>
+                <select id="topic-select" class="btn" style="background: white; border: 2px solid #e2e8f0; text-align: left;">
+                    <option value="all">Alle Kapitel gemischt</option>
+                </select>
             </div>
-        </header>
+            <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus (mit Feedback)</button>
+            <button onclick="startQuiz('exam')" class="btn" style="background: #64748b; color: white;">Prüfungsmodus (Stille Auswertung)</button>
+        </div>
 
-        <section id="setup-screen">
-            <div class="card">
-                <h2>Quiz-Einstellungen</h2>https://github.com/storm190943-alt/ap1-quiz/blob/main/index.html
-                <div class="filter-group">
-                    <label for="chapter-filter">Kapitel wählen:</label>
-                    <select id="chapter-filter"><option value="all">Alle Themen</option></select>
-                </div>
-                <div class="filter-group">
-                    <label>Modus:</label>
-                    <div class="mode-switch">
-                        <button class="btn mode-btn active" data-mode="learn">Lernmodus (mit Erklärung)</button>
-                        <button class="btn mode-btn" data-mode="exam">Prüfungsmodus (Auswertung am Ende)</button>
-                    </div>
-                </div>
-                <button id="start-btn" class="btn primary-btn">Starten</button>
+        <div id="quiz-screen" class="card hidden">
+            <div class="progress-bar"><div id="progress-fill"></div></div>
+            <div id="meta" style="font-size: 0.8rem; color: #64748b; margin-bottom: 5px;"></div>
+            <h2 id="question-text" style="font-size: 1.2rem; margin-top: 0;"></h2>
+            <div id="options-container"></div>
+            <div id="feedback-area" class="hidden">
+                <hr><p id="feedback-text" style="font-weight: bold;"></p>
+                <div id="explanation-box"></div>
             </div>
-        </section>
+            <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Antwort prüfen</button>
+            <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Nächste Frage</button>
+        </div>
 
-        <section id="quiz-screen" class="hidden">
-            <div class="card">
-                <div id="question-header">
-                    <span id="question-meta">Thema</span>
-                </div>
-                <h3 id="question-text">Lade Frage...</h3>
-                <div id="options-container"></div>
-                
-                <div id="feedback-area" class="hidden">
-                    <p id="feedback-text"></p>
-                    <div id="explanation-box"></div>
-                </div>
-
-                <div class="controls">
-                    <button id="check-btn" class="btn primary-btn">Prüfen</button>
-                    <button id="next-btn" class="btn primary-btn hidden">Nächste Frage</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="result-screen" class="hidden">
-            <div class="card">
-                <h2>Ergebnis</h2>
-                <div id="score-display"></div>
-                <button onclick="location.reload()" class="btn primary-btn">Erneut versuchen</button>
-            </div>
-        </section>
+        <div id="result-screen" class="card hidden">
+            <h2>Ergebnis</h2>
+            <p id="score-display" style="font-size: 1.2rem;"></p>
+            <button onclick="location.reload()" class="btn primary-btn">Neu starten</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        const allQuestions = [
+            {
+                chapter: "1. Grundlagen",
+                type: "single",
+                question: "In welchem Zahlensystem wird die IP-Adresse 192.168.0.1 üblicherweise für Menschen dargestellt?",
+                options: ["Hexadezimalsystem", "Dezimalsystem (Dotted Decimal)", "Binärsystem", "Oktalsystem"],
+                correctAnswers: [1],
+                explanation: "IPv4-Adressen werden für Menschen in vier Dezimalzahlen (0-255), getrennt durch Punkte, dargestellt."
+            },
+            {
+                chapter: "2. Hardware",
+                type: "multi",
+                question: "Welche RAID-Level bieten Redundanz (Schutz vor Festplattenausfall)?",
+                options: ["RAID 0", "RAID 1", "RAID 5", "RAID 10"],
+                correctAnswers: [1, 2, 3],
+                explanation: "RAID 0 (Striping) bietet keine Redundanz. RAID 1 spiegelt, RAID 5 nutzt Parität und RAID 10 kombiniert beides."
+            },
+            {
+                chapter: "2. Hardware",
+                type: "single",
+                question: "Wie groß ist der Adressraum von IPv6?",
+                options: ["32 Bit", "64 Bit", "128 Bit", "256 Bit"],
+                correctAnswers: [2],
+                explanation: "IPv6 nutzt 128 Bit, was ca. 340 Sextillionen Adressen ermöglicht."
+            },
+            {
+                chapter: "4. Wirtschaft",
+                type: "multi",
+                question: "Welche Personen sind laut BGB 'beschränkt geschäftsfähig'?",
+                options: ["Kinder unter 7 Jahren", "Minderjährige von 7 bis 17 Jahren", "Personen mit dauerhafter geistiger Störung", "Personen ab 18 Jahren"],
+                correctAnswers: [1],
+                explanation: "Minderjährige (7-17 J.) sind beschränkt geschäftsfähig. Unter 7 J. ist man geschäftsunfähig, ab 18 J. voll geschäftsfähig."
+            },
+            {
+                chapter: "5. Projektmanagement",
+                type: "single",
+                question: "In einem Netzplan ist der GP (Gesamtpuffer) eines Vorgangs 0. Was bedeutet das?",
+                options: ["Der Vorgang ist unwichtig.", "Der Vorgang liegt auf dem kritischen Pfad.", "Der Vorgang kann beliebig verschoben werden.", "Das Projekt ist bereits verspätet."],
+                correctAnswers: [1],
+                explanation: "Vorgänge mit GP=0 haben keinen Spielraum. Sie bilden den kritischen Pfad. Jede Verzögerung hier verschiebt das Projektende."
+            },
+            {
+                chapter: "11. IT-Sicherheit",
+                type: "multi",
+                question: "Welche Faktoren gehören zur Kategorie 'Inhärenz' bei der 2FA?",
+                options: ["Fingerabdruck", "Gesichtsscan", "Einmal-Passwort (OTP)", "Smartcard", "Retina-Scan"],
+                correctAnswers: [0, 1, 4],
+                explanation: "Inhärenz bezieht sich auf körperliche Merkmale (Biometrie) wie Fingerabdruck, Gesicht oder Augen."
+            },
+            {
+                chapter: "2. Hardware",
+                type: "single",
+                question: "Welche Schicht des OSI-Modells ist für das Routing von Paketen (IP) zuständig?",
+                options: ["Layer 1 (Physical)", "Layer 2 (Data Link)", "Layer 3 (Network)", "Layer 4 (Transport)"],
+                correctAnswers: [2],
+                explanation: "Layer 3 (Vermittlungsschicht) nutzt IP-Adressen, um den besten Weg für Datenpakete durch das Netzwerk zu finden."
+            },
+            {
+                chapter: "10. Entwicklung",
+                type: "single",
+                question: "Was ist der Hauptvorteil eines agilen Modells (z.B. Scrum) gegenüber dem Wasserfallmodell?",
+                options: ["Es ist billiger.", "Es benötigt keine Dokumentation.", "Flexibilität bei Anforderungsänderungen während der Laufzeit.", "Man weiß von Anfang an genau, wann man fertig ist."],
+                correctAnswers: [2],
+                explanation: "Agile Methoden erlauben es, auf Änderungen des Kunden schnell zu reagieren, da in kurzen Zyklen (Iterationen) gearbeitet wird."
+            }
+        ];
+
+        let quizData = [];
+        let currentIndex = 0;
+        let score = 0;
+        let mode = 'learn';
+
+        const select = document.getElementById('topic-select');
+        [...new Set(allQuestions.map(q => q.chapter))].sort().forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c; opt.innerText = c;
+            select.appendChild(opt);
+        });
+
+        function startQuiz(m) {
+            mode = m;
+            const filter = document.getElementById('topic-select').value;
+            quizData = filter === 'all' ? [...allQuestions] : allQuestions.filter(q => q.chapter === filter);
+            quizData.sort(() => Math.random() - 0.5);
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = quizData[currentIndex];
+            document.getElementById('progress-fill').style.width = `${(currentIndex / quizData.length) * 100}%`;
+            document.getElementById('meta').innerText = `${q.chapter} | Frage ${currentIndex + 1}/${quizData.length} (${q.type === 'multi' ? 'Mehrfachauswahl' : 'Einfachauswahl'})`;
+            document.getElementById('question-text').innerText = q.question;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'option-item';
+                div.innerHTML = `<input type="${q.type === 'multi' ? 'checkbox' : 'radio'}" name="ans" id="opt${idx}" value="${idx}"> <label for="opt${idx}">${opt}</label>`;
+                div.onclick = (e) => {
+                    if(e.target.tagName !== 'INPUT') {
+                        const input = div.querySelector('input');
+                        input.checked = q.type === 'single' ? true : !input.checked;
+                    }
+                    if(q.type === 'single') container.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+                    div.classList.toggle('selected', div.querySelector('input').checked);
+                };
+                container.appendChild(div);
+            });
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('check-btn').classList.remove('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function checkAnswer() {
+            const q = quizData[currentIndex];
+            const selected = Array.from(document.querySelectorAll('input[name="ans"]:checked')).map(i => parseInt(i.value));
+            if(selected.length === 0) return alert("Wähle eine Antwort!");
+            const isCorrect = JSON.stringify(selected.sort()) === JSON.stringify(q.correctAnswers.sort());
+            if(isCorrect) score++;
+            if(mode === 'learn') {
+                const container = document.getElementById('options-container');
+                q.correctAnswers.forEach(idx => container.children[idx].classList.add('correct-ui'));
+                selected.forEach(idx => { if(!q.correctAnswers.includes(idx)) container.children[idx].classList.add('wrong-ui'); });
+                document.getElementById('feedback-area').classList.remove('hidden');
+                document.getElementById('feedback-text').innerHTML = isCorrect ? "✅ Richtig!" : "❌ Falsch!";
+                document.getElementById('explanation-box').innerText = q.explanation;
+                document.getElementById('check-btn').classList.add('hidden');
+                document.getElementById('next-btn').classList.remove('hidden');
+            } else { nextQuestion(); }
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if(currentIndex < quizData.length) showQuestion();
+            else showResult();
+        }
+
+        function showResult() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            document.getElementById('score-display').innerHTML = `Ergebnis: <b>${score} von ${quizData.length}</b> (${Math.round(score/quizData.length*100)}%)`;
+        }
+    </script>
 </body>
 </html>
