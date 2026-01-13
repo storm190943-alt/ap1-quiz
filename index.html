@@ -55,637 +55,636 @@
 
     <script>
 const allQuestions = [
-    // --- 1. GRUNDLAGEN (1-12) ---
+    // --- 1. GRUNDLAGEN (KI, Daten, Zahlensysteme) ---
     { 
         chapter: "1. Grundlagen", type: "single", 
         question: "Wie wird ein neuronales Netzwerk mit besonders vielen Hidden Layern bezeichnet?", 
         options: ["Shallow Learning", "Deep Learning", "Supervised Learning"], 
         correctAnswers: [1], 
-        explanation: "Deep Learning nutzt künstliche neuronale Netze mit zahlreichen Zwischenschichten (Hidden Layers), um komplexe Muster und Abstraktionen aus Daten zu extrahieren. 'Shallow Learning' (flaches Lernen) hat hingegen kaum oder gar keine Zwischenschichten." 
+        explanation: "Deep Learning nutzt künstliche neuronale Netze mit zahlreichen Zwischenschichten (Hidden Layers), um komplexe Muster aus Daten zu extrahieren." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Wie viele Bits ergeben ein Byte?", 
         correctAnswers: ["8"], 
-        explanation: "Ein Byte ist die kleinste adressierbare Dateneinheit und besteht aus einer Folge von 8 Bits. Damit lassen sich 256 verschiedene Zustände (2^8) darstellen." 
+        explanation: "Ein Byte besteht standardmäßig aus 8 Bits und wird auch als Oktett bezeichnet." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Rechnen Sie 2 MiB in Kibibyte (KiB) um.", 
         correctAnswers: ["2048"], 
-        explanation: "In der IT werden Binärpräfixe auf Basis von 1024 (2^10) verwendet. Ein MiB entspricht 1024 KiB. Die Rechnung lautet: 2 * 1024 = 2048." 
+        explanation: "Binärpräfixe nutzen den Faktor 1024. 2 * 1024 KiB = 2048 KiB." 
     },
     { 
         chapter: "1. Grundlagen", type: "single", 
         question: "Welches Lernverhalten nutzt vorab gelabelte Trainingsdaten?", 
         options: ["Unsupervised", "Reinforcement", "Supervised"], 
         correctAnswers: [2], 
-        explanation: "Beim Supervised Learning (überwachtes Lernen) lernt die KI mit Paaren aus Eingabedaten und bereits bekannten Zielergebnissen (Labeln). Unsupervised Learning sucht dagegen ohne Vorgaben nach Strukturen." 
+        explanation: "Beim Supervised Learning (Überwachtes Lernen) sind die Zielwerte (Labels) bekannt, sodass das Modell Fehler direkt minimieren kann." 
     },
     { 
         chapter: "1. Grundlagen", type: "single", 
         question: "Wie nennt man KI für eine eng definierte Aufgabe?", 
         options: ["Starke KI", "Schwache KI", "General AI"], 
         correctAnswers: [1], 
-        explanation: "Schwache KI (Narrow AI) ist auf die Lösung konkreter Probleme spezialisiert (z. B. Texterkennung). Starke KI besäße menschenähnliche kognitive Fähigkeiten in allen Bereichen." 
+        explanation: "Schwache KI (Narrow AI) löst konkrete Anwendungsprobleme, ohne echtes Bewusstsein oder allgemeine Transferfähigkeiten." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Datenmenge in MiB für ein Foto mit 8.388.608 Bytes?", 
         correctAnswers: ["8"], 
-        explanation: "Um von Byte auf MiB zu kommen, teilt man zweimal durch 1024. 8.388.608 / 1024 = 8.192 KiB. 8.192 / 1024 = 8 MiB." 
+        explanation: "8.388.608 / 1024 / 1024 = 8 MiB." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Dezimal 12 in Binär? (4 Bits)", 
         correctAnswers: ["1100"], 
-        explanation: "Die binären Stellenwerte sind 8-4-2-1. Die 12 setzt sich aus 8 + 4 zusammen (Stelle 8 und 4 auf '1', Rest '0'), was 1100 ergibt." 
+        explanation: "Die Stellenwerte sind 8-4-2-1. 8 + 4 = 12, also 1100." 
     },
     { 
         chapter: "1. Grundlagen", type: "single", 
         question: "Wie viele Bits hat eine Hex-Stelle?", 
         options: ["2 Bit", "4 Bit", "8 Bit"], 
         correctAnswers: [1], 
-        explanation: "Eine Hexadezimalstelle repräsentiert 16 Werte (0-F). Da 2^4 = 16 ist, werden genau 4 Bits benötigt, um eine Stelle darzustellen." 
+        explanation: "Eine Hex-Ziffer (0-F) repräsentiert 16 Werte, wofür exakt 4 Bits (2^4) benötigt werden." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Zahl 77 im BCD-Code?", 
         correctAnswers: ["0111 0111"], 
-        explanation: "Beim BCD-Code (Binary Coded Decimal) wird jede Ziffer einzeln in 4 Bit (Tetrade) umgewandelt. Die 7 ist binär 0111, also ergibt 77 die Folge 0111 0111." 
+        explanation: "Im BCD-Code wird jede Ziffer einzeln codiert. Die 7 ist binär 0111." 
     },
     { 
         chapter: "1. Grundlagen", type: "single", 
         question: "Effekt, wenn KI Daten auswendig lernt, aber nicht generalisiert?", 
         options: ["Deep Learning", "Overfitting", "Underfitting"], 
         correctAnswers: [1], 
-        explanation: "Overfitting bedeutet, dass das Modell zu stark auf die Trainingsdaten optimiert ist und Rauschen als Muster lernt. Es scheitert dann bei neuen, unbekannten Daten." 
+        explanation: "Overfitting bedeutet, dass das Modell das Rauschen der Trainingsdaten lernt und bei neuen Daten versagt." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Hexadezimal 'A' in Dezimal?", 
         correctAnswers: ["10"], 
-        explanation: "Im Hexadezimalsystem folgen nach der 9 die Buchstaben A=10, B=11, C=12, D=13, E=14 und F=15." 
+        explanation: "In Hexadezimalsystemen steht A für 10, B für 11 bis F für 15." 
     },
     { 
         chapter: "1. Grundlagen", type: "input", 
         question: "Wie viele Bits hat eine Oktalstelle?", 
         correctAnswers: ["3"], 
-        explanation: "Das Oktalsystem hat die Basis 8 (Ziffern 0-7). Um 8 Werte darzustellen, braucht man 2^3 = 3 Bits." 
+        explanation: "Das Oktalsystem (Basis 8) benötigt 3 Bits (2^3 = 8), um alle Ziffern (0-7) darzustellen." 
     },
 
-    // --- 2. HARDWARE (13-35) ---
+    // --- 2. HARDWARE (CPU, Speicher, Energie, USV) ---
     { 
         chapter: "2. Hardware", type: "multi", 
-        question: "Vorteile einer SSD gegenüber HDD?", 
-        options: ["Leise", "Robust", "Billiger pro TB", "Schnelle Zugriffe"], 
+        question: "Vorteile einer SSD gegenüber HDD? (Mehrfachnennung möglich)", 
+        options: ["Leise", "Robust", "Günstiger pro TB", "Schnelle Zugriffe"], 
         correctAnswers: [0, 1, 3], 
-        explanation: "SSDs haben keine mechanischen Teile (leise, robust) und bieten fast verzögerungsfreie Zugriffe. HDDs sind mechanisch anfälliger, aber pro TB meist günstiger." 
+        explanation: "SSDs sind lautlos, stoßfest und bieten minimale Latenzen, sind aber im Preis pro Kapazität oft teurer als HDDs." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Leistung (P) bei 230V und 0,5A?", 
         correctAnswers: ["115"], 
-        explanation: "Die Formel lautet P = U * I. 230V * 0,5A ergibt eine elektrische Leistung von 115 Watt." 
+        explanation: "P = U * I. 230 V * 0,5 A = 115 Watt." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "USV-Klasse ohne Umschaltzeit?", 
         options: ["VFD (Klasse 3)", "VI (Klasse 2)", "VFI (Klasse 1)"], 
         correctAnswers: [2], 
-        explanation: "VFI (Voltage and Frequency Independent) wandelt den Strom permanent von Wechsel- in Gleichstrom und zurück um (Doppelwandler). Es gibt daher keine Schaltpause." 
+        explanation: "VFI (Voltage and Frequency Independent) arbeitet im Dauerwandlerbetrieb ohne Schaltpause." 
     },
-    
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Nutzbare Kapazität RAID 5 mit 4x 2TB Platten?", 
         correctAnswers: ["6"], 
-        explanation: "RAID 5 nutzt Parität. Die Formel ist (n-1) * kleinste Platte. (4-1) * 2TB = 6TB nutzbarer Speicher." 
+        explanation: "Formel: (n-1) * Kapazität. (4-1) * 2 TB = 6 TB." 
     },
     { 
         chapter: "2. Hardware", type: "multi", 
-        question: "Kern-Komponenten der Von-Neumann-Architektur?", 
+        question: "Kern-Komponenten der Von-Neumann-Architektur? (Mehrfachnennung möglich)", 
         options: ["Rechenwerk", "Steuerwerk", "GPU", "Speicherwerk", "E/A-Werk"], 
         correctAnswers: [0, 1, 3, 4], 
-        explanation: "Die VNA besteht aus ALU (Rechenwerk), Control Unit (Steuerwerk), Memory (Speicher) und I/O (E/A). Die GPU gehört nicht zum Basismodell." 
+        explanation: "Die VNA besteht aus ALU, Control Unit, Memory und I/O-Einheit." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "PUE-Wert: IT 100kW, Gesamt 160kW?", 
         correctAnswers: ["1.6"], 
-        explanation: "PUE = Gesamte Energie / IT-Energie. 160 / 100 = 1,6. Je näher an 1,0, desto effizienter ist das Rechenzentrum." 
+        explanation: "PUE = Gesamtleistung / IT-Leistung. 160 / 100 = 1,6." 
     },
     { 
         chapter: "2. Hardware", type: "multi", 
-        question: "RAID-Level mit Spiegelung (Mirroring)?", 
+        question: "RAID-Level mit Spiegelung (Mirroring)? (Mehrfachnennung möglich)", 
         options: ["RAID 0", "RAID 1", "RAID 5", "RAID 10"], 
         correctAnswers: [1, 3], 
-        explanation: "RAID 1 spiegelt Daten auf zwei Platten. RAID 10 ist eine Kombination aus Mirroring (1) und Striping (0)." 
+        explanation: "RAID 1 ist reines Mirroring, RAID 10 ist eine Kombination aus Striping und Mirroring." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Architektur mit getrennten Bussen für Daten/Programme?", 
         options: ["Von-Neumann", "Harvard", "RISC"], 
         correctAnswers: [1], 
-        explanation: "Die Harvard-Architektur nutzt getrennte Pfade für Befehle und Daten, was gleichzeitige Zugriffe ermöglicht und den 'Von-Neumann-Flaschenhals' vermeidet." 
+        explanation: "Die Harvard-Architektur trennt Instruktionen und Daten physisch für parallele Zugriffe." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Welcher Bus ist unidirektional?", 
         correctAnswers: ["Adressbus"], 
-        explanation: "Der Adressbus überträgt Infos nur von der CPU zum Speicher/Peripherie, um einen Ort zu adressieren. Daten- und Steuerbus sind bidirektional." 
+        explanation: "Adressen fließen nur von der CPU weg zur Ansteuerung von Speicherstellen." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Merkmal von RISC-CPUs?", 
         options: ["Komplexe Befehle", "Einfache Befehle", "Viel Speicher"], 
         correctAnswers: [1], 
-        explanation: "Reduced Instruction Set Computer nutzt einfache Befehle, die meist in einem Taktzyklus ausgeführt werden (effizienter für Mobilgeräte)." 
+        explanation: "RISC nutzt einen reduzierten, hochoptimierten Befehlssatz für effiziente Abarbeitung." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Minimale Festplattenanzahl für RAID 6?", 
         correctAnswers: ["4"], 
-        explanation: "RAID 6 nutzt doppelte Parität und verkraftet den Ausfall von 2 Platten. Dafür sind technisch mindestens 4 Platten nötig." 
+        explanation: "RAID 6 benötigt zwei Paritätsblöcke und damit mindestens vier Festplatten." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Schnellster Speicher in der CPU?", 
         options: ["L1 Cache", "RAM", "SSD"], 
         correctAnswers: [0], 
-        explanation: "Der L1-Cache ist direkt im Kern und taktet mit Kern-Geschwindigkeit. Er ist extrem schnell, aber sehr klein." 
+        explanation: "L1 Cache ist direkt im Core integriert und bietet die geringste Latenz." 
     },
     { 
         chapter: "2. Hardware", type: "multi", 
-        question: "Ebenen der strukturierten Verkabelung?", 
+        question: "Ebenen der strukturierten Verkabelung? (Mehrfachnennung möglich)", 
         options: ["Primär", "Sekundär", "Tertiär", "Quartär"], 
         correctAnswers: [0, 1, 2], 
-        explanation: "Die Norm teilt auf in Primär (Campus), Sekundär (Steigbereich Gebäude) und Tertiär (Etage zum Arbeitsplatz)." 
+        explanation: "Die Norm definiert Campus- (Primär), Gebäude- (Sekundär) und Etagenverkabelung (Tertiär)." 
     },
     
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Max. Länge TP-Kabel im Tertiärbereich (Standard)?", 
         correctAnswers: ["100"], 
-        explanation: "Die Norm sieht 90m feste Verlegung und 10m Patchkabel vor. Über 100m kommt es zu Signaldämpfungen." 
+        explanation: "Die maximale Länge für Ethernet über Kupfer (Twisted Pair) beträgt 100m (90m Permanent Link + 10m Patchkabel)." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Welche USV bietet VI (Line-Interactive)?", 
         options: ["Klasse 1", "Klasse 2", "Klasse 3"], 
         correctAnswers: [1], 
-        explanation: "VI steht für Voltage Independent (Klasse 2). Sie filtert Schwankungen, hat aber eine kurze Umschaltzeit bei Stromausfall." 
+        explanation: "Klasse 2 (Voltage Independent) gleicht Spannungsschwankungen aus, schaltet aber bei Ausfall verzögert um." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Verbrauch (kWh): 500W Gerät läuft 10h?", 
         correctAnswers: ["5"], 
-        explanation: "Rechnung: 0,5 kW * 10 h = 5 kWh." 
+        explanation: "0,5 kW * 10 h = 5 kWh." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Was ist Hyperthreading?", 
         options: ["Zwei CPUs", "Logische Kernverdopplung", "Wasserkühlung"], 
         correctAnswers: [1], 
-        explanation: "Ein physischer Kern kann zwei Threads gleichzeitig verarbeiten, indem er interne Ressourcen besser ausnutzt." 
+        explanation: "Verdopplung der logischen Kerne zur besseren Auslastung der Pipeline einer physischen CPU." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
-        question: "Anschluss für Grafik (digital, ersetzt VGA)?", 
-        correctAnswers: ["DisplayPort"], 
-        explanation: "Moderne digitale Standards wie DisplayPort oder HDMI übertragen Bild und Ton paketbasiert und rauschfrei." 
+        question: "Moderner Anschluss für Grafik (digital, ersetzt VGA)?", 
+        correctAnswers: ["DisplayPort", "HDMI"], 
+        explanation: "Digitale Schnittstellen wie DisplayPort übertragen Bild- und Tonsignale verlustfrei." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Welcher RAM-Typ braucht Refresh-Zyklen?", 
         options: ["SRAM", "DRAM", "ROM"], 
         correctAnswers: [1], 
-        explanation: "Dynamic RAM (DRAM) speichert Daten in Kondensatoren, die Ladung verlieren. Er muss hunderte Male pro Sekunde aufgefrischt werden." 
+        explanation: "DRAM speichert in Kondensatoren, die durch Entladung regelmäßig aufgefrischt werden müssen." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Ohmsches Gesetz: R berechnen?", 
         correctAnswers: ["U/I"], 
-        explanation: "Der Widerstand berechnet sich aus Spannung durch Stromstärke (URI-Dreieck)." 
+        explanation: "R (Widerstand) = U (Spannung) / I (Stromstärke)." 
     },
     { 
         chapter: "2. Hardware", type: "single", 
         question: "Was misst der PUE-Wert?", 
         options: ["Effizienz", "Takt", "Lautstärke"], 
         correctAnswers: [0], 
-        explanation: "Die Power Usage Effectiveness misst, wie viel Overhead (Kühlung etc.) ein Rechenzentrum im Vergleich zur IT-Leistung hat." 
+        explanation: "PUE ist die Kennzahl für die Energieeffizienz eines Rechenzentrums." 
     },
     { 
         chapter: "2. Hardware", type: "multi", 
-        question: "Kriterien Barrierefreiheit (IT)?", 
+        question: "Kriterien Barrierefreiheit (IT)? (Mehrfachnennung möglich)", 
         options: ["Kontrast", "Screenreader", "Mechanische Tasten", "Tastaturbedienbarkeit"], 
         correctAnswers: [0, 1, 3], 
-        explanation: "Software muss für alle bedienbar sein: hoher Kontrast, Screenreader-Unterstützung und Steuerung ohne Maus." 
+        explanation: "Barrierefreiheit umfasst optische (Kontrast), akustische (Screenreader) und motorische (Tastatur) Bedienbarkeit." 
     },
     { 
         chapter: "2. Hardware", type: "input", 
         question: "Min. Platten für RAID 10?", 
         correctAnswers: ["4"], 
-        explanation: "RAID 10 spiegelt (2 Platten) und streift diese Spiegel dann (nochmal 2 Platten) – insgesamt also 4." 
+        explanation: "RAID 10 benötigt mindestens zwei gespiegelte Paare." 
     },
 
-    // --- 3. SOFTWARE (36-45) ---
+    // --- 3. SOFTWARE ---
     { 
         chapter: "3. Software", type: "single", 
         question: "Partitionstabelle für Platten > 2TB?", 
         options: ["MBR", "GPT", "FAT"], 
         correctAnswers: [1], 
-        explanation: "MBR kann nur bis 2TB verwalten. GPT (GUID Partition Table) unterstützt deutlich größere Platten und mehr Partitionen." 
+        explanation: "GPT (GUID Partition Table) ersetzt den veralteten MBR für große Datenträger." 
     },
     { 
         chapter: "3. Software", type: "input", 
         question: "Cloud-Modell: Nur Softwarenutzung?", 
         correctAnswers: ["SaaS"], 
-        explanation: "Software as a Service (z.B. Microsoft 365). Der Nutzer nutzt nur die App über den Browser." 
+        explanation: "Software as a Service stellt die Anwendung direkt über das Netz bereit." 
     },
     { 
         chapter: "3. Software", type: "multi", 
-        question: "Qualitätsmerkmale ISO 25010?", 
+        question: "Qualitätsmerkmale ISO 25010? (Mehrfachnennung möglich)", 
         options: ["Benutzerfreundlichkeit", "Wartbarkeit", "Preis", "Sicherheit"], 
         correctAnswers: [0, 1, 3], 
-        explanation: "Die Norm definiert technische Qualität wie Zuverlässigkeit und Sicherheit. Der Preis gehört nicht dazu." 
+        explanation: "Die Norm definiert softwaretechnische Qualitäten, nicht jedoch kaufmännische Faktoren." 
     },
     { 
         chapter: "3. Software", type: "single", 
         question: "Software zum Testen, dann bezahlen?", 
         options: ["Freeware", "Shareware", "Adware"], 
         correctAnswers: [1], 
-        explanation: "Shareware darf meist zeitlich begrenzt gratis genutzt werden, bevor eine Lizenz fällig wird." 
+        explanation: "Shareware erlaubt das zeitlich begrenzte Ausprobieren vor dem Lizenzkauf." 
     },
     { 
         chapter: "3. Software", type: "input", 
         question: "Gegenteil von proprietär?", 
         correctAnswers: ["Open Source"], 
-        explanation: "Open Source erlaubt jedem das Einsehen und Ändern des Quellcodes." 
+        explanation: "Open Source Software legt den Quellcode für alle Nutzer offen." 
     },
     { 
         chapter: "3. Software", type: "single", 
         question: "Was prüft Black-Box-Test?", 
         options: ["Code-Logik", "Funktion (Input/Output)", "Hardware"], 
         correctAnswers: [1], 
-        explanation: "Der Tester kennt den Code nicht und prüft nur, ob bei Input X auch Output Y herauskommt." 
+        explanation: "Der Tester prüft nur Ein- und Ausgabewerte ohne Kenntnis des Quellcodes." 
     },
     { 
         chapter: "3. Software", type: "input", 
-        question: "Cloud-Modell: Laufzeitumgebung (Java/Python)?", 
+        question: "Cloud-Modell: Laufzeitumgebung?", 
         correctAnswers: ["PaaS"], 
-        explanation: "Platform as a Service bietet Entwicklern eine fertige Umgebung ohne Serverwartung." 
+        explanation: "Platform as a Service bietet Entwicklern fertige Laufzeitumgebungen." 
     },
     { 
         chapter: "3. Software", type: "single", 
         question: "Was macht ein Interpreter?", 
         options: ["Übersetzt vorab", "Übersetzt Zeile für Zeile", "Löscht Dateien"], 
         correctAnswers: [1], 
-        explanation: "Er übersetzt den Code erst während der Laufzeit Schritt für Schritt (z.B. Python)." 
+        explanation: "Interpreter führen Code direkt aus, indem sie ihn während der Laufzeit zeilenweise übersetzen." 
     },
     { 
         chapter: "3. Software", type: "input", 
         question: "Was bedeutet Portabilität?", 
         correctAnswers: ["Übertragbarkeit"], 
-        explanation: "Gibt an, wie leicht Software auf andere Betriebssysteme oder Hardware übertragen werden kann." 
+        explanation: "Portabilität beschreibt, wie leicht Software auf andere Plattformen übertragen werden kann." 
     },
     { 
         chapter: "3. Software", type: "single", 
         question: "Beispiel für Firmware?", 
         options: ["Word", "BIOS / UEFI", "Windows"], 
         correctAnswers: [1], 
-        explanation: "Firmware ist fest in die Hardware eingebettete Software (Steuerungschips)." 
+        explanation: "Firmware ist hardwarenahe Software, die dauerhaft in Chips gespeichert ist." 
     },
 
-    // --- 4. NETZWERK (46-60) ---
+    // --- 4. NETZWERK ---
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Port für HTTP?", 
         correctAnswers: ["80"], 
-        explanation: "Standardport für unverschlüsselte Webübertragung." 
+        explanation: "Standardport für unverschlüsselten Web-Verkehr." 
     },
     { 
         chapter: "4. Netzwerk", type: "single", 
         question: "Layer für IP-Adressen?", 
         options: ["Layer 2", "Layer 3", "Layer 4"], 
         correctAnswers: [1], 
-        explanation: "Layer 3 (Network) regelt logische Adressierung und Routing. Layer 2 nutzt MAC-Adressen." 
+        explanation: "IP-Adressen werden auf Layer 3 (Network Layer) für das Routing genutzt." 
     },
     
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Hosts in /28 Netz?", 
         correctAnswers: ["14"], 
-        explanation: "2^4 = 16 Adressen. 16 minus Netz-ID und Broadcast = 14 nutzbare Hosts." 
+        explanation: "2^4 = 16 Adressen gesamt, abzüglich Netz-ID und Broadcast = 14 Hosts." 
     },
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Länge IPv6 Adresse (Bits)?", 
         correctAnswers: ["128"], 
-        explanation: "IPv6 nutzt 128 Bit für einen fast unerschöpflichen Adressraum." 
+        explanation: "IPv6 nutzt 128-Bit-Adressen zur Lösung des IPv4-Adressmangels." 
     },
     { 
         chapter: "4. Netzwerk", type: "single", 
         question: "Was macht DHCP?", 
         options: ["Namen auflösen", "IPs zuweisen", "Routen"], 
         correctAnswers: [1], 
-        explanation: "Teilt Clients im Netzwerk automatisch IP-Adressen und Gateways zu." 
+        explanation: "DHCP automatisiert die Vergabe von IP-Konfigurationen im Netzwerk." 
     },
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Protokoll: IP zu MAC?", 
         correctAnswers: ["ARP"], 
-        explanation: "Address Resolution Protocol findet die Hardware-Adresse zu einer bekannten IP." 
+        explanation: "ARP findet die Hardware-Adresse zu einer bekannten IP-Adresse." 
     },
     { 
         chapter: "4. Netzwerk", type: "multi", 
-        question: "Layer 4 Protokolle?", 
+        question: "Layer 4 Protokolle? (Mehrfachnennung möglich)", 
         options: ["TCP", "UDP", "IP", "HTTP"], 
         correctAnswers: [0, 1], 
-        explanation: "TCP (sicher) und UDP (schnell) sind die klassischen Transportprotokolle." 
+        explanation: "Auf Schicht 4 findet man TCP (verbindungsorientiert) und UDP (verbindungslos)." 
     },
     { 
         chapter: "4. Netzwerk", type: "single", 
         question: "Was macht ein Router?", 
         options: ["Verbindet Netze", "Verteilt im LAN", "Verstärkt Signal"], 
         correctAnswers: [0], 
-        explanation: "Verbindet unterschiedliche IP-Netze (z.B. Heimnetz und Internet) auf Layer 3." 
+        explanation: "Router treffen Weiterleitungsentscheidungen zwischen verschiedenen IP-Netzwerken." 
     },
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Sicherstes WLAN-Verfahren aktuell?", 
         correctAnswers: ["WPA3"], 
-        explanation: "Aktueller Standard mit besserem Schutz gegen Brute-Force." 
+        explanation: "WPA3 ist der moderne Nachfolger von WPA2 mit verbesserter Verschlüsselung." 
     },
     { 
         chapter: "4. Netzwerk", type: "single", 
         question: "TCP ist...?", 
         options: ["Verbindungslos", "Verbindungsorientiert", "Unsicher"], 
         correctAnswers: [1], 
-        explanation: "TCP garantiert durch den 3-Way-Handshake eine stehende, sichere Verbindung." 
+        explanation: "TCP baut eine explizite Verbindung (Handshake) auf, um Fehlerfreiheit zu garantieren." 
     },
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "APIPA Bereich?", 
         correctAnswers: ["169.254"], 
-        explanation: "Selbstzugewiesene Adressen, wenn kein DHCP-Server gefunden wird." 
+        explanation: "Selbstkonfigurierte Adressen im Bereich 169.254.0.0/16, wenn kein DHCP antwortet." 
     },
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Wie viele Blöcke hat IPv6?", 
         correctAnswers: ["8"], 
-        explanation: "8 Blöcke à 4 Hex-Ziffern (16 Bit pro Block)." 
+        explanation: "Eine IPv6-Adresse besteht aus acht Blöcken mit jeweils vier Hexadezimalziffern." 
     },
     { 
         chapter: "4. Netzwerk", type: "single", 
         question: "DNS macht...?", 
         options: ["IP zu Name", "Name zu IP", "Mailversand"], 
         correctAnswers: [1], 
-        explanation: "Löst Domainnamen (google.de) in IP-Adressen auf." 
+        explanation: "Wandelt Domainnamen in die für Computer verständlichen IP-Adressen um." 
     },
     { 
         chapter: "4. Netzwerk", type: "input", 
         question: "Port für HTTPS?", 
         correctAnswers: ["443"], 
-        explanation: "Gesicherte Webübertragung via TLS/SSL." 
+        explanation: "Standardport für verschlüsselten Web-Traffic über TLS/SSL." 
     },
     { 
         chapter: "4. Netzwerk", type: "single", 
         question: "Welches Gerät arbeitet auf Layer 2?", 
         options: ["Hub", "Switch", "Router"], 
         correctAnswers: [1], 
-        explanation: "Switche schalten Pakete gezielt anhand der MAC-Adresse weiter." 
+        explanation: "Switches leiten Frames innerhalb eines Netzes anhand von MAC-Adressen weiter." 
     },
 
-    // --- 6. WIRTSCHAFT (61-75) ---
+    // --- 6. WIRTSCHAFT ---
     { 
         chapter: "6. Wirtschaft", type: "input", 
         question: "Deckungsbeitrag berechnen: Erlös - ?", 
         correctAnswers: ["Variable Kosten"], 
-        explanation: "Deckungsbeitrag = Nettoerlös minus variable Kosten." 
+        explanation: "Der Deckungsbeitrag zeigt, wie viel Erlös zur Deckung der Fixkosten übrig bleibt." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Nur AG-Anteil bei?", 
         options: ["Krankenkasse", "Rente", "Unfallversicherung"], 
         correctAnswers: [2], 
-        explanation: "Die gesetzliche Unfallversicherung tragen Arbeitgeber über die Berufsgenossenschaft alleine." 
+        explanation: "Die gesetzliche Unfallversicherung wird allein durch den Arbeitgeber finanziert." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Viele Anbieter, viele Kunden?", 
         options: ["Monopol", "Polypol", "Oligopol"], 
         correctAnswers: [1], 
-        explanation: "Polypol bedeutet vollkommener Wettbewerb bei vielen Marktteilnehmern." 
+        explanation: "Ein Polypol beschreibt eine Marktsituation mit vielen Teilnehmern auf beiden Seiten." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Vertragstyp für Beratung?", 
         options: ["Dienstvertrag", "Werkvertrag", "Kaufvertrag"], 
         correctAnswers: [0], 
-        explanation: "Beim Dienstvertrag wird das Bemühen (die Zeit) geschuldet, nicht der Erfolg." 
+        explanation: "Beim Dienstvertrag wird das Wirken, nicht aber der Erfolg geschuldet." 
     },
     { 
         chapter: "6. Wirtschaft", type: "multi", 
-        question: "Bestandteile 3-Säulen-Modell (Nachhaltigkeit)?", 
+        question: "Bestandteile 3-Säulen-Modell? (Mehrfachnennung möglich)", 
         options: ["Ökonomie", "Ökologie", "Technik", "Soziales"], 
         correctAnswers: [0, 1, 3], 
-        explanation: "Einklang von Wirtschaft, Umwelt und Sozialem." 
+        explanation: "Nachhaltigkeit basiert auf wirtschaftlichen, umweltbezogenen und gesellschaftlichen Faktoren." 
     },
     
     { 
         chapter: "6. Wirtschaft", type: "multi", 
-        question: "Besonderer Kündigungsschutz für?", 
+        question: "Besonderer Kündigungsschutz für? (Mehrfachnennung möglich)", 
         options: ["Schwangere", "Azubis (nach Probezeit)", "Teilzeitkräfte", "Schwerbehinderte"], 
         correctAnswers: [0, 1, 3], 
-        explanation: "Diese Gruppen sind gesetzlich gegen ordentliche Kündigungen geschützt." 
+        explanation: "Gesetzlicher Schutz für Personengruppen mit besonderer Schutzbedürftigkeit." 
     },
     { 
         chapter: "6. Wirtschaft", type: "input", 
         question: "Gewinn / EK * 100 = ?", 
         correctAnswers: ["Eigenkapitalrentabilität"], 
-        explanation: "Gibt an, wie hoch sich das investierte Eigenkapital verzinst hat." 
+        explanation: "Kennzahl für die Verzinsung des vom Inhaber eingesetzten Kapitals." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Was ist ein Monopol?", 
         options: ["Ein Anbieter", "Wenige Anbieter", "Ein Kunde"], 
         correctAnswers: [0], 
-        explanation: "Ein Marktteilnehmer beherrscht die Angebotsseite komplett." 
+        explanation: "Ein Markt mit nur einem Anbieter für ein bestimmtes Gut." 
     },
     { 
         chapter: "6. Wirtschaft", type: "input", 
         question: "Formel Wirtschaftlichkeit?", 
         correctAnswers: ["Ertrag / Aufwand"], 
-        explanation: "Kennzahl für den wertmäßigen Erfolg eines Unternehmens." 
+        explanation: "Wirtschaftlichkeit stellt den wertmäßigen Output dem Input gegenüber." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Was ist Kurzarbeit?", 
         options: ["Urlaub", "Vorübergehende Arbeitsreduktion", "Kündigung"], 
         correctAnswers: [1], 
-        explanation: "Sicherung von Arbeitsplätzen bei vorübergehendem Auftragsmangel." 
+        explanation: "Hilfsmittel zum Erhalt von Arbeitsplätzen in Krisenzeiten." 
     },
     { 
         chapter: "6. Wirtschaft", type: "input", 
         question: "Anzahl Säulen Sozialversicherung?", 
         correctAnswers: ["5"], 
-        explanation: "Kranken-, Renten-, Arbeitslosen-, Pflege- und Unfallversicherung." 
+        explanation: "Kranken-, Pflege-, Renten-, Unfall- und Arbeitslosenversicherung." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Was regelt das BetrVG?", 
-        options: ["Arbeitszeit", "Mitbestimmung (Betriebsrat)", "Steuern"], 
+        options: ["Arbeitszeit", "Mitbestimmung", "Steuern"], 
         correctAnswers: [1], 
-        explanation: "Regelt die Rechte des Betriebsrats und die Mitwirkung der Arbeitnehmer." 
+        explanation: "Das Betriebsverfassungsgesetz regelt die Zusammenarbeit von AG und Betriebsrat." 
     },
     { 
         chapter: "6. Wirtschaft", type: "input", 
         question: "Wofür steht 'GmbH'?", 
         correctAnswers: ["Gesellschaft mit beschränkter Haftung"], 
-        explanation: "Kapitalgesellschaft, bei der die Haftung auf das Firmenvermögen begrenzt ist." 
+        explanation: "Haftungsbeschränkte Kapitalgesellschaft." 
     },
     { 
         chapter: "6. Wirtschaft", type: "single", 
         question: "Was sind variable Kosten?", 
-        options: ["Miete", "Materialverbrauch", "Versicherung"], 
+        options: ["Miete", "Material", "Versicherung"], 
         correctAnswers: [1], 
-        explanation: "Kosten, die sich mit der Produktionsmenge ändern." 
+        explanation: "Kosten, die sich mit der Produktionsmenge direkt verändern." 
     },
     { 
         chapter: "6. Wirtschaft", type: "input", 
         question: "Abzug bei Barzahlung innerhalb Frist?", 
         correctAnswers: ["Skonto"], 
-        explanation: "Belohnung für schnelle Zahlung (meist 2-3%)." 
+        explanation: "Finanzreiz für zügige Begleichung von Forderungen." 
     },
 
-    // --- 7. PROJEKTMANAGEMENT (76-85) ---
+    // --- 7. PROJEKTMANAGEMENT ---
     { 
         chapter: "7. Projektmanagement", type: "input", 
         question: "Wer schreibt das Pflichtenheft?", 
         correctAnswers: ["Auftragnehmer"], 
-        explanation: "Der AN beschreibt, wie er die Wünsche aus dem Lastenheft technisch löst." 
+        explanation: "Die technische Konkretisierung der Anforderungen aus dem Lastenheft." 
     },
     { 
         chapter: "7. Projektmanagement", type: "input", 
         question: "Puffer auf kritischem Pfad?", 
         correctAnswers: ["0"], 
-        explanation: "Der kritische Pfad hat keine Reserven; jede Verspätung verzögert das Ende." 
+        explanation: "Aktivitäten ohne Zeitreserven definieren das Projektende." 
     },
     { 
         chapter: "7. Projektmanagement", type: "input", 
         question: "SMART: R steht für?", 
         correctAnswers: ["Realistisch"], 
-        explanation: "Spezifisch, Messbar, Akzeptiert, Realistisch, Terminiert." 
+        explanation: "Ziele müssen mit verfügbaren Ressourcen erreichbar sein." 
     },
     { 
         chapter: "7. Projektmanagement", type: "single", 
         question: "EPK Konnektor für 'Und'?", 
         options: ["AND", "OR", "XOR"], 
         correctAnswers: [0], 
-        explanation: "Alle Wege davor müssen fertig sein / danach werden alle aktiviert." 
+        explanation: "Logische Zusammenführung oder Teilung, bei der alle Pfade aktiv sind." 
     },
     
     { 
         chapter: "7. Projektmanagement", type: "multi", 
-        question: "Tuckman Phasen (Reihenfolge)?", 
+        question: "Tuckman Phasen (Reihenfolge)? (Mehrfachnennung möglich)", 
         options: ["Forming", "Norming", "Storming", "Performing"], 
         correctAnswers: [0, 1, 2, 3], 
-        explanation: "Forming, Storming, Norming, Performing." 
+        explanation: "Die vier klassischen Stufen der Teamentwicklung." 
     },
     { 
         chapter: "7. Projektmanagement", type: "input", 
         question: "Formel Freier Puffer?", 
         correctAnswers: ["FAZ(N) - FEZ(V)"], 
-        explanation: "Wie weit kann ein Vorgang geschoben werden, ohne den nächsten zu stören." 
+        explanation: "Zeitspanne, die den Nachfolger nicht beeinflusst." 
     },
     { 
         chapter: "7. Projektmanagement", type: "single", 
         question: "Womit endet eine EPK immer?", 
         options: ["Funktion", "Ereignis", "Konnektor"], 
         correctAnswers: [1], 
-        explanation: "EPKs müssen immer mit einem Zustand (Ereignis) starten und enden." 
+        explanation: "EPKs beginnen und enden zwingend mit Zustandsänderungen (Ereignissen)." 
     },
     { 
         chapter: "7. Projektmanagement", type: "input", 
-        question: "Rolle in Scrum: Hüter des Prozesses?", 
+        question: "Scrum: Hüter des Prozesses?", 
         correctAnswers: ["Scrum Master"], 
-        explanation: "Achtet auf Einhaltung der Regeln und beseitigt Hindernisse." 
+        explanation: "Verantwortlich für die Beseitigung von Hindernissen und Regelkonformität." 
     },
     { 
         chapter: "7. Projektmanagement", type: "single", 
         question: "Was ist ein Meilenstein?", 
-        options: ["Fehler", "Termin mit besonderer Bedeutung", "Stein"], 
+        options: ["Fehler", "Termin mit Bedeutung", "Stein"], 
         correctAnswers: [1], 
-        explanation: "Ein wichtiger Kontrolltermin im Projektverlauf." 
+        explanation: "Ereignis von besonderer Wichtigkeit für den Projektfortschritt." 
     },
     { 
         chapter: "7. Projektmanagement", type: "input", 
-        question: "Zeitraum in Scrum für Inkrement?", 
+        question: "Zeitraum in Scrum?", 
         correctAnswers: ["Sprint"], 
-        explanation: "Ein zeitlich festgelegter Arbeitszyklus (meist 2-4 Wochen)." 
+        explanation: "Feste Zeiteinheit zur Erstellung eines Produkt-Inkrements." 
     },
 
-    // --- 8. ENTWICKLUNG (86-93) ---
+    // --- 8. ENTWICKLUNG ---
     { 
         chapter: "8. Entwicklung", type: "single", 
         question: "UML Diagramm für Abläufe?", 
-        options: ["Klassen", "Aktivitätsdiagramm", "Use-Case"], 
+        options: ["Klassen", "Aktivität", "Use-Case"], 
         correctAnswers: [1], 
-        explanation: "Zeigt logische Abläufe und Verzweigungen (ähnlich wie ein PAP)." 
+        explanation: "Visualisierung von Kontroll- und Datenflüssen." 
     },
     { 
         chapter: "8. Entwicklung", type: "single", 
         question: "Primary Key muss...?", 
         options: ["Zahl sein", "Eindeutig sein", "Fremdschlüssel sein"], 
         correctAnswers: [1], 
-        explanation: "Muss jeden Datensatz eindeutig identifizieren und darf nie leer (NULL) sein." 
+        explanation: "Identifiziert jeden Datensatz einer Tabelle zweifelsfrei." 
     },
     { 
         chapter: "8. Entwicklung", type: "input", 
         question: "SQL Befehl zum Filtern?", 
         correctAnswers: ["WHERE"], 
-        explanation: "Grenzt die Auswahl der Datensätze auf Bedingungen ein." 
+        explanation: "Schränkt die Ergebnismenge basierend auf Bedingungen ein." 
     },
     { 
         chapter: "8. Entwicklung", type: "single", 
-        question: "SQL: Alle Daten verknüpfen (Schnittmenge)?", 
+        question: "SQL: Schnittmenge bilden?", 
         options: ["INNER JOIN", "OUTER JOIN", "CROSS JOIN"], 
         correctAnswers: [0], 
-        explanation: "Liefert nur Zeilen, die in beiden Tabellen passende Schlüssel haben." 
+        explanation: "Verknüpft Zeilen nur, wenn in beiden Tabellen Übereinstimmungen vorliegen." 
     },
     
     { 
         chapter: "8. Entwicklung", type: "input", 
         question: "LIFO Prinzip?", 
         correctAnswers: ["Stack"], 
-        explanation: "Last In - First Out (wie ein Stapel Teller)." 
+        explanation: "Last-In, First-Out (Stapelspeicher)." 
     },
     { 
         chapter: "8. Entwicklung", type: "single", 
         question: "UML Raute leer?", 
         options: ["Aggregation", "Komposition", "Generalisierung"], 
         correctAnswers: [0], 
-        explanation: "Eine 'Besteht-aus'-Beziehung, bei der die Teile eigenständig bleiben können." 
+        explanation: "Schwache Ganz-Teil-Beziehung (Teile existieren auch ohne das Ganze)." 
     },
     { 
         chapter: "8. Entwicklung", type: "input", 
         question: "SQL: Datensatz löschen?", 
         correctAnswers: ["DELETE"], 
-        explanation: "Entfernt Zeilen aus einer Tabelle (DROP löscht die ganze Tabelle)." 
+        explanation: "Entfernt spezifische Zeilen aus einer Datenbanktabelle." 
     },
     { 
         chapter: "8. Entwicklung", type: "single", 
         question: "Was ist 3. Normalform?", 
-        options: ["Atomarität", "Keine transitiven Abhängigkeiten", "Keine Redundanz"], 
+        options: ["Atomarität", "Transitive Abhängigkeit", "Redundanz"], 
         correctAnswers: [1], 
-        explanation: "Kein Nicht-Schlüssel-Attribut darf von einem anderen Nicht-Schlüssel-Attribut abhängen." 
+        explanation: "Attribute hängen nur vom Primärschlüssel ab, nicht von anderen Attributen." 
     },
 
-    // --- 11. SECURITY (94-100) ---
+    // --- 11. SECURITY ---
     { 
         chapter: "11. Security", type: "multi", 
-        question: "Schutzziele der IT-Sicherheit?", 
+        question: "Schutzziele der IT-Sicherheit? (Mehrfachnennung möglich)", 
         options: ["Verfügbarkeit", "Integrität", "Design", "Vertraulichkeit"], 
         correctAnswers: [0, 1, 3], 
         explanation: "Die CIA-Triade: Confidentiality, Integrity, Availability." 
@@ -694,39 +693,39 @@ const allQuestions = [
         chapter: "11. Security", type: "input", 
         question: "Zone für öffentliche Server?", 
         correctAnswers: ["DMZ"], 
-        explanation: "Demilitarisierte Zone – isoliertes Netz für Webserver etc." 
+        explanation: "Abgeschotteter Bereich zwischen internem und externem Netz." 
     },
     { 
         chapter: "11. Security", type: "single", 
-        question: "Sicherungstyp: Alles seit Vollbackup?", 
+        question: "Sicherungstyp: Änderungen seit Vollbackup?", 
         options: ["Inkrementell", "Differenziell", "Voll"], 
         correctAnswers: [1], 
-        explanation: "Sichert alle Änderungen seit dem letzten Vollbackup (wächst täglich an)." 
+        explanation: "Sichert alle Daten, die sich seit dem letzten Komplett-Backup geändert haben." 
     },
     { 
         chapter: "11. Security", type: "input", 
-        question: "Angriff via Manipulation von Menschen?", 
+        question: "Angriff via Manipulation?", 
         correctAnswers: ["Social Engineering"], 
-        explanation: "Ausnutzen menschlicher Schwächen (Gutgläubigkeit) für Datendiebstahl." 
+        explanation: "Psychologische Trickserei zur Erlangung von Zugangsdaten." 
     },
     { 
         chapter: "11. Security", type: "input", 
-        question: "Anonymisierung ist...?", 
+        question: "Anonymisierung?", 
         correctAnswers: ["Nicht rückführbar"], 
-        explanation: "Daten werden so verändert, dass die Person nie wieder identifiziert werden kann." 
+        explanation: "Vollständige Entfernung des Personenbezugs ohne Wiederherstellungsmöglichkeit." 
     },
     { 
         chapter: "11. Security", type: "single", 
-        question: "Vorteil asymmetrische Verschlüsselung?", 
-        options: ["Schneller", "Kein sicherer Key-Tausch nötig", "Einfacher"], 
+        question: "Vorteil asymmetrisch?", 
+        options: ["Schnell", "Kein Key-Tausch nötig", "Einfach"], 
         correctAnswers: [1], 
-        explanation: "Der öffentliche Schlüssel kann über unsichere Wege geteilt werden." 
+        explanation: "Der öffentliche Schlüssel kann über unsichere Kanäle verteilt werden." 
     },
     { 
         chapter: "11. Security", type: "input", 
-        question: "DSGVO Pflicht: DSB ab... Personen?", 
+        question: "DSB ab... Personen?", 
         correctAnswers: ["20"], 
-        explanation: "Unternehmen brauchen ab 20 ständig datenverarbeitenden Personen einen Beauftragten." 
+        explanation: "Bestellungspflicht für einen Datenschutzbeauftragten ab 20 Mitarbeitern." 
     }
 ];
 
