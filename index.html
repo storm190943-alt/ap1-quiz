@@ -580,7 +580,240 @@ const allQuestions = [
         question: "Wie nennt man das rechtlich verbindliche Dokument, das ein Angebot eines Kunden an einen Lieferanten darstellt?", 
         correctAnswers: ["Bestellung"], 
         explanation: "Eine Bestellung ist eine Willenserklärung des Käufers, Waren oder Dienstleistungen zu den angegebenen Bedingungen abzunehmen." 
+    }, 
+    // --- KAPITEL 30: SPEICHERMEDIEN & RAID-VERTIEFUNG ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welches RAID-Level (Redundant Array of Independent Disks) bietet keine Redundanz, sondern dient lediglich der Beschleunigung durch Striping?", 
+        options: ["RAID 0", "RAID 1", "RAID 10"], 
+        correctAnswers: [0], 
+        explanation: "RAID 0 verteilt Datenblöcke abwechselnd auf zwei oder mehr Festplatten (Striping). Dies erhöht die Geschwindigkeit, bietet aber keine Sicherheit: Fällt eine Platte aus, sind alle Daten verloren." 
+    },
+    
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man das RAID-Level, bei dem alle Daten einer Festplatte eins zu eins auf eine zweite Festplatte gespiegelt werden?", 
+        correctAnswers: ["RAID 1"], 
+        explanation: "RAID 1 (Mirroring) bietet hohe Datensicherheit durch Spiegelung. Die nutzbare Kapazität entspricht dabei nur der Kapazität der kleinsten einzelnen Festplatte im Verbund." 
+    },
+
+    // --- KAPITEL 31: NETZWERK-RECHNUNGEN & HARDWARE ---
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Berechnen Sie die Übertragungsdauer für eine Datei der Größe 100 Megabyte (MB) bei einer Bandbreite von 100 Megabit pro Sekunde (Mbit/s). (Geben Sie nur die Zahl in Sekunden an)", 
+        correctAnswers: ["8"], 
+        explanation: "Zuerst die Dateigröße in Megabit umrechnen: $100\text{ MB} \cdot 8 = 800\text{ Mbit}$. Dann durch die Geschwindigkeit teilen: $800\text{ Mbit} / 100\text{ Mbit/s} = 8\text{ Sekunden}$." 
+    },
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Welches Bauteil in einem Netzwerk dient dazu, ein optisches Signal (Glasfaser) in ein elektrisches Signal (Kupfer) umzuwandeln?", 
+        options: ["Repeater", "Medienkonverter", "Bridge"], 
+        correctAnswers: [1], 
+        explanation: "Ein Medienkonverter wird benötigt, wenn unterschiedliche Übertragungsmedien (z. B. Lichtwellenleiter und Twisted-Pair-Kupferkabel) miteinander verbunden werden sollen." 
+    },
+
+    // --- KAPITEL 32: WIRTSCHAFT & GESETZE (FINALE) ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Wer ist in einem Unternehmen für die Einhaltung des Datenschutzes gemäß DSGVO (Datenschutz-Grundverordnung) verantwortlich?", 
+        options: ["Der externe IT-Dienstleister", "Die Geschäftsleitung (Verantwortlicher)", "Der Administrator"], 
+        correctAnswers: [1], 
+        explanation: "Rechtlich verantwortlich für den Datenschutz und die Einhaltung der DSGVO ist immer die Leitung der Organisation (der 'Verantwortliche'), auch wenn Aufgaben an einen Datenschutzbeauftragten delegiert werden." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie nennt man die Form der Mitbestimmung, bei der Arbeitnehmervertreter direkt im Aufsichtsrat eines Unternehmens sitzen?", 
+        correctAnswers: ["Unternehmensmitbestimmung"], 
+        explanation: "Die Unternehmensmitbestimmung regelt die Beteiligung der Arbeitnehmer in den Kontrollorganen (Aufsichtsrat) von großen Kapitalgesellschaften (z. B. durch das Mitbestimmungsgesetz)." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Wie hoch ist die tägliche Höchstarbeitszeit für Erwachsene laut Arbeitszeitgesetz (ArbZG) im Regelfall?", 
+        options: ["8 Stunden", "10 Stunden", "12 Stunden"], 
+        correctAnswers: [0], 
+        explanation: "Laut ArbZG darf die werktägliche Arbeitszeit 8 Stunden nicht überschreiten. Sie kann auf bis zu 10 Stunden verlängert werden, wenn innerhalb von 6 Monaten ein Durchschnitt von 8 Stunden erreicht wird." 
+    },
+
+    // --- KAPITEL 33: SOFTWARE-ENGINEERING & LOGIK ---
+    { 
+        chapter: "Entwicklung", type: "single", 
+        question: "Was versteht man unter 'Refactoring' in der Softwareentwicklung?", 
+        options: ["Hinzufügen neuer Funktionen", "Strukturierung des Codes verbessern, ohne das Verhalten zu ändern", "Suchen nach Sicherheitslücken"], 
+        correctAnswers: [1], 
+        explanation: "Refactoring dient dazu, den Quellcode lesbarer, wartbarer und effizienter zu machen. Die äußere Funktionalität der Software bleibt dabei exakt gleich." 
+    },
+    { 
+        chapter: "Entwicklung", type: "input", 
+        question: "Wie lautet der Fachbegriff für eine grafische Darstellung eines Algorithmus, die genormte Symbole wie Rauten (Entscheidung) und Rechtecke (Prozess) nutzt?", 
+        correctAnswers: ["Programmablaufplan", "PAP"], 
+        explanation: "Der Programmablaufplan (PAP) nach DIN 66001 visualisiert die Logik eines Programms. Eine Raute steht dabei immer für eine Bedingung/Verzweigung." 
+    },
+    
+
+    // --- KAPITEL 34: SECURITY & VERSCHLÜSSELUNG ---
+    { 
+        chapter: "Security", type: "single", 
+        question: "Welches Hashing-Verfahren gilt heute aufgrund von Kollisionsanfälligkeit als unsicher für Passwörter?", 
+        options: ["SHA-256", "MD5", "SHA-3"], 
+        correctAnswers: [1], 
+        explanation: "MD5 (Message-Digest Algorithm 5) ist veraltet. Es ist heute einfach, zwei unterschiedliche Eingaben zu finden, die denselben Hashwert erzeugen (Kollision), weshalb es für Sicherheitszwecke nicht mehr verwendet werden sollte." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Wie nennt man die zusätzliche, zufällige Zeichenfolge, die vor dem Hashen an ein Passwort angehängt wird, um Rainbow-Table-Angriffe zu erschweren?", 
+        correctAnswers: ["Salt"], 
+        explanation: "Ein 'Salt' (Salz) sorgt dafür, dass selbst identische Passwörter von verschiedenen Benutzern unterschiedliche Hashwerte in der Datenbank ergeben." 
+    },
+
+    // --- KAPITEL 35: HARDWARE & BUS-SYSTEME ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Über welche Schnittstelle kommuniziert eine moderne M.2 NVMe SSD direkt mit der Central Processing Unit (CPU)?", 
+        options: ["SATA (Serial AT Attachment)", "PCI Express (PCIe)", "USB-C"], 
+        correctAnswers: [1], 
+        explanation: "NVMe (Non-Volatile Memory Express) nutzt die schnellen PCIe-Lanes (Peripheral Component Interconnect Express) zur Datenübertragung, was deutlich höhere Geschwindigkeiten ermöglicht als das ältere SATA-Protokoll." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie viele Leitungen hat ein klassisches 80-poliges ATA-Flachbandkabel für die Datenübertragung?", 
+        correctAnswers: ["80"], 
+        explanation: "Obwohl für die Datenübertragung nur 40 Adern nötig wären, haben 80-polige Kabel zusätzliche Masseleitungen zwischen den Datenadern, um Signalstörungen (Übersprechen) bei höheren Geschwindigkeiten zu minimieren." 
+    },
+
+    // --- KAPITEL 36: ARBEITSPLATZ & ERGONOMIE ---
+    { 
+        chapter: "Umwelt", type: "multi", 
+        question: "Welche Merkmale kennzeichnen einen ergonomischen Bildschirmarbeitsplatz? (Mehrfachwahl)", 
+        options: ["Blickrichtung parallel zum Fenster", "Oberkante des Monitors auf Augenhöhe oder leicht darunter", "Abstand zum Monitor ca. 50-70 cm", "Stuhl ohne Lehnen"], 
+        correctAnswers: [0, 1, 2], 
+        explanation: "Ergonomie am Arbeitsplatz schützt die Gesundheit. Ein paralleler Blick zum Fenster verhindert Blendungen. Die Monitorhöhe und der Abstand verhindern Nacken- und Augenprobleme." 
+    },
+
+    // --- KAPITEL 37: FINALE WIRTSCHAFTS-RECHNUNGEN ---
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Berechnen Sie den Meldebestand für einen Artikel: Tagesverbrauch = 10 Stück, Lieferzeit = 5 Tage, Sicherheitsbestand = 20 Stück.", 
+        correctAnswers: ["70"], 
+        explanation: "Formel: $(\text{Tagesverbrauch} \cdot \text{Lieferzeit}) + \text{Sicherheitsbestand}$. Rechnung: $(10 \cdot 5) + 20 = 70\text{ Stück}$." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie hoch ist die Vorsteuer, wenn ein Unternehmen Waren für 1.190 Euro brutto (inkl. 19% MwSt.) einkauft?", 
+        correctAnswers: ["190"], 
+        explanation: "Bruttobetrag / 1,19 ergibt den Nettobetrag ($1000\text{ Euro}$). Die Differenz ($1190 - 1000$) ist die Vorsteuer von $190\text{ Euro}$." 
+    },
+
+    // --- KAPITEL 38: PROJEKTMANAGEMENT ABSCHLUSS ---
+    { 
+        chapter: "Projektmanagement", type: "single", 
+        question: "Was kennzeichnet einen 'Meilenstein' in einem Projektplan?", 
+        options: ["Eine Aufgabe mit besonders langer Dauer", "Ein Ereignis von besonderer Bedeutung mit der Dauer Null", "Das Ende der Mittagspause"], 
+        correctAnswers: [1], 
+        explanation: "Meilensteine markieren wichtige Etappenziele oder Entscheidungspunkte (z. B. 'Prototyp fertiggestellt'). Sie haben im Gegensatz zu Aufgaben keine zeitliche Ausdehnung (Dauer = 0)." 
+    },
+    { 
+        chapter: "Projektmanagement", type: "input", 
+        question: "Wie nennt man die Analyse, die zu Beginn eines Projekts die Stärken, Schwächen, Chancen und Risiken bewertet?", 
+        correctAnswers: ["SWOT", "SWOT-Analyse"], 
+        explanation: "SWOT steht für Strengths (Stärken), Weaknesses (Schwächen), Opportunities (Chancen) und Threats (Risiken)." 
+    },
+        // --- KAPITEL 39: NETZWERK-SICHERHEIT (FIREWALL/VPN) ---
+    { 
+        chapter: "Security", type: "single", 
+        question: "Welches Protokoll wird häufig für den Aufbau eines VPN-Tunnels (Virtual Private Network) verwendet?", 
+        options: ["IPsec (Internet Protocol Security)", "FTP (File Transfer Protocol)", "SMTP (Simple Mail Transfer Protocol)"], 
+        correctAnswers: [0], 
+        explanation: "IPsec (Internet Protocol Security) ist eine Protokoll-Suite, die Verschlüsselung und Authentifizierung auf IP-Ebene bietet und standardmäßig für VPN-Verbindungen genutzt wird." 
+    },
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Welche Portnummer nutzt das Protokoll SSH (Secure Shell) standardmäßig?", 
+        correctAnswers: ["22"], 
+        explanation: "SSH (Secure Shell) ermöglicht eine verschlüsselte Terminal-Verbindung zu einem entfernten Rechner und nutzt dafür standardmäßig Port 22." 
+    },
+
+    // --- KAPITEL 40: CLOUD-SERVICES (FORTSETZUNG) ---
+    { 
+        chapter: "Cloud", type: "single", 
+        question: "Wie nennt man eine Cloud-Infrastruktur, die exklusiv für eine einzige Organisation betrieben wird?", 
+        options: ["Public Cloud", "Private Cloud", "Hybrid Cloud"], 
+        correctAnswers: [1], 
+        explanation: "Eine Private Cloud wird innerhalb des eigenen Rechenzentrums oder exklusiv bei einem Provider betrieben und bietet maximale Kontrolle und Sicherheit." 
+    },
+
+    // --- KAPITEL 41: HARDWARE (KÜHLUNG) ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Was ist der Vorteil einer Wasserkühlung gegenüber einer klassischen Luftkühlung bei Hochleistungs-PCs?", 
+        options: ["Geringere Anschaffungskosten", "Höhere Wärmekapazität des Kühlmediums und leisere Kühlung", "Kein Stromverbrauch"], 
+        correctAnswers: [1], 
+        explanation: "Wasser kann Wärme deutlich effizienter abtransportieren als Luft. Dadurch können Komponenten kühler und bei niedrigerer Lüfterdrehzahl (leiser) betrieben werden." 
+    },
+
+    // --- KAPITEL 42: DATENSCHUTZ (PERSONENBEZUG) ---
+    { 
+        chapter: "Security", type: "multi", 
+        question: "Welche Daten gelten laut DSGVO als 'besonders schutzbedürftig'? (Mehrfachwahl)", 
+        options: ["Religionszugehörigkeit", "Gesundheitsdaten", "Lieblingsfarbe", "Gewerkschaftszugehörigkeit"], 
+        correctAnswers: [0, 1, 3], 
+        explanation: "Besondere Kategorien personenbezogener Daten (Art. 9 DSGVO) umfassen unter anderem Gesundheitsdaten, Biometrie zur Identifizierung, Religion und politische Meinung." 
+    },
+
+    // --- KAPITEL 43: SQL-DATENDEFINITION (DDL) ---
+    { 
+        chapter: "Datenbanken", type: "input", 
+        question: "Mit welchem SQL-Befehl erstellt man eine neue Datenbanktabelle?", 
+        correctAnswers: ["CREATE TABLE"], 
+        explanation: "CREATE TABLE gehört zur Data Definition Language (DDL) und wird genutzt, um die Struktur einer neuen Tabelle inklusive Datentypen festzulegen." 
+    },
+
+    // --- KAPITEL 44: WIRTSCHAFT (RECHTSFORMEN) ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Bei welcher Rechtsform haften alle Gesellschafter unmittelbar, unbeschränkt und solidarisch mit ihrem Privatvermögen?", 
+        options: ["GmbH (Gesellschaft mit beschränkter Haftung)", "OHG (Offene Handelsgesellschaft)", "AG (Aktiengesellschaft)"], 
+        correctAnswers: [1], 
+        explanation: "In einer OHG haften die Gesellschafter vollumfänglich, also auch mit ihrem privaten Haus, Auto und Bankkonto für die Schulden der Firma." 
+    },
+
+    // --- KAPITEL 45: HARDWARE (UNITS) ---
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man die kleinste Informationseinheit in der Informatik, die nur die Zustände 0 oder 1 annehmen kann?", 
+        correctAnswers: ["Bit"], 
+        explanation: "Das Bit (Binary Digit) ist die Basis der binären Informationsverarbeitung." 
+    },
+
+    // --- KAPITEL 46: NETZWERK (DHCP) ---
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Wie nennt man die Zeitdauer, für die ein DHCP-Client eine IP-Adresse zugewiesen bekommt, bevor er sie erneuern muss?", 
+        correctAnswers: ["Lease time", "Lease-Zeit"], 
+        explanation: "Die Lease-Zeit bestimmt, wie lange eine Adresse für ein Gerät reserviert bleibt. Nach Ablauf der halben Zeit versucht der Client normalerweise, die Reservierung zu verlängern." 
+    },
+
+    // --- KAPITEL 47: ABSCHLUSSFRAGE (IHK STANDARD) ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Welches Ziel verfolgt das Umweltschutzgesetz primär in der IT-Entsorgung?", 
+        options: ["Maximierung des Gewinns", "Vermeidung, Verwertung und Beseitigung von Abfällen (Kreislaufwirtschaft)", "Export von Elektroschrott"], 
+        correctAnswers: [1], 
+        explanation: "Das Kreislaufwirtschaftsgesetz (KrWG) gibt vor, dass Abfälle primär vermieden werden sollen. Ist das nicht möglich, steht die stoffliche Verwertung (Recycling) vor der thermischen Verwertung (Verbrennung)." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Was bedeutet die Abkürzung BSI?", 
+        correctAnswers: ["Bundesamt für Sicherheit in der Informationstechnik"], 
+        explanation: "Das BSI ist die zentrale staatliche Behörde in Deutschland, die für Fragen der IT-Sicherheit zuständig ist und z. B. den IT-Grundschutz-Katalog herausgibt." 
+    },
+    { 
+        chapter: "Entwicklung", type: "single", 
+        question: "Welche Programmierparadigmen nutzt Sprachen wie Java oder C#, bei denen Daten und Funktionen in Einheiten gekapselt werden?", 
+        options: ["Prozedurale Programmierung", "Objektorientierte Programmierung (OOP)", "Funktionale Programmierung"], 
+        correctAnswers: [1], 
+        explanation: "Objektorientierte Programmierung (OOP) basiert auf Klassen und Objekten. Die Kernkonzepte sind Kapselung, Vererbung und Polymorphie." 
     }
+];
 ];    // HINWEIS: Weitere 87 Fragen werden im nächsten Schritt bereitgestellt!
 
 let currentQuestions = [];
