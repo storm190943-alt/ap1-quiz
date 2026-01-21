@@ -740,6 +740,638 @@ const allQuestions = [
         question: "SQL: Zeilen zählen?", 
         correctAnswers: ["COUNT"], 
         explanation: "<b>Lösung: COUNT(*).</b> Gibt die Anzahl der Datensätze zurück." 
+    },
+    // --- KAPITEL 30: RAID & SPEICHERVERTIEFUNG ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welcher RAID-Level bietet keine Redundanz, sondern dient ausschließlich der Geschwindigkeitssteigerung durch Striping?", 
+        options: ["RAID 0", "RAID 1", "RAID 5"], 
+        correctAnswers: [0], 
+        explanation: "RAID 0 verteilt Datenblöcke auf mehrere Festplatten. Fällt eine Platte aus, sind alle Daten verloren. Es gibt keine Fehlertoleranz." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie viele Festplatten dürfen bei einem RAID 6 Verbund gleichzeitig ausfallen, ohne dass Daten verloren gehen?", 
+        correctAnswers: ["2"], 
+        explanation: "RAID 6 verwendet doppelte Paritätsinformationen und verkraftet daher den gleichzeitigen Ausfall von bis zu zwei Festplatten." 
+    },
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welcher RAID-Level wird als 'Mirroring' (Spiegelung) bezeichnet?", 
+        options: ["RAID 0", "RAID 1", "RAID 10"], 
+        correctAnswers: [1], 
+        explanation: "Bei RAID 1 werden alle Daten einer Festplatte eins zu eins auf eine zweite Platte geschrieben. Die nutzbare Kapazität beträgt 50%." 
+    },
+
+    // --- KAPITEL 31: LINUX & ADMINISTRATION ---
+    { 
+        chapter: "Betriebssysteme", type: "input", 
+        question: "Mit welchem Linux-Befehl ändert man die Dateiberechtigungen (z. B. auf 755)?", 
+        correctAnswers: ["chmod"], 
+        explanation: "chmod (change mode) setzt die Lese-, Schreib- und Ausführungsrechte für Besitzer, Gruppe und Andere." 
+    },
+    { 
+        chapter: "Betriebssysteme", type: "single", 
+        question: "Was bewirkt der Linux-Befehl 'sudo'?", 
+        options: ["Das System herunterfahren", "Einen Befehl mit Administratorrechten (root) ausführen", "Einen neuen Benutzer anlegen"], 
+        correctAnswers: [1], 
+        explanation: "Sudo steht für 'superuser do' und erlaubt es autorisierten Nutzern, Programme mit den Sicherheitsberechtigungen des Administrators auszuführen." 
+    },
+    { 
+        chapter: "Betriebssysteme", type: "input", 
+        question: "Wie heißt der Befehl in der Windows PowerShell, um eine Liste aller laufenden Prozesse anzuzeigen?", 
+        correctAnswers: ["Get-Process"], 
+        explanation: "Get-Process ist das Standard-Cmdlet in PowerShell, um Informationen zu aktiven Prozessen abzurufen." 
+    },
+
+    // --- KAPITEL 32: IPV6 & ROUTING ---
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Welchen Präfix haben Link-Local-Adressen in einem IPv6-Netzwerk typischerweise?", 
+        options: ["fe80::", "2001::", "fc00::"], 
+        correctAnswers: [0], 
+        explanation: "Link-Local-Adressen (fe80::/10) werden automatisch generiert und sind nur innerhalb eines lokalen Netzwerksegments gültig." 
+    },
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Auf welcher Schicht arbeitet ein klassischer Layer-2-Switch?", 
+        options: ["Schicht 1", "Schicht 2", "Schicht 3"], 
+        correctAnswers: [1], 
+        explanation: "Layer-2-Switche arbeiten auf der Sicherungsschicht und treffen Weiterleitungsentscheidungen anhand von MAC-Adressen." 
+    },
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Wie lautet die Abkürzung für das Routing-Protokoll, das den kürzesten Pfad innerhalb eines autonomen Systems berechnet (Link-State)?", 
+        correctAnswers: ["OSPF"], 
+        explanation: "OSPF (Open Shortest Path First) ist ein dynamisches Routing-Protokoll für IP-Netzwerke." 
+    },
+
+    // --- KAPITEL 33: KRYPTOGRAPHIE & ZERTIFIKATE ---
+    { 
+        chapter: "Security", type: "single", 
+        question: "Welches Hashing-Verfahren gilt heute als unsicher für Passwörter?", 
+        options: ["SHA-256", "MD5", "bcrypt"], 
+        correctAnswers: [1], 
+        explanation: "MD5 ist aufgrund von Kollisionsanfälligkeit und hoher Rechengeschwindigkeit (Brute-Force) veraltet und unsicher." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Wie nennt man eine vertrauenswürdige Instanz, die digitale Zertifikate ausstellt?", 
+        correctAnswers: ["CA", "Certificate Authority", "Zertifizierungsstelle"], 
+        explanation: "Die Certificate Authority bestätigt die Identität eines Inhabers durch ein digitales Zertifikat." 
+    },
+    { 
+        chapter: "Security", type: "multi", 
+        question: "Welche Eigenschaften garantiert eine digitale Signatur? (Mehrfachwahl)", 
+        options: ["Integrität", "Authentizität", "Vertraulichkeit", "Nichtabstreitbarkeit"], 
+        correctAnswers: [0, 1, 3], 
+        explanation: "Signaturen garantieren, dass Daten nicht verändert wurden (Integrität) und vom Absender stammen (Authentizität). Vertraulichkeit wird erst durch Verschlüsselung erreicht." 
+    },
+
+    // --- KAPITEL 34: DATENSCHUTZ (DSGVO) ---
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie lautet die deutsche Abkürzung für die europäische Verordnung zum Schutz personenbezogener Daten?", 
+        correctAnswers: ["DSGVO"], 
+        explanation: "Die Datenschutz-Grundverordnung (DSGVO) regelt seit 2018 EU-weit den Umgang mit persönlichen Daten." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Welches Prinzip der DSGVO besagt, dass nur so viele Daten wie nötig erhoben werden dürfen?", 
+        options: ["Transparenz", "Datenminimierung", "Zweckbindung"], 
+        correctAnswers: [1], 
+        explanation: "Datenminimierung bedeutet, dass die Verarbeitung auf das für die Zwecke notwendige Maß beschränkt sein muss." 
+    },
+
+    // --- KAPITEL 35: WIRTSCHAFT & FINANZEN ---
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie nennt man die Wertminderung von Anlagegütern (z. B. Server), die steuerlich geltend gemacht wird?", 
+        correctAnswers: ["AfA", "Abschreibung"], 
+        explanation: "AfA steht für 'Absetzung für Abnutzung'. Sie verteilt die Anschaffungskosten über die Nutzungsdauer." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "In welcher Bilanzposition wird das Eigenkapital ausgewiesen?", 
+        options: ["Aktiva", "Passiva"], 
+        correctAnswers: [1], 
+        explanation: "Das Eigenkapital steht auf der Passivseite der Bilanz und zeigt die Herkunft der Mittel." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie berechnet man die Umsatzsteuer bei einem Nettopreis von 100 Euro (Satz: 19%)?", 
+        correctAnswers: ["19"], 
+        explanation: "Die Formel lautet: Netto * 0,19. In diesem Fall: 100 * 0,19 = 19 Euro." 
+    },
+
+    // --- KAPITEL 36: PROJEKTMANAGEMENT VERTIEFUNG ---
+    { 
+        chapter: "Projektmanagement", type: "single", 
+        question: "Wofür steht das 'M' in den SMART-Kriterien zur Zielformulierung?", 
+        options: ["Motivierend", "Messbar", "Machbar"], 
+        correctAnswers: [1], 
+        explanation: "SMART: Spezifisch, Messbar, Akzeptiert, Realistisch, Terminiert." 
+    },
+    { 
+        chapter: "Projektmanagement", type: "input", 
+        question: "Wie nennt man ein Ereignis von besonderer Bedeutung in einem Projektplan (Dauer = 0)?", 
+        correctAnswers: ["Meilenstein"], 
+        explanation: "Meilensteine markieren wichtige Etappenziele oder Entscheidungspunkte im Projektablauf." 
+    },
+
+    // --- KAPITEL 37: SQL & DATENBANKEN ---
+    { 
+        chapter: "Datenbanken", type: "input", 
+        question: "Welcher SQL-Befehl wird genutzt, um vorhandene Datensätze zu verändern?", 
+        correctAnswers: ["UPDATE"], 
+        explanation: "Mit UPDATE lassen sich Werte in bestehenden Zeilen einer Tabelle anpassen." 
+    },
+    { 
+        chapter: "Datenbanken", type: "single", 
+        question: "Welche Normalform fordert die Beseitigung von transitiven Abhängigkeiten?", 
+        options: ["1. Normalform", "2. Normalform", "3. Normalform"], 
+        correctAnswers: [2], 
+        explanation: "Die 3. Normalform (3NF) ist erreicht, wenn kein Nicht-Primärattribut transitiv vom Primärschlüssel abhängt." 
+    },
+
+    // --- KAPITEL 38: ARBEITSPLATZ & ERGONOMIE ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Welche Entfernung zum Monitor wird bei einem Standard-Arbeitsplatz empfohlen?", 
+        options: ["20-30 cm", "50-70 cm", "100-120 cm"], 
+        correctAnswers: [1], 
+        explanation: "Ein Sehabstand von ca. 50 bis 70 cm entlastet die Augen und beugt Haltungsschäden vor." 
+    },
+    { 
+        chapter: "Umwelt", type: "input", 
+        question: "Wie heißt das deutsche Umweltsiegel für energieeffiziente und schadstoffarme IT-Produkte?", 
+        correctAnswers: ["Blauer Engel"], 
+        explanation: "Der Blaue Engel kennzeichnet Produkte, die umweltfreundlicher als vergleichbare Standardprodukte sind." 
+    },
+
+    // --- KAPITEL 39: HARDWARE SPEZIAL ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Was bedeutet die Abkürzung 'TDP' bei einem Prozessor?", 
+        options: ["Total Data Power", "Thermal Design Power", "Time Delay Process"], 
+        correctAnswers: [1], 
+        explanation: "Die Thermal Design Power gibt die maximale Verlustleistung an, für die das Kühlsystem ausgelegt sein muss." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man den kleinen, extrem schnellen Speicher direkt im CPU-Kern?", 
+        correctAnswers: ["L1 Cache"], 
+        explanation: "Der L1-Cache ist der schnellste und kleinste Pufferspeicher eines Prozessors." 
+    },
+
+    // --- KAPITEL 40: CLOUD & SERVICE ---
+    { 
+        chapter: "Cloud", type: "single", 
+        question: "Welches Cloud-Modell nutzt sowohl Ressourcen einer Private Cloud als auch einer Public Cloud?", 
+        options: ["Hybrid Cloud", "Community Cloud", "Multi Cloud"], 
+        correctAnswers: [0], 
+        explanation: "Eine Hybrid Cloud kombiniert die Vorteile interner Sicherheit mit der Skalierbarkeit öffentlicher Anbieter." 
+    },
+    { 
+        chapter: "Cloud", type: "input", 
+        question: "Wofür steht die Abkürzung 'SLA' im Bereich IT-Dienstleistungen?", 
+        correctAnswers: ["Service Level Agreement"], 
+        explanation: "Ein SLA definiert die vertraglich zugesicherten Leistungseigenschaften wie Verfügbarkeit oder Reaktionszeit." 
+    },
+
+    // --- KAPITEL 41: NETZWERK-SICHERHEIT ---
+    { 
+        chapter: "Security", type: "single", 
+        question: "Was ist ein 'Honeypot'?", 
+        options: ["Ein Backup-Server", "Ein Lockvogel-System für Angreifer", "Ein spezielles Verschlüsselungsmodul"], 
+        correctAnswers: [1], 
+        explanation: "Ein Honeypot ist ein bewusst unsicheres System, das Angreifer anlocken soll, um deren Methoden zu analysieren." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Wie nennt man den Bereich zwischen zwei Firewalls, in dem öffentlich erreichbare Server stehen?", 
+        correctAnswers: ["DMZ", "Demilitarisierte Zone"], 
+        explanation: "Die DMZ schirmt das interne Netzwerk ab, während Dienste wie Webserver für das Internet erreichbar bleiben." 
+    },
+
+    // --- KAPITEL 42: SOFTWARETESTS ---
+    { 
+        chapter: "Entwicklung", type: "single", 
+        question: "Was ist ein 'Black-Box-Test'?", 
+        options: ["Test ohne Kenntnis des Quellcodes", "Test mit vollem Zugriff auf den Code", "Test der Hardware-Komponenten"], 
+        correctAnswers: [0], 
+        explanation: "Beim Black-Box-Test wird nur die Funktion gegen die Anforderung geprüft, ohne den inneren Aufbau zu kennen." 
+    },
+    { 
+        chapter: "Entwicklung", type: "input", 
+        question: "Wie nennt man Tests, die sicherstellen, dass bestehende Funktionen nach Änderungen noch korrekt arbeiten?", 
+        correctAnswers: ["Regressionstests"], 
+        explanation: "Regressionstests verhindern, dass Fehler in bereits funktionierende Programmteile eingebaut werden." 
+    },
+
+    // --- KAPITEL 43: NETZWERK-PROTOKOLLE ---
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Welches Protokoll dient zum Abrufen von E-Mails, wobei die Nachrichten auf dem Server verbleiben?", 
+        correctAnswers: ["IMAP"], 
+        explanation: "IMAP (Internet Message Access Protocol) ermöglicht die Synchronisation von Mails über mehrere Endgeräte hinweg." 
+    },
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Auf welchem Standard-Port läuft unverschlüsseltes FTP?", 
+        options: ["21", "22", "23"], 
+        correctAnswers: [0], 
+        explanation: "Port 21 wird für den Kontrollkanal von FTP genutzt. Port 22 ist für SSH reserviert." 
+    },
+
+    // --- KAPITEL 44: ARBEITSRECHT ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Welches Gremium vertritt die Interessen der Arbeitnehmer gegenüber dem Arbeitgeber im Betrieb?", 
+        options: ["Gewerkschaft", "Betriebsrat", "Berufsgenossenschaft"], 
+        correctAnswers: [1], 
+        explanation: "Der Betriebsrat überwacht u. a. die Einhaltung von Gesetzen und verhandelt Betriebsvereinbarungen." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie viele Tage Urlaub stehen einem erwachsenen Arbeitnehmer laut Bundesurlaubsgesetz (BUrlG) bei einer 6-Tage-Woche mindestens zu?", 
+        correctAnswers: ["24"], 
+        explanation: "Das BUrlG schreibt 24 Werktage bei einer 6-Tage-Woche vor (entspricht 4 Wochen)." 
+    },
+
+    // --- KAPITEL 45: STORAGE-TECHNOLOGIEN ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welche Speichertechnologie nutzt das NVMe-Protokoll zur Datenübertragung?", 
+        options: ["Magnetische Festplatten (HDD)", "Solid State Drives (SSD)", "Optische Laufwerke"], 
+        correctAnswers: [1], 
+        explanation: "NVMe wurde speziell für Flash-Speicher entwickelt, um die hohen Latenzen von alten Protokollen (SATA) zu umgehen." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man die kleinste adressierbare Einheit auf einer klassischen Festplatte?", 
+        correctAnswers: ["Sektor"], 
+        explanation: "Ein Sektor ist der kleinste physische Block auf einer Festplatte (traditionell 512 Byte)." 
+    },
+
+    // --- KAPITEL 46: ITSM & ITIL ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Was ist in ITIL ein 'Incident'?", 
+        options: ["Eine geplante Änderung", "Eine ungeplante Unterbrechung eines IT-Service", "Die Ursache für mehrere Störungen"], 
+        correctAnswers: [1], 
+        explanation: "Ein Incident ist eine Störung, die sofort behoben werden muss, um den Service wiederherzustellen." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie nennt man die Analyse der zugrundeliegenden Ursache eines oder mehrerer Incidents?", 
+        correctAnswers: ["Problem Management"], 
+        explanation: "Problem Management sucht nach der Ursache (Root Cause), um wiederkehrende Störungen dauerhaft zu verhindern." 
+    },
+
+    // --- KAPITEL 47: BINÄRES SYSTEM VERTIEFUNG ---
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Welche Dezimalzahl entspricht der Binärzahl 1010?", 
+        correctAnswers: ["10"], 
+        explanation: "$1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 0 \cdot 1 = 10$." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Was ist das Ergebnis von 1 + 1 im binären System?", 
+        correctAnswers: ["10"], 
+        explanation: "Im Binärsystem ergibt 1+1 eine 0 mit Übertrag 1, also 10 (entspricht Dezimal 2)." 
+    },
+
+    // --- KAPITEL 48: INTERNET-INFRASTRUKTUR ---
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Was bedeutet die Abkürzung 'CDN'?", 
+        options: ["Content Delivery Network", "Central Data Node", "Core Digital Network"], 
+        correctAnswers: [0], 
+        explanation: "Ein CDN verteilt Inhalte über weltweit verteilte Server, um die Ladezeiten für Nutzer zu verringern." 
+    },
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Wie nennt man die Technik, mit der mehrere private IP-Adressen über eine einzige öffentliche IP-Adresse ins Internet gehen?", 
+        correctAnswers: ["NAT", "Network Address Translation"], 
+        explanation: "NAT übersetzt IP-Adressen im Router, um IPv4-Adressen zu sparen und das interne Netz zu verbergen." 
+    },
+
+    // --- KAPITEL 49: HARDWARE FORMFAKTOREN ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welcher Mainboard-Formfaktor ist der größte unter den gängigen Standards?", 
+        options: ["Mini-ITX", "Micro-ATX", "ATX"], 
+        correctAnswers: [2], 
+        explanation: "ATX (Advanced Technology Extended) ist der gängigste Standard für Desktop-PCs und bietet die meisten Erweiterungsslots." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man den Slot für Erweiterungskarten wie Grafikkarten auf modernen Mainboards?", 
+        correctAnswers: ["PCIe", "PCI Express"], 
+        explanation: "PCI Express ist der aktuelle serielle Standard für Hochgeschwindigkeits-Komponenten." 
+    },
+
+    // --- KAPITEL 50: UML DIAGRAMME ---
+    { 
+        chapter: "Projektmanagement", type: "single", 
+        question: "Welches UML-Diagramm zeigt die Interaktion zwischen Akteuren und dem System?", 
+        options: ["Aktivitätsdiagramm", "Anwendungsfalldiagramm (Use Case)", "Zustandsdiagramm"], 
+        correctAnswers: [1], 
+        explanation: "Das Use-Case-Diagramm beschreibt, WAS ein System aus Sicht der Benutzer tun soll." 
+    },
+    { 
+        chapter: "Projektmanagement", type: "input", 
+        question: "Wie nennt man in UML das Diagramm, das den Nachrichtenaustausch zwischen Objekten in zeitlicher Reihenfolge zeigt?", 
+        correctAnswers: ["Sequenzdiagramm"], 
+        explanation: "Sequenzdiagramme verdeutlichen den zeitlichen Ablauf von Interaktionen innerhalb eines Szenarios." 
+    },
+
+    // --- KAPITEL 51: RECHTLICHE GRUNDLAGEN ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Wann ist ein Vertrag in der Regel abgeschlossen?", 
+        options: ["Durch die Unterschrift beim Notar", "Durch zwei übereinstimmende Willenserklärungen (Angebot und Annahme)", "Durch die Bezahlung der Rechnung"], 
+        correctAnswers: [1], 
+        explanation: "Ein Vertrag kommt durch Angebot und Annahme zustande. Dies kann mündlich, schriftlich oder durch konkludentes Handeln geschehen." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie nennt man die Fähigkeit, Rechtsgeschäfte selbstständig und voll wirksam vorzunehmen?", 
+        correctAnswers: ["Geschäftsfähigkeit"], 
+        explanation: "In Deutschland tritt die volle Geschäftsfähigkeit mit Vollendung des 18. Lebensjahres ein." 
+    },
+
+    // --- KAPITEL 52: DATENSICHERHEIT SPEZIAL ---
+    { 
+        chapter: "Security", type: "single", 
+        question: "Was ist 'Tailgating' im Social Engineering?", 
+        options: ["Das Erraten von Passwörtern", "Unbefugtes Folgen einer Person durch eine Sicherheitstür", "Das Abfangen von WLAN-Signalen"], 
+        correctAnswers: [1], 
+        explanation: "Tailgating nutzt die Höflichkeit oder Unachtsamkeit von Mitarbeitern aus, um in gesperrte Bereiche zu gelangen." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Wie nennt man einen Angreifer, der Sicherheitslücken findet und meldet, ohne Schaden anzurichten?", 
+        correctAnswers: ["White Hat"], 
+        explanation: "White Hat Hacker handeln ethisch und helfen Unternehmen, ihre Sicherheit zu verbessern." 
+    },
+
+    // --- KAPITEL 53: GREEN IT VERTIEFUNG ---
+    { 
+        chapter: "Umwelt", type: "single", 
+        question: "Welche Zertifizierung für Netzteile garantiert einen Wirkungsgrad von mindestens 80%?", 
+        options: ["80 Plus", "Energy Star", "TCO"], 
+        correctAnswers: [0], 
+        explanation: "Die '80 Plus' Zertifizierung zeigt, dass das Netzteil effizient arbeitet und weniger Strom in Wärme umwandelt." 
+    },
+
+    // --- KAPITEL 54: NETZWERKKABEL ---
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Welche Kategorie von Kupferkabeln (Cat) wird mindestens für 10-Gigabit-Ethernet empfohlen?", 
+        correctAnswers: ["Cat 6a", "Cat 7"], 
+        explanation: "Cat 6a ist für Frequenzen bis 500 MHz spezifiziert und unterstützt 10 Gbit/s über die volle Länge von 100 Metern." 
+    },
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Welches Medium überträgt Daten mittels Lichtimpulsen?", 
+        options: ["Koaxialkabel", "Lichtwellenleiter (LWL)", "Twisted-Pair-Kabel"], 
+        correctAnswers: [1], 
+        explanation: "Glasfaserkabel bieten sehr hohe Bandbreiten und sind immun gegen elektromagnetische Störungen." 
+    },
+
+    // --- KAPITEL 55: STEUERN & SOZIALABGABEN ---
+    { 
+        chapter: "Wirtschaft", type: "multi", 
+        question: "Welche dieser Abgaben gehören zu den Sozialversicherungsbeiträgen in Deutschland? (Mehrfachwahl)", 
+        options: ["Rentenversicherung", "Lohnsteuer", "Arbeitslosenversicherung", "Pflegeversicherung"], 
+        correctAnswers: [0, 2, 3], 
+        explanation: "Lohnsteuer ist eine Steuer, keine Sozialversicherung. Zu den Sozialversicherungen gehören: Renten-, Kranken-, Pflege-, Arbeitslosen- und Unfallversicherung." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie nennt man den Betrag, den ein Arbeitnehmer nach Abzug aller Steuern und Sozialabgaben erhält?", 
+        correctAnswers: ["Nettolohn"], 
+        explanation: "Der Nettolohn ist der Auszahlungsbetrag." 
+    },
+
+    // --- KAPITEL 56: SQL AGGREGATION ---
+    { 
+        chapter: "Datenbanken", type: "input", 
+        question: "Welche SQL-Funktion berechnet den Durchschnittswert einer Spalte?", 
+        correctAnswers: ["AVG"], 
+        explanation: "AVG steht für Average (Durchschnitt)." 
+    },
+    { 
+        chapter: "Datenbanken", type: "single", 
+        question: "Mit welchem Schlüsselwort gruppiert man Ergebnisse in SQL?", 
+        options: ["ORDER BY", "GROUP BY", "SORT BY"], 
+        correctAnswers: [1], 
+        explanation: "GROUP BY wird oft zusammen mit Aggregatfunktionen (COUNT, SUM) genutzt." 
+    },
+
+    // --- KAPITEL 57: VIRTUALISIERUNG VERTIEFUNG ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Was zeichnet einen Typ-1-Hypervisor aus?", 
+        options: ["Er läuft als Anwendung auf einem Betriebssystem", "Er läuft direkt auf der Hardware (Bare-Metal)", "Er benötigt keine CPU-Virtualisierung"], 
+        correctAnswers: [1], 
+        explanation: "Beispiele für Typ-1-Hypervisoren sind VMware ESXi oder Microsoft Hyper-V Server." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man eine isolierte Umgebung für Anwendungen, die sich den Kernel des Host-Betriebssystems teilen (z. B. Docker)?", 
+        correctAnswers: ["Container"], 
+        explanation: "Container sind leichtgewichtiger als virtuelle Maschinen, da sie kein eigenes Gast-Betriebssystem benötigen." 
+    },
+
+    // --- KAPITEL 58: VPN & FERNZUGRIFF ---
+    { 
+        chapter: "Security", type: "single", 
+        question: "Welches Protokoll wird häufig für VPN-Verbindungen genutzt und arbeitet auf Schicht 3?", 
+        options: ["IPsec", "SSH", "TLS"], 
+        correctAnswers: [0], 
+        explanation: "IPsec (Internet Protocol Security) verschlüsselt den IP-Verkehr direkt auf der Vermittlungsschicht." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Was bedeutet die Abkürzung 'MFA'?", 
+        correctAnswers: ["Multi-Faktor-Authentisierung"], 
+        explanation: "MFA verlangt mindestens zwei unabhängige Beweise für die Identität (z. B. Passwort und App-Code)." 
+    },
+
+    // --- KAPITEL 59: HARDWARE MESSGRÖSSEN ---
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie lautet die Formel für die elektrische Leistung (P)?", 
+        correctAnswers: ["P = U * I"], 
+        explanation: "Leistung (Watt) = Spannung (Volt) * Stromstärke (Ampere)." 
+    },
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "In welcher Einheit wird der elektrische Widerstand gemessen?", 
+        options: ["Volt", "Ampere", "Ohm"], 
+        correctAnswers: [2], 
+        explanation: "Ohm (Ω) ist die Einheit des Widerstands." 
+    },
+
+    // --- KAPITEL 60: SCRUM VERTIEFUNG ---
+    { 
+        chapter: "Projektmanagement", type: "single", 
+        question: "Wie nennt man das Meeting am Ende eines Sprints, in dem das fertige Produkt präsentiert wird?", 
+        options: ["Sprint Review", "Sprint Retrospective", "Daily Scrum"], 
+        correctAnswers: [0], 
+        explanation: "Im Review wird das 'Inkrement' begutachtet. In der Retrospektive hingegen wird die Zusammenarbeit im Team analysiert." 
+    },
+    { 
+        chapter: "Projektmanagement", type: "input", 
+        question: "Wie lang ist ein typischer Sprint in Scrum (in Wochen)?", 
+        correctAnswers: ["2", "4"], 
+        explanation: "Ein Sprint dauert meist zwischen 1 und 4 Wochen." 
+    },
+
+    // --- KAPITEL 61: DATENBANK-SCHLÜSSEL ---
+    { 
+        chapter: "Datenbanken", type: "single", 
+        question: "Was ist ein 'Composite Key' (Zusammengesetzter Schlüssel)?", 
+        options: ["Ein Schlüssel, der aus mehreren Spalten besteht", "Ein Schlüssel, der automatisch hochzählt", "Ein Schlüssel, der auf eine andere Tabelle verweist"], 
+        correctAnswers: [0], 
+        explanation: "Ein zusammengesetzter Primärschlüssel nutzt mehrere Attribute, um einen Datensatz eindeutig zu identifizieren." 
+    },
+    { 
+        chapter: "Datenbanken", type: "input", 
+        question: "Wie nennt man die Eigenschaft, dass ein Primärschlüssel niemals leer sein darf?", 
+        correctAnswers: ["NOT NULL"], 
+        explanation: "Die NOT NULL Bedingung stellt sicher, dass ein Wert vorhanden sein muss." 
+    },
+
+    // --- KAPITEL 62: IT-SICHERHEITSGESETZE ---
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Was bedeutet die Abkürzung 'KRITIS'?", 
+        options: ["Kritische Infrastrukturen", "Kryptographische Informationssysteme", "Kritische IT-Sicherheit"], 
+        correctAnswers: [0], 
+        explanation: "KRITIS umfasst Organisationen (Energie, Wasser, Gesundheit), deren Ausfall dramatische Folgen für die Gesellschaft hätte." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Welche Behörde ist in Deutschland für die Sicherheit in der Informationstechnik zuständig?", 
+        correctAnswers: ["BSI"], 
+        explanation: "Das Bundesamt für Sicherheit in der Informationstechnik (BSI) erstellt Standards wie den IT-Grundschutz." 
+    },
+
+    // --- KAPITEL 63: MOBILFUNK ---
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Welche Mobilfunkgeneration ermöglichte erstmals massentaugliches mobiles Internet (ca. 384 kbit/s)?", 
+        options: ["2G (GSM)", "3G (UMTS)", "4G (LTE)"], 
+        correctAnswers: [1], 
+        explanation: "UMTS war der Durchbruch für das mobile Web. 4G (LTE) brachte dann echte Breitbandgeschwindigkeiten." 
+    },
+    { 
+        chapter: "Netzwerk", type: "input", 
+        question: "Wie nennt man das Verfahren, bei dem ein Handy als WLAN-Hotspot für andere Geräte fungiert?", 
+        correctAnswers: ["Tethering"], 
+        explanation: "Beim Tethering teilt das Smartphone seine mobile Datenverbindung via WLAN, Bluetooth oder USB." 
+    },
+
+    // --- KAPITEL 64: PERIPHERIE & ANSCHLÜSSE ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welche USB-Version führte den symmetrischen Typ-C Stecker ein?", 
+        options: ["USB 2.0", "USB 3.1", "USB 1.1"], 
+        correctAnswers: [1], 
+        explanation: "Der Typ-C Stecker ist punktsymmetrisch und kann in beiden Ausrichtungen eingesteckt werden." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wofür steht die Abkürzung 'PoE' im Netzwerkbereich?", 
+        correctAnswers: ["Power over Ethernet"], 
+        explanation: "PoE ermöglicht die Stromversorgung von Geräten (z. B. IP-Telefone) direkt über das Netzwerkkabel." 
+    },
+
+    // --- KAPITEL 65: SOFTWARE ARCHITEKTUR ---
+    { 
+        chapter: "Entwicklung", type: "single", 
+        question: "Was beschreibt das 'Frontend' einer Anwendung?", 
+        options: ["Die Datenbankstruktur", "Die grafische Benutzeroberfläche", "Die Server-Logik"], 
+        correctAnswers: [1], 
+        explanation: "Das Frontend ist der Teil der Software, mit dem der Benutzer direkt interagiert." 
+    },
+    { 
+        chapter: "Entwicklung", type: "input", 
+        question: "Wie nennt man eine Schnittstelle, die es zwei Softwareprogrammen ermöglicht, miteinander zu kommunizieren?", 
+        correctAnswers: ["API"], 
+        explanation: "Application Programming Interface (API) definiert Regeln für den Datenaustausch." 
+    },
+
+    // --- KAPITEL 66: DIVERSE IT-FRAGEN ---
+    { 
+        chapter: "Hardware", type: "single", 
+        question: "Welche Art von RAM-Speicher wird in Laptops verbaut (kleinerer Formfaktor)?", 
+        options: ["DIMM", "SO-DIMM", "ECC"], 
+        correctAnswers: [1], 
+        explanation: "SO-DIMM (Small Outline Dual Inline Memory Module) ist die kompakte Bauform für mobile Geräte." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man das Bauteil, das die Wärme der CPU an den Kühlkörper ableitet (Paste)?", 
+        correctAnswers: ["Wärmeleitpaste"], 
+        explanation: "Wärmeleitpaste füllt mikroskopische Unebenheiten zwischen CPU und Kühler aus, um den Wärmestrom zu optimieren." 
+    },
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Welches Protokoll wird verwendet, um die Uhrzeit in einem Netzwerk zu synchronisieren?", 
+        options: ["SNMP", "NTP", "SMTP"], 
+        correctAnswers: [1], 
+        explanation: "NTP (Network Time Protocol) sorgt für eine einheitliche Systemzeit auf allen Geräten." 
+    },
+    { 
+        chapter: "Security", type: "input", 
+        question: "Wie nennt man den Vorgang, bei dem ein Angreifer die Identität eines anderen (z. B. IP oder Absender) vortäuscht?", 
+        correctAnswers: ["Spoofing"], 
+        explanation: "IP-Spoofing oder Mail-Spoofing dient oft dazu, Filter zu umgehen oder Vertrauen zu erschleichen." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "single", 
+        question: "Welches Prinzip verlangt, dass Auszubildende alle ihnen übertragenen Aufgaben sorgfältig ausführen?", 
+        options: ["Gehorsamspflicht", "Lernpflicht", "Sorgfaltspflicht"], 
+        correctAnswers: [2], 
+        explanation: "Die Sorgfaltspflicht gehört zu den Grundpflichten des Auszubildenden laut BBiG." 
+    },
+    { 
+        chapter: "Wirtschaft", type: "input", 
+        question: "Wie nennt man das Dokument, in dem ein Azubi wöchentlich seine Tätigkeiten dokumentiert?", 
+        correctAnswers: ["Berichtsheft", "Ausbildungsnachweis"], 
+        explanation: "Das Führen des Berichtshefts ist Voraussetzung für die Zulassung zur Abschlussprüfung." 
+    },
+    { 
+        chapter: "Projektmanagement", type: "single", 
+        question: "Was bedeutet 'Outsourcing'?", 
+        options: ["Einstellen neuer Mitarbeiter", "Abgabe von Aufgaben an externe Dienstleister", "Verlegung der Firma ins Ausland"], 
+        correctAnswers: [1], 
+        explanation: "Outsourcing dient oft der Kostenreduktion oder der Konzentration auf Kernkompetenzen." 
+    },
+    { 
+        chapter: "Entwicklung", type: "input", 
+        question: "Wie nennt man das Versionsverwaltungssystem, das heute Standard in der Softwareentwicklung ist?", 
+        correctAnswers: ["Git"], 
+        explanation: "Git ist ein verteiltes System zur Verfolgung von Änderungen im Quellcode." 
+    },
+    { 
+        chapter: "Netzwerk", type: "single", 
+        question: "Was passiert beim 'Traceroute' (tracert)?", 
+        options: ["Die Geschwindigkeit wird gemessen", "Der Weg der Datenpakete über alle Router wird angezeigt", "Die DNS-Einträge werden gelöscht"], 
+        correctAnswers: [1], 
+        explanation: "Traceroute nutzt das TTL-Feld in IP-Paketen, um jeden Hop auf dem Weg zum Ziel zu identifizieren." 
+    },
+    { 
+        chapter: "Hardware", type: "input", 
+        question: "Wie nennt man das Gehirn des Computers (Abkürzung)?", 
+        correctAnswers: ["CPU"], 
+        explanation: "Central Processing Unit." 
     }
 ];
 
