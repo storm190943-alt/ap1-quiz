@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IHK AP1 Master 2026 - 200 Fragen Edition</title>
+    <title>IHK AP1 Master 2026 - 200 Fragen System</title>
     <style>
         :root { --primary: #2563eb; --success: #16a34a; --error: #dc2626; --bg: #f8fafc; --text: #0f172a; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; margin: 0; }
@@ -18,36 +18,31 @@
         .option-item.selected { border-color: var(--primary); background: #eff6ff; }
         .correct-ui { border-color: var(--success) !important; background: #f0fdf4 !important; font-weight: bold; color: var(--success); }
         .wrong-ui { border-color: var(--error) !important; background: #fef2f2 !important; color: var(--error); }
-        input[type="text"] { width: 100%; padding: 18px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1.1rem; outline: none; transition: 0.2s; }
+        input[type="text"] { width: 100%; padding: 18px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1.1rem; outline: none; transition: 0.2s; box-sizing: border-box; }
         #explanation-box { background: #f8fafc; padding: 25px; border-radius: 12px; border-left: 8px solid var(--primary); margin-top: 25px; line-height: 1.7; font-size: 1rem; color: #334155; }
         .progress-bar { background: #e2e8f0; height: 10px; border-radius: 5px; margin-bottom: 30px; overflow: hidden; }
-        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        select { width: 100%; padding: 15px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 1rem; margin-bottom: 20px; width: 100%; }
+        #progress-fill { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; background: #e2e8f0; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="setup-screen" class="card">
             <h1 style="color: var(--primary); margin-bottom: 10px;">IHK AP1 Master 2026</h1>
-            <p style="margin-bottom: 30px; color: #64748b;">Prüfungsvorbereitung: Jetzt mit dem vollen Katalog von 200 Fragen.</p>
-            
-            <label><b>Modus wählen:</b></label>
-            <select id="topic-select">
-                <option value="all">Gesamter Katalog (200 Fragen geshuffled)</option>
-            </select>
-            
-            <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus starten</button>
-            <button onclick="startQuiz('exam')" class="btn secondary-btn">Simulation (20 Zufallsfragen)</button>
+            <p id="status-text" style="margin-bottom: 30px; color: #64748b;">Lade Fragen...</p>
+            <button onclick="startQuiz('learn')" class="btn primary-btn">Lernmodus (Alle Fragen)</button>
+            <button onclick="startQuiz('exam')" class="btn secondary-btn">Simulation (25 Zufallsfragen)</button>
         </div>
 
         <div id="quiz-screen" class="card hidden">
             <div class="progress-bar"><div id="progress-fill"></div></div>
-            <div id="meta" style="font-size: 0.8rem; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 10px;"></div>
+            <div id="meta-info">
+                <span id="type-badge" class="badge"></span>
+                <div id="meta" style="font-size: 0.8rem; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 10px;"></div>
+            </div>
             <h2 id="question-text" style="margin-top:0; margin-bottom: 25px;"></h2>
             <div id="options-container"></div>
-            <div id="feedback-area" class="hidden">
-                <div id="explanation-box"></div>
-            </div>
+            <div id="feedback-area" class="hidden"><div id="explanation-box"></div></div>
             <button id="check-btn" onclick="checkAnswer()" class="btn primary-btn">Antwort prüfen</button>
             <button id="next-btn" onclick="nextQuestion()" class="btn primary-btn hidden">Nächste Frage</button>
         </div>
@@ -56,101 +51,300 @@
             <div style="font-size: 5rem;">🎯</div>
             <h2 id="result-title">Ergebnis</h2>
             <p id="score-display" style="font-size: 1.3rem; margin-bottom: 30px;"></p>
-            <button onclick="location.reload()" class="btn primary-btn">Zurück zum Start</button>
+            <button onclick="location.reload()" class="btn primary-btn">Neustart</button>
         </div>
     </div>
 
 <script>
+/**
+ * DATENBANK DER FRAGEN (BLOCK 1: 1-50)
+ * Erweitere dieses Array einfach um weitere Objekte für Block 2, 3 und 4.
+ */
 const allQuestions = [
-    // --- TEIL 1 (Fragen 1-100) - Konsolidiert und geprüft ---
-    { chapter: "Hardware", type: "single", question: "Welches USV-System bietet Schutz gegen Netzausfall, Spannungsschwankungen und Frequenzabweichungen durch dauerhafte Wandlung?", options: ["VFD", "VI", "VFI"], correctAnswers: [2], explanation: "VFI steht für Voltage and Frequency Independent (Online-Dauerwandler). Er bietet den höchsten Schutzgrad." },
-    { chapter: "Hardware", type: "input", question: "Berechnen Sie die nutzbare Kapazität (TB) eines RAID 5 mit 4 Platten à 10 TB.", correctAnswers: ["30"], explanation: "Formel: (n-1) * Kapazität. Hier: (4-1) * 10 TB = 30 TB." },
-    { chapter: "Netzwerk", type: "input", question: "Standard-Port für das verschlüsselte Protokoll SSH?", correctAnswers: ["22"], explanation: "SSH (Secure Shell) nutzt Port 22." },
-    { chapter: "Netzwerk", type: "input", question: "Wie viele nutzbare Host-Adressen bietet ein /28 Subnetz?", correctAnswers: ["14"], explanation: "Ein /28 Subnetz hat 16 Adressen (2^(32-28)). Abzüglich Netz-ID und Broadcast bleiben 14 nutzbare Adressen." },
-    { chapter: "Wirtschaft", type: "single", question: "Wer zahlt die Beiträge zur gesetzlichen Unfallversicherung?", options: ["Arbeitnehmer allein", "Arbeitgeber allein", "Beide hälftig"], correctAnswers: [1], explanation: "Die gesetzliche Unfallversicherung wird zu 100% vom Arbeitgeber getragen." },
-    { chapter: "Wirtschaft", type: "input", question: "Wie hoch ist das gesetzliche Mindeststammkapital einer GmbH in Euro?", correctAnswers: ["25000"], explanation: "Das Stammkapital einer GmbH muss mindestens 25.000 € betragen." },
-    { chapter: "Projektmanagement", type: "single", question: "Welche UML-Diagrammart zeigt die statische Struktur eines Systems?", options: ["Aktivitätsdiagramm", "Klassendiagramm", "Sequenzdiagramm"], correctAnswers: [1], explanation: "Das Klassendiagramm stellt Klassen, Attribute, Methoden und deren Beziehungen statisch dar." },
-    { chapter: "Hardware", type: "input", question: "Wie lautet die Abkürzung für den Wert, der die Effizienz eines Rechenzentrums beschreibt (Energieeinsatz IT zu Gesamtenergie)?", correctAnswers: ["PUE"], explanation: "PUE (Power Usage Effectiveness). Ein Wert von 1,0 wäre ideal." },
-    { chapter: "Recht", type: "single", question: "Welches Gesetz regelt primär den Umgang mit personenbezogenen Daten in der EU?", options: ["BGB", "StGB", "DSGVO"], correctAnswers: [2], explanation: "Die Datenschutz-Grundverordnung (DSGVO) ist seit 2018 maßgeblich." },
-    { chapter: "Hardware", type: "input", question: "Wandeln Sie die Dezimalzahl 25 in eine 8-Bit-Binärzahl um.", correctAnswers: ["00011001"], explanation: "16 + 8 + 1 = 25. Binär: 00011001." },
+    // --- WiSo & Recht ---
+    { chapter: "WiSo", type: "input", question: "Wie nennt man die Rechtsform, die ein einzelner Gewerbetreibender ohne Partner bildet?", correctAnswers: ["Einzelunternehmen", "Einzelunternehmer", "e.K.", "e. Kfm.", "e. Kfr."], explanation: "Das Einzelunternehmen wird von einer einzelnen natürlichen Person betrieben. Der Inhaber haftet voll mit seinem Privatvermögen." },
+    { chapter: "WiSo", type: "multi", question: "Welche Abgaben gehören zur gesetzlichen Sozialversicherung? (Wähle alle richtigen)", options: ["Rentenversicherung", "Hausratversicherung", "Pflegeversicherung", "Arbeitslosenversicherung"], correctAnswers: [0, 2, 3], explanation: "Die 5 Säulen sind: Kranken-, Renten-, Arbeitslosen-, Pflege- und Unfallversicherung." },
+    { chapter: "WiSo", type: "single", question: "Bis zu welcher Dauer muss eine Probezeit im Berufsausbildungsverhältnis mindestens gehen?", options: ["1 Monat", "3 Monate", "4 Monate"], correctAnswers: [0], explanation: "Laut BBiG §20 muss die Probezeit mindestens einen Monat und darf höchstens vier Monate betragen." },
+    { chapter: "WiSo", type: "input", question: "Wofür steht die Abkürzung 'BBiG'?", correctAnswers: ["Berufsbildungsgesetz"], explanation: "Das Berufsbildungsgesetz ist die zentrale Rechtsgrundlage für die Berufsausbildung." },
+    { chapter: "WiSo", type: "single", question: "Was ist das Mindeststammkapital einer UG (haftungsbeschränkt)?", options: ["1 Euro", "1.000 Euro", "25.000 Euro"], correctAnswers: [0], explanation: "Die UG kann theoretisch mit 1€ Stammkapital gegründet werden (daher auch '1-Euro-GmbH')." },
+    { chapter: "WiSo", type: "multi", question: "Welche Aussagen zur GmbH sind korrekt?", options: ["Mindestkapital 25.000€", "Haftung unbeschränkt", "Ist eine Kapitalgesellschaft", "Benötigt einen Notar zur Gründung"], correctAnswers: [0, 2, 3], explanation: "Die GmbH ist eine Kapitalgesellschaft, die Haftung ist auf das Gesellschaftsvermögen beschränkt." },
+    { chapter: "WiSo", type: "input", question: "Wie nennt man die Vertretungsmacht, die durch einen Kaufmann an Mitarbeiter erteilt wird und fast alle Arten von Geschäften abdeckt?", correctAnswers: ["Prokura"], explanation: "Ein Prokurist ist zu allen Arten von gerichtlichen und außergerichtlichen Geschäften und Rechtshandlungen ermächtigt." },
+    { chapter: "WiSo", type: "single", question: "Wann ist ein Azubi berufsschulpflichtig?", options: ["Immer", "Nur bis 18 Jahre", "Nur wenn der Betrieb es will"], correctAnswers: [0], explanation: "Die Schulpflicht besteht für die gesamte Dauer der Ausbildung." },
+    { chapter: "WiSo", type: "single", question: "Welches Prinzip beschreibt: 'Mit minimalen Mitteln ein festgesetztes Ziel erreichen'?", options: ["Maximalprinzip", "Minimalprinzip", "Optimalprinzip"], correctAnswers: [1], explanation: "Minimalprinzip = Ziel fix, Mittel minimal." },
+    { chapter: "WiSo", type: "input", question: "Wie hoch ist die Kündigungsfrist in der Probezeit?", correctAnswers: ["0", "keine", "fristlos"], explanation: "In der Probezeit kann ohne Einhalten einer Frist gekündigt werden." },
 
-    // --- TEIL 2 (Die 100 ZUSÄTZLICHEN Fragen) - NEU UND GEPRÜFT ---
-    { chapter: "Netzwerk", type: "single", question: "Welches Protokoll wird zum Senden von E-Mails von einem Client zum Server verwendet?", options: ["IMAP", "POP3", "SMTP"], correctAnswers: [2], explanation: "SMTP (Simple Mail Transfer Protocol) dient zum Versand von E-Mails. IMAP und POP3 sind zum Empfang/Abruf." },
-    { chapter: "Hardware", type: "input", question: "Wie viele Pins hat ein Standard-SATA-Datenanschluss?", correctAnswers: ["7"], explanation: "Das SATA-Datenkabel hat 7 Pins. Das SATA-Stromkabel hingegen 15 Pins." },
-    { chapter: "Wirtschaft", type: "single", question: "Welche Haftung gilt für Gesellschafter einer OHG?", options: ["Nur mit der Einlage", "Persönlich, unbeschränkt und solidarisch", "Gar keine Haftung"], correctAnswers: [1], explanation: "In einer OHG haften alle Gesellschafter voll mit ihrem Privatvermögen für alle Firmenschulden." },
-    { chapter: "Programmierung", type: "input", question: "Mit welchem SQL-Schlüsselwort werden Daten in einer Abfrage nach einer Spalte sortiert?", correctAnswers: ["ORDER BY"], explanation: "ORDER BY wird verwendet, um Ergebnisse aufsteigend (ASC) oder absteigend (DESC) zu sortieren." },
-    { chapter: "IT-Sicherheit", type: "single", question: "Was beschreibt das Schutzziel 'Integrität'?", options: ["Daten sind jederzeit verfügbar", "Daten sind vor unbefugtem Lesen geschützt", "Daten sind vor unbefugter oder unbemerkter Änderung geschützt"], correctAnswers: [2], explanation: "Integrität garantiert, dass Daten korrekt und unverändert bleiben." },
-    { chapter: "Wirtschaft", type: "input", question: "Wie nennt man das ökonomische Prinzip, bei dem ein gegebenes Ziel mit minimalem Mitteleinsatz erreicht werden soll?", correctAnswers: ["Minimalprinzip"], explanation: "Minimalprinzip = Festes Ziel, minimaler Aufwand. Maximalprinzip = Fester Aufwand, maximales Ziel." },
-    { chapter: "Netzwerk", type: "single", question: "Welches Gerät arbeitet primär auf Layer 2 des OSI-Modells?", options: ["Hub", "Switch", "Router"], correctAnswers: [1], explanation: "Ein Switch arbeitet auf Schicht 2 (Sicherungsschicht) und nutzt MAC-Adressen zur Weiterleitung." },
-    { chapter: "Hardware", type: "input", question: "Wie viele Bits hat eine IPv6-Adresse?", correctAnswers: ["128"], explanation: "IPv6 nutzt 128 Bit (8 Blöcke à 16 Bit), IPv4 nur 32 Bit." },
-    { chapter: "Recht", type: "single", question: "Was ist die maximale tägliche Arbeitszeit laut Arbeitszeitgesetz (ArbZG) im Regelfall?", options: ["8 Stunden", "10 Stunden", "12 Stunden"], correctAnswers: [0], explanation: "Die werktägliche Arbeitszeit darf 8 Stunden nicht überschreiten (§3 ArbZG), kann aber auf 10 verlängert werden, wenn der Ausgleich erfolgt." },
-    { chapter: "Hardware", type: "single", question: "Welche Komponente eines Prozessors entscheidet, welcher Befehl als nächstes ausgeführt wird?", options: ["ALU", "Steuerwerk", "Register"], correctAnswers: [1], explanation: "Das Steuerwerk (Control Unit) koordiniert die Befehlsabfolge und steuert die anderen CPU-Komponenten." },
-    { chapter: "Datenbanken", type: "input", question: "Wie nennt man die Eigenschaft einer Datenbank, die sicherstellt, dass Fremdschlüssel auf existierende Primärschlüssel verweisen?", correctAnswers: ["Referenzielle Integrität"], explanation: "Diese stellt sicher, dass keine 'Waisen' in der Datenbank entstehen." },
-    { chapter: "Wirtschaft", type: "single", question: "Wann endet ein Berufsausbildungsverhältnis im Normalfall?", options: ["Mit der Bekanntgabe des Prüfungsergebnisses", "Mit dem Datum im Vertrag", "Nach 3 Jahren"], correctAnswers: [0], explanation: "Das Verhältnis endet mit Bestehen der Abschlussprüfung (Bekanntgabe des Ergebnisses durch den Prüfungsausschuss)." },
-    { chapter: "Projektmanagement", type: "input", question: "Wofür steht das 'S' in der SMART-Methode?", correctAnswers: ["Spezifisch", "Specific"], explanation: "Ziele müssen spezifisch, messbar, attraktiv, realistisch und terminiert sein." },
-    { chapter: "IT-Sicherheit", type: "single", question: "Welche Verschlüsselungsart nutzt denselben Schlüssel zum Ver- und Entschlüsseln?", options: ["Asymmetrisch", "Symmetrisch", "Hashing"], correctAnswers: [1], explanation: "Symmetrische Verfahren (z.B. AES) nutzen denselben geheimen Schlüssel für beide Vorgänge." },
-    { chapter: "Hardware", type: "input", question: "Wie nennt man den Speicherbereich, der direkt in der CPU integriert ist und extrem schnelle Zugriffszeiten bietet?", correctAnswers: ["Cache", "L1 Cache"], explanation: "Der Cache (L1, L2, L3) puffert Daten zwischen RAM und Rechenkern." },
-    { chapter: "Netzwerk", type: "single", question: "Welches Protokoll löst Hostnamen in IP-Adressen auf?", options: ["DHCP", "DNS", "ARP"], correctAnswers: [1], explanation: "DNS (Domain Name System) ist das Telefonbuch des Internets." },
-    { chapter: "Wirtschaft", type: "input", question: "Wie hoch ist die gesetzliche Mehrwertsteuer (Regelsatz) in Deutschland in Prozent?", correctAnswers: ["19"], explanation: "Der Regelsatz beträgt 19%, der ermäßigte Satz 7%." },
-    { chapter: "Software", type: "single", question: "Welches Programm übersetzt Quellcode in Maschinencode, bevor das Programm ausgeführt wird?", options: ["Interpreter", "Compiler", "Debugger"], correctAnswers: [1], explanation: "Ein Compiler übersetzt den gesamten Code vorab. Ein Interpreter übersetzt Zeile für Zeile während der Laufzeit." },
-    { chapter: "IT-Sicherheit", type: "input", question: "Wie nennt man den Angriff, bei dem eine Webseite mit massenhaft Anfragen überlastet wird?", correctAnswers: ["DoS", "DDoS"], explanation: "Denial of Service bzw. Distributed Denial of Service." },
-    { chapter: "Hardware", type: "single", question: "Was bedeutet die Abkürzung SSD?", options: ["Super Speed Drive", "Solid State Drive", "Static Storage Device"], correctAnswers: [1], explanation: "Solid State Drive (Halbleiterlaufwerk) nutzt Flash-Speicher ohne bewegliche Teile." },
-    
-    // ... [Hier folgen die weiteren 160 Fragen in der gleichen präzisen Qualität] ...
-    // Ich fülle das Array nun logisch weiter auf, um die 200 voll zu machen:
-    { chapter: "Netzwerk", type: "input", question: "Auf welchem Port läuft HTTP standardmäßig?", correctAnswers: ["80"], explanation: "HTTP nutzt Port 80, HTTPS nutzt 443." },
-    { chapter: "Hardware", type: "single", question: "Welches Dateisystem ist Standard bei modernen Windows-Systemen?", options: ["FAT32", "NTFS", "ext4"], correctAnswers: [1], explanation: "NTFS (New Technology File System) bietet Journaling und Rechteverwaltung." },
-    { chapter: "Projektmanagement", type: "input", question: "Wie nennt man den Pfad in einem Netzplan, bei dem die Vorgänge keinen Puffer haben?", correctAnswers: ["Kritischer Pfad"], explanation: "Verzögerungen auf dem kritischen Pfad führen direkt zur Verzögerung des Projektendes." },
-    { chapter: "Datenbanken", type: "single", question: "Was bedeutet Atomarität in der 1. Normalform?", options: ["Daten sind verschlüsselt", "Jedes Feld enthält nur einen Wert (nicht weiter teilbar)", "Die Datenbank ist klein"], correctAnswers: [1], explanation: "In der 1. NF müssen alle Attributwerte atomar sein." },
-    { chapter: "Hardware", type: "input", question: "Welche CPU-Architektur wird primär in Smartphones verwendet?", correctAnswers: ["ARM"], explanation: "ARM-Prozessoren sind besonders energieeffizient." },
-    { chapter: "Netzwerk", type: "single", question: "Was ist ein 'Default Gateway'?", options: ["Ein Passwort", "Der Ausgangspunkt in andere Netzwerke (Router)", "Ein Webserver"], correctAnswers: [1], explanation: "Das Standard-Gateway leitet Pakete weiter, die nicht für das lokale Netz bestimmt sind." },
-    { chapter: "Wirtschaft", type: "input", question: "Wie nennt man die Rechtsform, die ein einzelner Gewerbetreibender ohne Partner bildet?", correctAnswers: ["Einzelunternehmen"], explanation: "Ein Einzelunternehmer haftet unbeschränkt mit seinem Privatvermögen." },
-    { chapter: "IT-Sicherheit", type: "single", question: "Was ist ein Trojaner?", options: ["Ein Programm, das sich selbst repliziert", "Ein nützlich wirkendes Programm mit versteckter Schadfunktion", "Hardware-Schutz"], correctAnswers: [1], explanation: "Trojanische Pferde tarnen sich als nützliche Software." },
-    { chapter: "Hardware", type: "input", question: "Berechnen Sie die Bruttokapazität von 2 TB in Gigabyte (Faktor 1000).", correctAnswers: ["2000"], explanation: "Im Marketing/Hersteller-Bereich gilt 1 TB = 1000 GB." },
-    { chapter: "Projektmanagement", type: "single", question: "Was ist ein Meilenstein?", options: ["Eine schwere Aufgabe", "Ein Ereignis von besonderer Bedeutung (Zwischenziel)", "Ein Abschlussbericht"], correctAnswers: [1], explanation: "Meilensteine markieren wichtige Punkte oder Ergebnisse im Projektablauf." },
-    { chapter: "Umwelt", type: "input", question: "Welche Richtlinie regelt die Entsorgung von Elektroaltgeräten in der EU?", correctAnswers: ["WEEE"], explanation: "Waste of Electrical and Electronic Equipment." },
-    { chapter: "Netzwerk", type: "single", question: "Was ist der Vorteil von Glasfaserkabeln gegenüber Kupferkabeln?", options: ["Günstiger", "Unempfindlich gegen elektromagnetische Störungen", "Einfacher zu biegen"], correctAnswers: [1], explanation: "Lichtwellenleiter (LWL) nutzen Lichtsignale und sind daher immun gegen EM-Störungen." },
-    { chapter: "Wirtschaft", type: "input", question: "Wie nennt man die Differenz zwischen Verkaufspreis und variablen Kosten?", correctAnswers: ["Deckungsbeitrag"], explanation: "Der Deckungsbeitrag dient zur Deckung der Fixkosten." },
-    { chapter: "Hardware", type: "single", question: "Was macht ein BIOS/UEFI beim Start?", options: ["Betriebssystem installieren", "POST (Power On Self Test)", "Internet verbinden"], correctAnswers: [1], explanation: "Der POST prüft die Hardware-Komponenten direkt nach dem Einschalten." },
-    { chapter: "Netzwerk", type: "input", question: "Wofür steht die Abkürzung DHCP?", correctAnswers: ["Dynamic Host Configuration Protocol"], explanation: "Es dient der automatischen Zuweisung von IP-Konfigurationen." },
-    { chapter: "IT-Sicherheit", type: "single", question: "Was ist Phishing?", options: ["Datenrettung", "Versuch, über gefälschte Mails/Seiten an Zugangsdaten zu kommen", "Ein Netzwerk-Tool"], correctAnswers: [1], explanation: "Phishing ist eine Form des Social Engineering." },
-    { chapter: "Wirtschaft", type: "input", question: "Wie viele Jahre beträgt die Regelausbildungszeit zum Fachinformatiker?", correctAnswers: ["3"], explanation: "Laut Ausbildungsordnung sind es 3 Jahre (Verkürzung möglich)." },
-    { chapter: "Programmierung", type: "single", question: "Welcher Datentyp speichert nur 'Wahr' oder 'Falsch'?", options: ["Integer", "String", "Boolean"], correctAnswers: [2], explanation: "Boolean (bool) kennt nur True oder False." },
-    { chapter: "Hardware", type: "input", question: "Wie lautet die Portnummer für HTTPS?", correctAnswers: ["443"], explanation: "Standard für SSL/TLS verschlüsseltes Web-Browsing." },
-    { chapter: "Netzwerk", type: "single", question: "Was bedeutet Vollduplex (Full-Duplex)?", options: ["Gleichzeitiges Senden und Empfangen möglich", "Nur Senden oder Empfangen nacheinander", "Nur Senden möglich"], correctAnswers: [0], explanation: "Full-Duplex erlaubt Datentransfer in beide Richtungen zur gleichen Zeit." }
-    // HINWEIS: Hier folgen im realen Einsatz weitere Fragen bis 200.
+    // --- Netzwerktechnik ---
+    { chapter: "Netzwerk", type: "input", question: "Welches Protokoll löst Hostnamen (z.B. google.de) in IP-Adressen auf?", correctAnswers: ["DNS", "Domain Name System"], explanation: "DNS ist das Telefonbuch des Internets." },
+    { chapter: "Netzwerk", type: "single", question: "Auf welchem Layer des OSI-Modells arbeitet eine IP-Adresse?", options: ["Layer 2", "Layer 3", "Layer 4"], correctAnswers: [1], explanation: "Layer 3 (Vermittlungsschicht) ist für das Routing und IP-Adressierung zuständig." },
+    { chapter: "Netzwerk", type: "multi", question: "Welche Protokolle nutzen standardmäßig UDP? (Wähle alle richtigen)", options: ["DNS", "HTTP", "DHCP", "FTP"], correctAnswers: [0, 2], explanation: "DNS und DHCP nutzen meist UDP für schnelle, verbindungslose Anfragen." },
+    { chapter: "Netzwerk", type: "input", question: "Wie viele Bits hat eine IPv6 Adresse?", correctAnswers: ["128"], explanation: "IPv6 nutzt 128 Bit, IPv4 nur 32 Bit." },
+    { chapter: "Netzwerk", type: "single", question: "Was ist die Standard-Subnetzmaske eines Klasse-C Netzes?", options: ["255.0.0.0", "255.255.0.0", "255.255.255.0"], correctAnswers: [2], explanation: "Klasse-C Netze haben ein /24 Präfix." },
+    { chapter: "Netzwerk", type: "input", question: "Welcher Port wird standardmäßig für SSH verwendet?", correctAnswers: ["22"], explanation: "Secure Shell nutzt Port 22." },
+    { chapter: "Netzwerk", type: "multi", question: "Was gehört zu einer IPv4-Konfiguration für Internetzugriff?", options: ["IP-Adresse", "MAC-Adresse", "Subnetzmaske", "Standard-Gateway"], correctAnswers: [0, 2, 3], explanation: "Die MAC-Adresse ist Hardware-fest und wird nicht konfiguriert." },
+    { chapter: "Netzwerk", type: "single", question: "Was macht ein Switch im Gegensatz zu einem Hub?", options: ["Verstärkt nur das Signal", "Sendet Daten gezielt an Ports (MAC-basiert)", "Verbindet Netzwerke über das Internet"], correctAnswers: [1], explanation: "Ein Switch lernt MAC-Adressen und vermeidet Kollisionen." },
+    { chapter: "Netzwerk", type: "input", question: "Wie nennt man die physikalische Adresse einer Netzwerkkarte?", correctAnswers: ["MAC", "MAC-Adresse"], explanation: "Media Access Control Adresse." },
+    { chapter: "Netzwerk", type: "single", question: "Welches Kabel bietet Schutz vor elektromagnetischen Störungen durch Lichtsignale?", options: ["Cat 7", "Coaxial", "Glasfaser (LWL)"], correctAnswers: [2], explanation: "LWL ist immun gegen elektrische Störungen." },
+
+    // --- Hardware ---
+    { chapter: "Hardware", type: "input", question: "Wie viele nutzbare Festplattenkapazitäten hat ein RAID 5 mit 4 Platten à 2 TB?", correctAnswers: ["6"], explanation: "Formel: (n-1) * Kapazität. (4-1) * 2 TB = 6 TB." },
+    { chapter: "Hardware", type: "single", question: "Welcher Cache-Level ist am schnellsten und kleinsten?", options: ["L1", "L2", "L3"], correctAnswers: [0], explanation: "L1 Cache liegt direkt im Kern und ist am schnellsten getaktet." },
+    { chapter: "Hardware", type: "multi", question: "Welche Komponenten sitzen auf dem Mainboard? (Wähle alle richtigen)", options: ["CPU-Sockel", "RAM-Slots", "Netzteil", "Chipsatz"], correctAnswers: [0, 1, 3], explanation: "Das Netzteil ist ein separates Bauteil im Gehäuse." },
+    { chapter: "Hardware", type: "input", question: "Wie heißt der Standard für die Anbindung von SSDs, der direkt über PCIe läuft?", correctAnswers: ["NVMe"], explanation: "Non-Volatile Memory Express." },
+    { chapter: "Hardware", type: "single", question: "Welche USV-Klasse schützt am besten vor Spannungsschwankungen (Klasse 1)?", options: ["VFD", "VI", "VFI"], correctAnswers: [2], explanation: "VFI (Voltage and Frequency Independent) ist Online-Dauerwandlung." },
+    { chapter: "Hardware", type: "input", question: "Wie viele Bit sind in einem Byte?", correctAnswers: ["8"], explanation: "1 Byte = 8 Bit." },
+    { chapter: "Hardware", type: "multi", question: "Welche Schnittstellen sind für Monitore gedacht?", options: ["DisplayPort", "SATA", "HDMI", "USB-C (mit Alt-Mode)"], correctAnswers: [0, 2, 3], explanation: "SATA ist für Festplatten/SSDs." },
+    { chapter: "Hardware", type: "single", question: "Was bedeutet 'Hyperthreading'?", options: ["CPU wird übertaktet", "Ein Kern kann zwei Threads gleichzeitig bearbeiten", "Mehrere CPUs auf einem Board"], correctAnswers: [1], explanation: "Virtuelle Verdopplung der Rechenkerne." },
+    { chapter: "Hardware", type: "input", question: "Wofür steht die Abkürzung 'RAM'?", correctAnswers: ["Random Access Memory"], explanation: "Wahlfreier Zugriffsspeicher (flüchtig)." },
+    { chapter: "Hardware", type: "single", question: "Was ist der Vorteil eines RAID 10 gegenüber RAID 5?", options: ["Weniger Platten nötig", "Höhere Performance und Sicherheit", "Mehr Speicherplatz"], correctAnswers: [1], explanation: "RAID 10 spiegelt und striped, braucht aber 50% Kapazität für Redundanz." },
+
+    // --- SQL & Datenbanken ---
+    { chapter: "SQL", type: "input", question: "Mit welchem Befehl löscht man eine komplette Tabelle (Struktur + Daten)?", correctAnswers: ["DROP TABLE"], explanation: "DROP entfernt das Objekt, DELETE nur die Zeilen." },
+    { chapter: "SQL", type: "single", question: "Welcher Befehl sortiert die Ergebnisse?", options: ["SORT BY", "GROUP BY", "ORDER BY"], correctAnswers: [2], explanation: "ORDER BY sortiert ASC oder DESC." },
+    { chapter: "SQL", type: "multi", question: "Welche Schlüsselwörter gehören zur Datendefinition (DDL)?", options: ["CREATE", "SELECT", "ALTER", "INSERT"], correctAnswers: [0, 2], explanation: "SELECT und INSERT sind DML (Manipulation)." },
+    { chapter: "SQL", type: "input", question: "Wie nennt man den Schlüssel, der einen Datensatz eindeutig identifiziert?", correctAnswers: ["Primärschlüssel", "Primary Key"], explanation: "Ein PK darf niemals doppelt vorkommen oder NULL sein." },
+    { chapter: "SQL", type: "single", question: "Was bewirkt 'DISTINCT'?", options: ["Löscht Daten", "Entfernt Duplikate aus der Anzeige", "Verbindet Tabellen"], correctAnswers: [1], explanation: "SELECT DISTINCT zeigt jeden Wert nur einmal an." },
+
+    // --- Projekt & Security ---
+    { chapter: "Projekt", type: "multi", question: "Was sind die 3 Rollen in Scrum?", options: ["Scrum Master", "Project Manager", "Product Owner", "Developers"], correctAnswers: [0, 2, 3], explanation: "Scrum kennt keinen klassischen Project Manager." },
+    { chapter: "Security", type: "multi", question: "Was sind die Schutzziele der CIA-Triade?", options: ["Confidentiality", "Integrity", "Availability", "Calculation"], correctAnswers: [0, 1, 2], explanation: "Vertraulichkeit, Integrität, Verfügbarkeit." },
+    { chapter: "Projekt", type: "input", question: "Wie nennt man das Dokument, das der Auftragnehmer als Antwort auf das Lastenheft erstellt?", correctAnswers: ["Pflichtenheft"], explanation: "Lastenheft (Kunde) -> Pflichtenheft (Entwickler)." },
+    { chapter: "Security", type: "input", question: "Wie nennt man den Versuch, Passwörter durch stumpfes Ausprobieren aller Zeichenkombinationen zu knacken?", correctAnswers: ["Brute Force"], explanation: "Brute Force nutzt reine Rechenpower." },
+    { chapter: "Security", type: "single", question: "Welche EU-Verordnung regelt den Datenschutz?", options: ["DSGVO", "BGB", "ISO 27001"], correctAnswers: [0], explanation: "Die Datenschutz-Grundverordnung." },
+
+    // ... Fortsetzung bis 50 (Hier weitere Fachfragen ergänzt)
+    { chapter: "Projekt", type: "single", question: "Was bedeutet das 'M' in der SMART-Formel?", options: ["Motivierend", "Messbar", "Mittelwert"], correctAnswers: [1], explanation: "Ziele müssen messbar sein, um Erfolg zu prüfen." },
+    { chapter: "Netzwerk", type: "input", question: "Auf welchem Layer arbeitet ein Hub?", correctAnswers: ["1", "Layer 1"], explanation: "Ein Hub ist ein reiner Signalverteiler (Bitübertragungsschicht)." },
+    { chapter: "SQL", type: "input", question: "Welcher Join gibt nur die Datensätze zurück, die in beiden Tabellen vorhanden sind?", correctAnswers: ["Inner Join"], explanation: "Der Inner Join ist der Standardfall der Verknüpfung." },
+    { chapter: "Hardware", type: "single", question: "Welches Bauteil verhindert das Überhitzen der CPU durch Wärmeleitung?", options: ["Lüfter", "Kühlkörper", "Chipsatz"], correctAnswers: [1], explanation: "Der Kühlkörper leitet Wärme ab, der Lüfter transportiert sie weg." },
+    { chapter: "WiSo", type: "single", question: "Wer ist bei einer KG der Gesellschafter, der nur mit seiner Einlage haftet?", options: ["Komplementär", "Kommanditist", "Geschäftsführer"], correctAnswers: [1], explanation: "Kommanditist = beschränkte Haftung; Komplementär = Vollhafter." },
+    { chapter: "Security", type: "single", question: "Was ist Phishing?", options: ["Hacken von WLAN", "E-Mails zum Diebstahl von Zugangsdaten", "Überlastung von Servern"], correctAnswers: [1], explanation: "Angreifer 'fischen' nach Passwörtern über gefälschte Mails." },
+    { chapter: "Netzwerk", type: "input", question: "Wie lautet der Port für unverschlüsseltes HTTP?", correctAnswers: ["80"], explanation: "Standardport für Webserver." },
+    { chapter: "SQL", type: "single", question: "Mit welcher Klausel schränkt man Gruppen-Ergebnisse ein (ähnlich wie WHERE)?", options: ["HAVING", "LIMIT", "FILTER"], correctAnswers: [0], explanation: "HAVING filtert nach einem GROUP BY." },
+    { chapter: "Projekt", type: "single", question: "In welcher Phase eines Projekts wird das Lastenheft erstellt?", options: ["Initialisierung", "Planung", "Abschluss"], correctAnswers: [0], explanation: "Das Lastenheft steht ganz am Anfang." },
+    { chapter: "Hardware", type: "input", question: "Welcher BUS-Typ wird für Grafikkarten aktuell standardmäßig genutzt?", correctAnswers: ["PCIe", "PCI Express"], explanation: "PCI Express ist der moderne Standard für Erweiterungskarten." },
+    // --- BLOCK 2: FRAGEN 51-100 ---
+    // --- Netzwerk & Protokolle ---
+    { chapter: "Netzwerk", type: "single", question: "Welche IP-Adresse ist die erste nutzbare Host-Adresse im Subnetz 192.168.10.16/28?", options: ["192.168.10.1", "192.168.10.17", "192.168.10.15"], correctAnswers: [1], explanation: ".16 ist die Netz-ID, daher ist .17 die erste Host-Adresse." },
+    { chapter: "Netzwerk", type: "input", question: "Wie viele Schichten hat das TCP/IP-Referenzmodell?", correctAnswers: ["4"], explanation: "Das TCP/IP-Modell besteht aus 4 Schichten (Netzzugang, Internet, Transport, Anwendung)." },
+    { chapter: "Netzwerk", type: "multi", question: "Welche dieser Adressen sind gültige IPv6-Adressen? (Wähle alle richtigen)", options: ["2001:0db8::ff00:42:8329", "192.168.1.1", "::1", "2001:db8:g1::1"], correctAnswers: [0, 2], explanation: "IPv6 nutzt Hexadezimal (0-F). 'g' ist ungültig. 192... ist IPv4." },
+    { chapter: "Netzwerk", type: "single", question: "Was beschreibt der Begriff 'Latenz'?", options: ["Die maximale Bandbreite", "Die Verzögerungszeit bei der Datenübertragung", "Die Fehlerrate pro Sekunde"], correctAnswers: [1], explanation: "Latenz ist die Zeit, die ein Datenpaket von Sender zu Empfänger benötigt." },
+    { chapter: "Netzwerk", type: "input", question: "Welcher Port wird für das unverschlüsselte E-Mail-Versenden per SMTP genutzt?", correctAnswers: ["25"], explanation: "Standard-SMTP nutzt Port 25." },
+
+    // --- WiSo & Arbeitsrecht ---
+    { chapter: "WiSo", type: "single", question: "Ein 16-jähriger Azubi arbeitet an einem Tag 9 Stunden. Ist das zulässig?", options: ["Ja, immer", "Nein, maximal 8 Stunden pro Tag (mit Ausnahmen)", "Ja, wenn er dafür am nächsten Tag frei hat"], correctAnswers: [1], explanation: "Laut JArbSchG dürfen Jugendliche nicht mehr als 8 Stunden täglich (bzw. 40h/Woche) arbeiten." },
+    { chapter: "WiSo", type: "multi", question: "Welche Sozialversicherungen werden vom Arbeitgeber und Arbeitnehmer fast hälftig getragen?", options: ["Krankenversicherung", "Unfallversicherung", "Rentenversicherung", "Pflegeversicherung"], correctAnswers: [0, 2, 3], explanation: "Die Unfallversicherung zahlt der Arbeitgeber zu 100% allein." },
+    { chapter: "WiSo", type: "input", question: "Wie nennt man den Vertrag zwischen Gewerkschaften und Arbeitgeberverbänden?", correctAnswers: ["Tarifvertrag"], explanation: "Tarifverträge regeln Arbeitsbedingungen für ganze Branchen." },
+    { chapter: "WiSo", type: "single", question: "Was ist das vorrangige Ziel der Berufsgenossenschaften?", options: ["Prävention von Arbeitsunfällen", "Verwaltung der Arbeitslosenhilfe", "Lohnabrechnung"], correctAnswers: [0], explanation: "Die BG ist Träger der gesetzlichen Unfallversicherung." },
+    { chapter: "WiSo", type: "input", question: "In welcher Form muss eine Kündigung des Arbeitsverhältnisses erfolgen?", correctAnswers: ["Schriftform", "schriftlich"], explanation: "Eine Kündigung per E-Mail, WhatsApp oder mündlich ist unwirksam (§ 623 BGB)." },
+
+    // --- Hardware & Systeme ---
+    { chapter: "Hardware", type: "single", question: "Was ist der Hauptvorteil einer ECC-RAM-Moduls?", options: ["Höhere Taktfrequenz", "Erkennung und Korrektur von Speicherfehlern", "Niedrigerer Stromverbrauch"], correctAnswers: [1], explanation: "Error Correcting Code (ECC) wird vor allem in Servern zur Stabilität eingesetzt." },
+    { chapter: "Hardware", type: "input", question: "Berechne die verfügbare Kapazität (TB) eines RAID 6 Verbunds mit 6 Festplatten à 4 TB.", correctAnswers: ["16"], explanation: "RAID 6 Formel: (n-2) * Kapazität. (6-2) * 4 = 16 TB." },
+    { chapter: "Hardware", type: "multi", question: "Welche Faktoren beeinflussen die Geschwindigkeit einer SSD?", options: ["Anbindung (SATA vs. NVMe)", "Lüfterdrehzahl", "Controller-Chip", "NAND-Typ (SLC, MLC, TLC)"], correctAnswers: [0, 2, 3], explanation: "Lüfter haben keinen direkten Einfluss auf die Lese-/Schreib-Logik der Zellen." },
+    { chapter: "Hardware", type: "single", question: "Welches Dateisystem ist Standard unter modernen Windows-Systemen?", options: ["EXT4", "FAT32", "NTFS"], correctAnswers: [2], explanation: "NTFS bietet Journaling und feingranulare Rechteverwaltung." },
+    { chapter: "Hardware", type: "input", question: "Wie nennt man die kleinste logische Dateneinheit auf einer Festplatte?", correctAnswers: ["Sektor"], explanation: "Traditionell 512 Byte oder 4 KB (Advanced Format)." },
+
+    // --- SQL & Daten ---
+    { chapter: "SQL", type: "input", question: "Mit welchem Schlüsselwort verknüpft man zwei Tabellen in einer Abfrage?", correctAnswers: ["JOIN"], explanation: "Meist als INNER JOIN oder LEFT JOIN verwendet." },
+    { chapter: "SQL", type: "single", question: "Was bewirkt der SQL-Befehl 'UPDATE'?", options: ["Löscht Datensätze", "Erstellt neue Tabellen", "Ändert bestehende Daten"], correctAnswers: [2], explanation: "Update manipuliert vorhandene Zeilen in einer Tabelle." },
+    { chapter: "SQL", type: "multi", question: "Welche Funktionen sind Aggregatfunktionen in SQL?", options: ["SUM()", "LIKE", "COUNT()", "AVG()"], correctAnswers: [0, 2, 3], explanation: "LIKE ist ein Vergleichsoperator, keine Aggregatfunktion." },
+    { chapter: "SQL", type: "input", question: "Wie lautet das Kommando, um alle Daten aus der Tabelle 'Kunden' zu sehen?", correctAnswers: ["SELECT * FROM Kunden"], explanation: "Der Stern (*) fungiert als Wildcard für alle Spalten." },
+    { chapter: "SQL", type: "single", question: "Was ist ein Fremdschlüssel (Foreign Key)?", options: ["Ein verschlüsselter Primärschlüssel", "Ein Verweis auf einen Primärschlüssel einer anderen Tabelle", "Ein Schlüssel für externe Backups"], correctAnswers: [1], explanation: "Fremdschlüssel stellen die referenzielle Integrität zwischen Tabellen her." },
+
+    // --- Projekt & Prozesse ---
+    { chapter: "Projekt", type: "single", question: "Was ist ein 'Meilenstein'?", options: ["Ein besonders schweres Arbeitspaket", "Ein Ereignis von besonderer Bedeutung (Zwischenziel)", "Der Abschlussbericht"], correctAnswers: [1], explanation: "Meilensteine haben die Dauer Null und markieren wichtige Etappen." },
+    { chapter: "Projekt", type: "input", question: "Wie nennt man die grafische Darstellung der Zeitdauer von Aufgaben in Balkenform?", correctAnswers: ["Gantt-Diagramm"], explanation: "Benannt nach Henry Gantt." },
+    { chapter: "Projekt", type: "multi", question: "Welche Testarten gibt es in der Softwareentwicklung?", options: ["Unit-Test", "Integrationstest", "Druckertest", "Abnahmetest"], correctAnswers: [0, 1, 3], explanation: "Unit, Integration und Acceptance (Abnahme) sind klassische Phasen." },
+    { chapter: "Projekt", type: "single", question: "Was beschreibt der 'Kritische Pfad'?", options: ["Den Weg mit den meisten Fehlern", "Die Kette von Vorgängen, die das Projektende bestimmen", "Den kürzesten Weg durch das Gebäude"], correctAnswers: [1], explanation: "Verzögerungen auf dem kritischen Pfad führen direkt zur Projektverzögerung." },
+    { chapter: "Projekt", type: "input", question: "Wofür steht die Abkürzung 'TDD'?", correctAnswers: ["Test Driven Development"], explanation: "Testgetriebene Entwicklung, bei der Tests vor dem Code geschrieben werden." },
+
+    // --- Security ---
+    { chapter: "Security", type: "single", question: "Was ist eine 'Firewall'?", options: ["Ein Programm gegen Viren", "Ein System, das Netzwerkzugriffe filtert", "Ein physischer Brandschutz im Serverraum"], correctAnswers: [1], explanation: "Firewalls regeln den Verkehr basierend auf Ports und IP-Adressen." },
+    { chapter: "Security", type: "input", question: "Welches Verschlüsselungsverfahren nutzt den gleichen Schlüssel zum Ver- und Entschlüsseln?", correctAnswers: ["Symmetrisch", "Symmetrische Verschlüsselung"], explanation: "Beispiel: AES." },
+    { chapter: "Security", type: "multi", question: "Welche Maßnahmen erhöhen die Passwortsicherheit?", options: ["Mindestens 12 Zeichen", "Namen von Haustieren", "Mix aus Groß/Klein, Zahlen, Sonderzeichen", "Regelmäßiger Wechsel"], correctAnswers: [0, 2], explanation: "Länge und Komplexität sind heute wichtiger als häufiger Wechsel." },
+    { chapter: "Security", type: "single", question: "Was ist Ransomware?", options: ["Software zur Datenrettung", "Schadsoftware, die Daten verschlüsselt und Lösegeld fordert", "Ein Tool für Netzwerkdiagnose"], correctAnswers: [1], explanation: "Erpressungstrojaner." },
+    { chapter: "Security", type: "input", question: "Wie nennt man die Methode, bei der biometrische Merkmale zur Identifikation genutzt werden?", correctAnswers: ["Biometrie"], explanation: "Z.B. Fingerabdruck oder Gesichtsscan." },
+
+    // --- Gemischtes Fachwissen ---
+    { chapter: "Netzwerk", type: "single", question: "Was ist die maximale Kabellänge für Ethernet über Kupfer (Cat 5/6/7) ohne Repeater?", options: ["50m", "100m", "500m"], correctAnswers: [1], explanation: "Standardmäßig ist bei 100m Schluss (inkl. Patchkabel)." },
+    { chapter: "SQL", type: "input", question: "Welcher SQL-Befehl wird genutzt, um neue Zeilen einzufügen?", correctAnswers: ["INSERT INTO"], explanation: "Fügt neue Datensätze hinzu." },
+    { chapter: "WiSo", type: "single", question: "Wer wählt den Betriebsrat?", options: ["Die Geschäftsführung", "Die leitenden Angestellten", "Die wahlberechtigten Arbeitnehmer"], correctAnswers: [2], explanation: "Der Betriebsrat ist die Vertretung der Belegschaft." },
+    { chapter: "Hardware", type: "input", question: "Wie nennt man das 'Gehirn' des Computers?", correctAnswers: ["CPU", "Prozessor"], explanation: "Central Processing Unit." },
+    { chapter: "Projekt", type: "single", question: "In einem Wasserfallmodell folgen Phasen...", options: ["Parallel", "Sequenziell (nacheinander)", "Völlig ungeordnet"], correctAnswers: [1], explanation: "Jede Phase muss abgeschlossen sein, bevor die nächste beginnt." },
+    { chapter: "Netzwerk", type: "single", question: "Wofür steht WLAN?", options: ["Wireless Local Area Network", "Wide Local Area Network", "Web Local Area Network"], correctAnswers: [0], explanation: "Drahtloses lokales Netzwerk." },
+    { chapter: "Hardware", type: "single", question: "Was ist ein BIOS/UEFI?", options: ["Ein Textverarbeitungsprogramm", "Die Firmware zum Starten der Hardware", "Ein Antivirenprogramm"], correctAnswers: [1], explanation: "Schnittstelle zwischen Hardware und Betriebssystem beim Booten." },
+    { chapter: "SQL", type: "input", question: "Welches Schlüsselwort löscht Duplikate aus der SELECT-Liste?", correctAnswers: ["DISTINCT"], explanation: "Liefert nur einzigartige Werte zurück." },
+    { chapter: "WiSo", type: "input", question: "Wie viele Tage Urlaub stehen einem 16-jährigen Azubi laut JArbSchG jährlich mindestens zu?", correctAnswers: ["30"], explanation: "Mindestens 30 Werktage (bei einer 6-Tage-Woche)." },
+    { chapter: "Security", type: "single", question: "Was bedeutet 'VPN'?", options: ["Virtual Private Network", "Very Private Network", "Verified Port Network"], correctAnswers: [0], explanation: "Verschlüsselte Verbindung in ein anderes Netzwerk." },
+    { chapter: "Netzwerk", type: "input", question: "Welcher Layer im OSI-Modell ist für die Verschlüsselung und Kompression zuständig?", correctAnswers: ["6", "Layer 6", "Darstellungsschicht"], explanation: "Die Presentation Layer bereitet Daten für die Anwendung auf." },
+    { chapter: "Hardware", type: "single", question: "Was beschreibt die 'Taktrate' einer CPU?", options: ["Die Anzahl der Kerne", "Die Anzahl der Schaltzyklen pro Sekunde", "Den Stromverbrauch"], correctAnswers: [1], explanation: "Wird meist in GHz (Gigahertz) angegeben." },
+    { chapter: "SQL", type: "single", question: "Was ist der Unterschied zwischen WHERE und HAVING?", options: ["Keiner", "WHERE filtert Zeilen, HAVING filtert Gruppen", "HAVING ist nur für DELETE"], correctAnswers: [1], explanation: "WHERE wird vor dem Gruppieren angewendet, HAVING danach." },
+    { chapter: "WiSo", type: "multi", question: "Welche Rechte hat ein Azubi?", options: ["Recht auf Ausbildung", "Recht auf kostenlose Arbeitskleidung", "Recht auf Zeugnis", "Recht auf angemessene Vergütung"], correctAnswers: [0, 2, 3], explanation: "Arbeitskleidung ist nur bei Schutzkleidung Pflicht des AG, normale Kleidung nicht." },
+    { chapter: "Netzwerk", type: "input", question: "Wie heißt das Gerät, das zwei unterschiedliche Netzwerke miteinander verbindet?", correctAnswers: ["Router"], explanation: "Router routen Pakete zwischen verschiedenen Netzen (Layer 3)." },
+    { chapter: "Hardware", type: "single", question: "Welche Speichertechnologie nutzt ein USB-Stick?", options: ["Magnetisch", "Optisch", "Flash"], correctAnswers: [2], explanation: "Flash-Speicher (nicht-flüchtig)." },
+    { chapter: "Security", type: "single", question: "Was ist eine 'DMZ'?", options: ["De-Militarisierte Zone (geschütztes Zwischennetz)", "Daten-Management-Zentrum", "Direkt-Mail-Zugang"], correctAnswers: [0], explanation: "Ein Netzbereich, der zwischen dem internen LAN und dem Internet steht." },
+    { chapter: "SQL", type: "input", question: "Welche SQL-Klausel wird genutzt, um Ergebnisse zu gruppieren?", correctAnswers: ["GROUP BY"], explanation: "Wird oft zusammen mit COUNT, SUM oder AVG genutzt." },
+    { chapter: "Projekt", type: "single", question: "Was ist 'Scrum'?", options: ["Ein Programmier-Framework", "Ein agiles Framework für Projektmanagement", "Ein Datenbank-Standard"], correctAnswers: [1], explanation: "Scrum setzt auf Sprints und Selbstorganisation." },
+    { chapter: "Hardware", type: "input", question: "Wie nennt man die Verbindung zwischen CPU und Nord-Bridge (veraltet)?", correctAnswers: ["FSB", "Front Side Bus"], explanation: "In modernen Systemen durch QPI oder Infinity Fabric ersetzt." },
+    // --- BLOCK 3: FRAGEN 101-150 ---
+    // --- Programmierung & Logik ---
+    { chapter: "Programmierung", type: "single", question: "Was ist der Unterschied zwischen einer 'While'- und einer 'Do-While'-Schleife?", options: ["Keiner", "Die While-Schleife ist kopfgesteuert, die Do-While fußgesteuert", "Do-While läuft nur, wenn die Bedingung von Anfang an falsch ist"], correctAnswers: [1], explanation: "Die Do-While-Schleife wird mindestens einmal ausgeführt, da die Prüfung erst am Ende erfolgt." },
+    { chapter: "Programmierung", type: "input", question: "Wie nennt man einen Datentyp, der nur die Werte 'True' oder 'False' annehmen kann?", correctAnswers: ["Boolean", "Bool"], explanation: "Benannt nach George Boole." },
+    { chapter: "Programmierung", type: "multi", question: "Welche der folgenden sind höhere Programmiersprachen? (Wähle alle richtigen)", options: ["Java", "Assembler", "Python", "C++"], correctAnswers: [0, 2, 3], explanation: "Assembler ist eine maschinennahe Sprache." },
+    { chapter: "Programmierung", type: "input", question: "Wie nennt man den Fehler in einem Programm, der erst während der Ausführung auftritt (z.B. Division durch Null)?", correctAnswers: ["Laufzeitfehler", "Runtime Error"], explanation: "Im Gegensatz zu Syntaxfehlern, die schon beim Kompilieren bemerkt werden." },
+    { chapter: "Programmierung", type: "single", question: "Was bedeutet 'Inkrementieren'?", options: ["Einen Wert um 1 verringern", "Einen Wert um 1 erhöhen", "Zwei Werte vergleichen"], correctAnswers: [1], explanation: "Inkrement (++) erhöht den Wert einer Variable um eins." },
+
+    // --- UML & Softwareentwurf ---
+    { chapter: "UML", type: "single", question: "Welches UML-Diagramm zeigt die Interaktion zwischen Akteuren und dem System?", options: ["Klassendiagramm", "Aktivitätsdiagramm", "Use-Case-Diagramm"], correctAnswers: [2], explanation: "Das Anwendungsfalldiagramm (Use-Case) beschreibt, WAS das System tun soll." },
+    { chapter: "UML", type: "input", question: "Wie nennt man das Diagramm, das den zeitlichen Ablauf von Nachrichten zwischen Objekten darstellt?", correctAnswers: ["Sequenzdiagramm"], explanation: "Es zeigt die Lebenslinien der Objekte von oben nach unten." },
+    { chapter: "UML", type: "multi", question: "Welche Elemente kommen in einem Aktivitätsdiagramm vor?", options: ["Startknoten", "Entscheidung (Raute)", "Primärschlüssel", "Aktion (Rechteck)"], correctAnswers: [0, 1, 3], explanation: "Primärschlüssel gehören in die Datenbankmodellierung (ER-Modell)." },
+    { chapter: "UML", type: "single", question: "Was stellt eine 'Klasse' in einem UML-Klassendiagramm dar?", options: ["Einen einzelnen Benutzer", "Den Bauplan für Objekte", "Eine Datenbankverbindung"], correctAnswers: [1], explanation: "Klassen definieren Attribute und Methoden für Objekte." },
+    { chapter: "UML", type: "input", question: "Wie nennt man die Beziehung in der UML, bei der ein Teil ohne das Ganze nicht existieren kann (starke Form)?", correctAnswers: ["Komposition"], explanation: "Beispiel: Ein Haus und seine Zimmer (Löscht man das Haus, sind die Zimmer weg)." },
+
+    // --- BWL & Kalkulation ---
+    { chapter: "WiSo/BWL", type: "input", question: "Ein Artikel kostet 100€ netto. Berechne den Bruttopreis bei 19% MwSt.", correctAnswers: ["119"], explanation: "100€ * 1,19 = 119€." },
+    { chapter: "WiSo/BWL", type: "single", question: "Was versteht man unter 'Skonto'?", options: ["Ein Preisnachlass bei Mängelrüge", "Ein Belohnungsrabatt für treue Kunden", "Ein Preisabzug bei Zahlung innerhalb einer kurzen Frist"], correctAnswers: [2], explanation: "Skonto dient als Anreiz für schnelle Zahlung." },
+    { chapter: "WiSo/BWL", type: "input", question: "Wie nennt man das Verhältnis von Output zu Input?", correctAnswers: ["Produktivität"], explanation: "Menge der Erzeugnisse geteilt durch Einsatzmenge." },
+    { chapter: "WiSo/BWL", type: "multi", question: "Welche Kosten gehören zu den Fixkosten eines Unternehmens?", options: ["Miete für das Büro", "Rohstoffe für die Produktion", "Gehälter der Verwaltung", "Versicherungsbeiträge"], correctAnswers: [0, 2, 3], explanation: "Rohstoffe sind variable Kosten, da sie sich mit der Produktionsmenge ändern." },
+    { chapter: "WiSo/BWL", type: "single", question: "Was ist die Goldene Bilanzregel?", options: ["Gewinn muss reinvestiert werden", "Anlagevermögen muss langfristig (z.B. durch Eigenkapital) finanziert sein", "Schulden sind verboten"], correctAnswers: [1], explanation: "Fristenkongruenz: Langfristig gebundenes Vermögen braucht langfristiges Kapital." },
+
+    // --- IT-Service & Management ---
+    { chapter: "Projekt", type: "input", question: "Wofür steht die Abkürzung 'SLA'?", correctAnswers: ["Service Level Agreement"], explanation: "Ein Vertrag über die Qualität und den Umfang einer Dienstleistung." },
+    { chapter: "Projekt", type: "single", question: "Was ist das Hauptziel von ITIL?", options: ["Programmierung von Apps", "Standardisierung von IT-Serviceprozessen", "Verkauf von Hardware"], correctAnswers: [1], explanation: "Information Technology Infrastructure Library ist ein Best-Practice-Leitfaden für IT-Services." },
+    { chapter: "Projekt", type: "input", question: "Wie nennt man die zentrale Anlaufstelle für alle Nutzeranfragen in der IT?", correctAnswers: ["Service Desk", "Helpdesk"], explanation: "Single Point of Contact (SPOC)." },
+    { chapter: "Projekt", type: "multi", question: "Was gehört zum Incident Management?", options: ["Wiederherstellung des normalen Betriebs", "Dokumentation des Fehlers", "Entwurf neuer Hardware-Chips", "Schnelle Problemlösung"], correctAnswers: [0, 1, 3], explanation: "Hardware-Entwurf gehört nicht zum operativen Störungsmanagement." },
+    { chapter: "Projekt", type: "single", question: "Was ist ein 'Change' im IT-Management?", options: ["Ein Software-Bug", "Die Änderung an der IT-Infrastruktur", "Ein neuer Mitarbeiter"], correctAnswers: [1], explanation: "Changes müssen oft über ein Change Advisory Board (CAB) genehmigt werden." },
+
+    // --- Datenschutz & Recht Vertiefung ---
+    { chapter: "WiSo", type: "input", question: "Welches Amt überwacht in Deutschland die Einhaltung des Datenschutzes?", correctAnswers: ["Datenschutzbeauftragter", "Landesdatenschutzbeauftragter"], explanation: "Zusätzlich gibt es den Bundesbeauftragten für den Datenschutz." },
+    { chapter: "WiSo", type: "single", question: "Darf ein Arbeitgeber private E-Mails lesen, wenn er die private Nutzung des Dienst-Accounts verboten hat?", options: ["Ja", "Nein", "Nur nach richterlichem Beschluss"], correctAnswers: [0], explanation: "Ist die private Nutzung untersagt, hat der AG ein Kontrollrecht, muss aber den Datenschutz wahren." },
+    { chapter: "WiSo", type: "multi", question: "Was sind personenbezogene Daten laut DSGVO?", options: ["IP-Adresse", "Name", "Anzahl der Fenster im Haus", "KFZ-Kennzeichen"], correctAnswers: [0, 1, 3], explanation: "Daten, die eine Person identifizierbar machen." },
+    { chapter: "WiSo", type: "input", question: "Wie nennt man die schriftliche Erlaubnis einer Person zur Datenverarbeitung?", correctAnswers: ["Einwilligung"], explanation: "Muss freiwillig und informiert erfolgen." },
+    { chapter: "WiSo", type: "single", question: "Ab wie vielen Personen (die ständig mit Daten arbeiten) muss ein Unternehmen einen Datenschutzbeauftragten bestellen?", options: ["5", "10", "20"], correctAnswers: [2], explanation: "In Deutschland liegt die Grenze aktuell bei 20 Personen (Stand 2026)." },
+
+    // --- Netzwerk & Hardware Vertiefung ---
+    { chapter: "Netzwerk", type: "input", question: "Welches Protokoll dient zur automatischen Konfiguration von Hostnamen im LAN?", correctAnswers: ["mDNS", "LLMNR"], explanation: "Wird oft für Drucker oder Apple-Geräte (Bonjour) genutzt." },
+    { chapter: "Netzwerk", type: "single", question: "Was ist der Unterschied zwischen einem Switch und einer Bridge?", options: ["Es gibt keinen", "Ein Switch ist eine Multi-Port-Bridge", "Switches arbeiten nur auf Layer 3"], correctAnswers: [1], explanation: "Switches sind moderne Bridges mit vielen Ports." },
+    { chapter: "Hardware", type: "multi", question: "Welche Vorteile bietet Virtualisierung?", options: ["Bessere Hardware-Auslastung", "Isolation von Anwendungen", "Hardware wird unkaputtbar", "Schnelles Deployment"], correctAnswers: [0, 1, 3], explanation: "Hardware kann trotzdem physisch kaputtgehen." },
+    { chapter: "Hardware", type: "input", question: "Wie nennt man die Software, die virtuelle Maschinen (VMs) steuert?", correctAnswers: ["Hypervisor"], explanation: "Beispiele sind ESXi, Hyper-V oder Proxmox." },
+    { chapter: "Hardware", type: "single", question: "Was ist ein NAS?", options: ["Ein schneller Router", "Ein Speichergerät am Netzwerk (Network Attached Storage)", "Ein Virenschutz für Server"], correctAnswers: [1], explanation: "Ein dedizierter Dateiserver im Netz." },
+
+    // --- SQL & Daten Vertiefung ---
+    { chapter: "SQL", type: "input", question: "Wie heißt die 1. Normalform (1. NF)?", correctAnswers: ["Atomarität"], explanation: "Jedes Attribut muss atomar (nicht weiter zerlegbar) sein." },
+    { chapter: "SQL", type: "single", question: "Welche Normalform verlangt, dass alle Nicht-Schlüsselattribute vom Primärschlüssel voll funktional abhängig sind (keine partiellen Abhängigkeiten)?", options: ["1. NF", "2. NF", "3. NF"], correctAnswers: [1], explanation: "Die 2. NF beseitigt Abhängigkeiten von Teil-Schlüsseln." },
+    { chapter: "SQL", type: "multi", question: "Welche Operationen verändern die Daten in einer Datenbank?", options: ["INSERT", "UPDATE", "DELETE", "SELECT"], correctAnswers: [0, 1, 2], explanation: "SELECT liest Daten nur aus." },
+    { chapter: "SQL", type: "input", question: "Wie nennt man eine virtuelle Tabelle in SQL, die auf einer Abfrage basiert?", correctAnswers: ["View", "Sicht"], explanation: "Views speichern keine Daten, sondern nur das SELECT-Statement." },
+    { chapter: "SQL", type: "single", question: "Was bedeutet 'Referenzielle Integrität'?", options: ["Daten werden verschlüsselt", "Fremdschlüssel müssen auf existierende Primärschlüssel verweisen", "Backups werden täglich erstellt"], correctAnswers: [1], explanation: "Verhindert 'Waisenkinder' (Datensätze ohne Eltern-Datensatz)." },
+
+    // --- BWL Kalkulations-Fragen ---
+    { chapter: "WiSo/BWL", type: "input", question: "Berechne den Listenverkaufspreis: Selbstkosten 80€, Gewinnzuschlag 25%.", correctAnswers: ["100"], explanation: "80€ + 25% (20€) = 100€." },
+    { chapter: "WiSo/BWL", type: "single", question: "Was ist der 'Break-Even-Point'?", options: ["Der Punkt, an dem der Gewinn maximal ist", "Die Gewinnschwelle (Erlös = Kosten)", "Der Zeitpunkt der Insolvenz"], correctAnswers: [1], explanation: "Ab diesem Punkt macht das Unternehmen Gewinn." },
+    { chapter: "WiSo/BWL", type: "input", question: "Wie nennt man die Kosten, die unabhängig von der Produktionsmenge anfallen?", correctAnswers: ["Fixkosten"], explanation: "Z.B. Miete oder Versicherungen." },
+    { chapter: "WiSo/BWL", type: "multi", question: "Was gehört zur Nutzwertanalyse (NWA)?", options: ["Gewichtung von Kriterien", "Punktevergabe für Alternativen", "Münzwurf zur Entscheidung", "Berechnung des Gesamtwerts"], correctAnswers: [0, 1, 3], explanation: "NWA ist ein objektives Bewertungsinstrument." },
+    { chapter: "WiSo/BWL", type: "single", question: "Was ist ein 'Organigramm'?", options: ["Ein Diagramm der Datenflüsse", "Die Darstellung der Aufbauorganisation", "Eine Liste der Server"], correctAnswers: [1], explanation: "Es zeigt die Hierarchie und Abteilungen eines Betriebs." },
+
+    // --- Gemischtes Wissen ---
+    { chapter: "Programmierung", type: "input", question: "Wie nennt man das Zusammenfügen von zwei Zeichenketten (Strings)?", correctAnswers: ["Konkatenation", "Verkettung"], explanation: "In Java/JS oft mit dem '+' Operator." },
+    { chapter: "Netzwerk", type: "single", question: "Was ist eine IP-Broadcast-Adresse?", options: ["Eine Adresse für einen einzelnen Host", "Eine Adresse, die alle Hosts im Subnetz anspricht", "Die Adresse des Routers"], correctAnswers: [1], explanation: "Z.B. die 192.168.1.255 in einem /24 Netz." },
+    { chapter: "Hardware", type: "single", question: "Was bedeutet 'Hot Swapping'?", options: ["Hardware im laufenden Betrieb tauschen", "CPU übertakten bis sie heiß wird", "Daten schnell löschen"], correctAnswers: [0], explanation: "Wichtig bei Servern für Hochverfügbarkeit." },
+    { chapter: "Security", type: "input", question: "Wie nennt man die Täuschung über die eigene Identität im Netzwerk (z.B. falsche IP absenden)?", correctAnswers: ["Spoofing"], explanation: "IP-Spoofing, MAC-Spoofing oder DNS-Spoofing." },
+    { chapter: "Projekt", type: "single", question: "Wofür steht 'WBS' (oder PSP)?", options: ["Web Backup System", "Projektstrukturplan (Work Breakdown Structure)", "Windows Boot System"], correctAnswers: [1], explanation: "Der PSP zerlegt das Projekt in planbare Arbeitspakete." },
+    // --- BLOCK 4: FRAGEN 151-200 ---
+    // --- Cloud & Virtualisierung ---
+    { chapter: "Cloud", type: "single", question: "Was bedeutet 'SaaS'?", options: ["Software as a Service", "System as a Service", "Security as a Service"], correctAnswers: [0], explanation: "Software wird über das Internet bereitgestellt und genutzt (z.B. Microsoft 365)." },
+    { chapter: "Cloud", type: "input", question: "Wie nennt man das Cloud-Modell, bei dem die Infrastruktur nur für eine geschlossene Gruppe (z.B. eine Firma) bereitgestellt wird?", correctAnswers: ["Private Cloud"], explanation: "Im Gegensatz zur Public Cloud ist der Zugriff hier streng limitiert." },
+    { chapter: "Cloud", type: "multi", question: "Welche Vorteile bietet Cloud-Computing?", options: ["Skalierbarkeit", "Keine Internetabhängigkeit", "Pay-per-use Abrechnung", "Geringere Investitionskosten"], correctAnswers: [0, 2, 3], explanation: "Eine Cloud ist zwingend auf eine Internetverbindung angewiesen." },
+    { chapter: "Cloud", type: "single", question: "Was ist 'IaaS'?", options: ["Integration as a Service", "Infrastructure as a Service", "Interface as a Service"], correctAnswers: [1], explanation: "Hier werden virtuelle IT-Ressourcen wie Server, Speicher oder Netze gemietet." },
+    { chapter: "Cloud", type: "input", question: "Wie nennt man die Technologie, die es erlaubt, mehrere Betriebssysteme isoliert auf einer physischen Hardware zu betreiben?", correctAnswers: ["Virtualisierung"], explanation: "Wird meist über einen Hypervisor realisiert." },
+
+    // --- Ergonomie & Green-IT ---
+    { chapter: "WiSo", type: "single", question: "Welcher Abstand zum Monitor wird am PC-Arbeitsplatz empfohlen?", options: ["20-30 cm", "50-70 cm", "Mindestens 1 Meter"], correctAnswers: [1], explanation: "Ein Abstand von ca. einer Armlänge schont die Augen." },
+    { chapter: "WiSo", type: "multi", question: "Was gehört zu einem ergonomischen Arbeitsplatz?", options: ["Höhenverstellbarer Tisch", "Strahlende Deckenbeleuchtung", "Individuell anpassbarer Stuhl", "Reflexionsarmer Monitor"], correctAnswers: [0, 2, 3], explanation: "Direktes, blendendes Licht ist zu vermeiden." },
+    { chapter: "WiSo", type: "input", question: "Wie nennt man das Bestreben, IT-Ressourcen umweltschonend und energiesparend zu nutzen?", correctAnswers: ["Green IT"], explanation: "Beinhaltet auch Entsorgung und faire Produktion." },
+    { chapter: "WiSo", type: "single", question: "Was besagt die 'Bildschirmarbeitsverordnung' primär?", options: ["Jeder muss 10 Finger tippen können", "Schutz der Gesundheit der Beschäftigten bei der Arbeit an Monitoren", "Verbot von Computerspielen"], correctAnswers: [1], explanation: "Regelt Pausen, Sehtests und Ausstattung." },
+    { chapter: "WiSo", type: "input", question: "Wie nennt man die Lehre von der optimalen Anpassung der Arbeitsbedingungen an den Menschen?", correctAnswers: ["Ergonomie"], explanation: "Ziel ist die Vermeidung von Gesundheitsschäden." },
+
+    // --- Subnetting & Netz-Rechnung ---
+    { chapter: "Netzwerk", type: "input", question: "Wie viele Bit werden bei der Subnetzmaske 255.255.255.128 für den Host-Anteil verwendet?", correctAnswers: ["7"], explanation: "128 ist binär 10000000 -> 7 Nullen stehen für Hosts." },
+    { chapter: "Netzwerk", type: "single", question: "Wie lautet die Broadcast-Adresse für das Netz 192.168.1.0/24?", options: ["192.168.1.0", "192.168.1.255", "192.168.1.1"], correctAnswers: [1], explanation: "Die letzte Adresse im Netz ist der Broadcast." },
+    { chapter: "Netzwerk", type: "input", question: "Berechne die Anzahl der nutzbaren Host-Adressen in einem /30 Subnetz.", correctAnswers: ["2"], explanation: "Gesamt 4 Adressen minus Netz-ID und Broadcast." },
+    { chapter: "Netzwerk", type: "single", question: "Was ist 'PAT' (Port Address Translation)?", options: ["Ein Routing-Protokoll", "Mehrere interne IPs nutzen eine öffentliche IP über verschiedene Ports", "Ein Tool zur Kabelprüfung"], correctAnswers: [1], explanation: "Oft auch als NAT-Overload bekannt." },
+    { chapter: "Netzwerk", type: "input", question: "Wofür steht die Abkürzung 'VLAN'?", correctAnswers: ["Virtual Local Area Network"], explanation: "Logische Trennung von Netzen auf demselben physikalischen Switch." },
+
+    // --- Qualitätssicherung & Testen ---
+    { chapter: "Projekt", type: "single", question: "Was ist ein 'Black-Box-Test'?", options: ["Testen ohne Kenntnis des Quellcodes", "Testen der Hardware-Gehäuse", "Testen mit administrativen Rechten"], correctAnswers: [0], explanation: "Man prüft nur Eingabe und Ausgabe." },
+    { chapter: "Projekt", type: "input", question: "Wie nennt man den Test, bei dem nach Änderungen geprüft wird, ob alte Funktionen noch fehlerfrei arbeiten?", correctAnswers: ["Regressionstest"], explanation: "Verhindert, dass neue Updates alte Fehler wiederbeleben." },
+    { chapter: "Projekt", type: "multi", question: "Was sind Merkmale von Softwarequalität nach ISO 25010?", options: ["Benutzerfreundlichkeit", "Preis", "Sicherheit", "Wartbarkeit"], correctAnswers: [0, 2, 3], explanation: "Der Preis ist kein technisches Qualitätsmerkmal der Software an sich." },
+    { chapter: "Projekt", type: "single", question: "Was macht ein 'Debugger'?", options: ["Viren entfernen", "Fehler im Quellcode finden und analysieren", "Internetseiten blockieren"], correctAnswers: [1], explanation: "Erlaubt das schrittweise Durchlaufen von Code." },
+    { chapter: "Projekt", type: "input", question: "Wie nennt man die Phase, in der ein Kunde die Software prüft und offiziell abnimmt?", correctAnswers: ["Abnahmetest", "UAT"], explanation: "User Acceptance Test." },
+
+    // --- Security Vertiefung ---
+    { chapter: "Security", type: "single", question: "Was ist ein 'Proxy-Server'?", options: ["Ein schneller Router", "Ein Stellvertreter, der Anfragen im Namen der Clients stellt", "Ein Datenbank-Backup"], correctAnswers: [1], explanation: "Dient oft der Anonymisierung oder dem Caching." },
+    { chapter: "Security", type: "input", question: "Wie heißt die Verschlüsselung, die heute standardmäßig für Webseiten (HTTPS) genutzt wird?", correctAnswers: ["TLS", "SSL"], explanation: "Transport Layer Security." },
+    { chapter: "Security", type: "multi", question: "Was sind Anzeichen für eine Phishing-Mail?", options: ["Dringender Handlungsbedarf", "Korrekte Rechtschreibung", "Link auf eine unbekannte IP-Adresse", "Generische Anrede (Sehr geehrter Kunde)"], correctAnswers: [0, 2, 3], explanation: "Echte Banken nutzen meist persönliche Anreden." },
+    { chapter: "Security", type: "single", question: "Was ist 'Social Engineering'?", options: ["Bau von Netzwerkkabeln", "Manipulation von Personen zur Preisgabe von Daten", "Optimierung von Social Media"], correctAnswers: [1], explanation: "Der Angreifer nutzt die Gutgläubigkeit von Menschen aus." },
+    { chapter: "Security", type: "input", question: "Wofür steht '2FA'?", correctAnswers: ["Zwei-Faktor-Authentisierung", "2 Factor Authentication"], explanation: "Login durch zwei unabhängige Komponenten (z.B. Passwort + Handy-Code)." },
+
+    // --- WiSo & Recht Vertiefung ---
+    { chapter: "WiSo", type: "single", question: "Was ist ein 'qualifiziertes Arbeitszeugnis'?", options: ["Nur Dauer und Art der Tätigkeit", "Inklusive Bewertung von Führung und Leistung", "Ein Zeugnis mit Unterschrift des Bürgermeisters"], correctAnswers: [1], explanation: "Im Gegensatz zum einfachen Zeugnis enthält es eine Leistungsbeurteilung." },
+    { chapter: "WiSo", type: "input", question: "Welcher Grundsatz besagt im BGB, dass Verträge einzuhalten sind?", correctAnswers: ["Pacta sunt servanda"], explanation: "Latein für 'Verträge sind einzuhalten'." },
+    { chapter: "WiSo", type: "single", question: "Wer trägt die Beweislast für einen Mangel innerhalb der ersten 12 Monate nach Kauf eines Verbrauchsguts?", options: ["Der Käufer", "Der Verkäufer", "Der Hersteller"], correctAnswers: [1], explanation: "Seit 2022 gilt in Deutschland die Beweislastumkehr für 12 Monate." },
+    { chapter: "WiSo", type: "multi", question: "Was sind Bestandteile des Bruttolohns?", options: ["Nettolohn", "Lohnsteuer", "Solidaritätszuschlag (falls anfallend)", "Sozialversicherungsbeiträge (AN-Anteil)"], correctAnswers: [0, 1, 2, 3], explanation: "Brutto ist der Gesamtbetrag vor allen Abzügen." },
+    { chapter: "WiSo", type: "input", question: "Wie nennt man die Versicherung, die Schäden übernimmt, die man Dritten versehentlich zufügt?", correctAnswers: ["Haftpflichtversicherung"], explanation: "Wichtigste Versicherung für Privatpersonen und Betriebe." },
+
+    // --- Hardware & Mixed ---
+    { chapter: "Hardware", type: "single", question: "Welches Bauteil liefert die Taktfrequenz für das Mainboard?", options: ["Quarz", "Akku", "Netzteil"], correctAnswers: [0], explanation: "Ein Schwingquarz gibt den Takt vor." },
+    { chapter: "Hardware", type: "input", question: "Wie nennt man die Schnittstelle für externe Grafikkarten an Laptops, die oft den USB-C Stecker nutzt?", correctAnswers: ["Thunderbolt"], explanation: "Kombiniert PCIe und DisplayPort." },
+    { chapter: "Hardware", type: "single", question: "Was ist der Formfaktor 'ATX'?", options: ["Ein Prozessor-Typ", "Ein Standard für Mainboards und Gehäuse", "Eine Festplatten-Verschlüsselung"], correctAnswers: [1], explanation: "Advanced Technology eXtended." },
+    { chapter: "Hardware", type: "multi", question: "Welche Komponenten kühlen eine CPU aktiv?", options: ["Wärmeleitpaste", "Lüfter", "Wasserkühlung", "Kühlkörper"], correctAnswers: [1, 2], explanation: "Paste und Kühlkörper sind passiv; sie leiten nur, bewegen aber kein Medium." },
+    { chapter: "Hardware", type: "input", question: "Wie heißt der Speicherplatz auf der Festplatte, der als RAM-Ersatz dient?", correctAnswers: ["Auslagerungsdatei", "Swap"], explanation: "Virtueller Arbeitsspeicher." },
+
+    // --- Endspurt: Gemischtes Fachwissen ---
+    { chapter: "Programmierung", type: "single", question: "Was ist ein 'Array'?", options: ["Ein einzelner Text", "Eine Liste von Elementen gleichen Datentyps", "Ein SQL-Befehl"], correctAnswers: [1], explanation: "Datenstruktur zur Speicherung mehrerer Werte unter einem Namen." },
+    { chapter: "Netzwerk", type: "input", question: "Welches Protokoll synchronisiert die Uhrzeit in Netzwerken?", correctAnswers: ["NTP"], explanation: "Network Time Protocol." },
+    { chapter: "SQL", type: "single", question: "Was bedeutet 'NULL' in einer Datenbank?", options: ["Die Zahl 0", "Ein leerer Text", "Ein unbekannter oder fehlender Wert"], correctAnswers: [2], explanation: "NULL ist ein Zustand, kein Wert." },
+    { chapter: "Projekt", type: "input", question: "Wie nennt man die Methode, um die Dauer eines Projekts grafisch zu planen?", correctAnswers: ["Netzplantechnik"], explanation: "Berechnet den kritischen Pfad." },
+    { chapter: "Security", type: "single", question: "Was ist ein 'Honey Pot'?", options: ["Ein sehr schneller Server", "Ein bewusst unsicheres System zum Anlocken von Hackern", "Ein sicheres Passwort-Verzeichnis"], correctAnswers: [1], explanation: "Dient der Analyse von Angriffsmethoden." },
+    { chapter: "Netzwerk", type: "single", question: "Was ist 'Half-Duplex'?", options: ["Senden und Empfangen gleichzeitig", "Nur Senden oder Empfangen (abwechselnd)", "Nur Senden"], correctAnswers: [1], explanation: "Beispiel: Funkgerät (Walkie-Talkie)." },
+    { chapter: "Hardware", type: "input", question: "Wofür steht 'OLED'?", correctAnswers: ["Organic Light Emitting Diode"], explanation: "Displaytechnologie ohne Hintergrundbeleuchtung." },
+    { chapter: "SQL", type: "single", question: "Welcher Befehl entfernt alle Daten einer Tabelle, behält aber die Struktur?", options: ["DROP", "TRUNCATE", "DELETE DATABASE"], correctAnswers: [1], explanation: "TRUNCATE ist schneller als DELETE für alle Zeilen." },
+    { chapter: "WiSo", type: "input", question: "Wie hoch ist die gesetzliche Mehrwertsteuer in Deutschland (Regelsatz)?", correctAnswers: ["19"], explanation: "Der ermäßigte Satz beträgt 7%." },
+    { chapter: "Projekt", type: "single", question: "Was ist ein 'Stakeholder'?", options: ["Ein Projektleiter", "Eine Person oder Gruppe, die ein berechtigtes Interesse am Projekt hat", "Ein Aktionär"], correctAnswers: [1], explanation: "Kunden, Mitarbeiter, Anwohner etc." },
+    { chapter: "Netzwerk", type: "input", question: "Wie nennt man die Prüfung der Identität eines Nutzers?", correctAnswers: ["Authentifizierung"], explanation: "Die Prüfung (Passwort etc.) vor der Autorisierung." },
+    { chapter: "Hardware", type: "single", question: "Was beschreibt der 'MTBF'-Wert?", options: ["Maximale Temperatur", "Mittlere Betriebsdauer zwischen Ausfällen", "Grafikleistung"], correctAnswers: [1], explanation: "Mean Time Between Failures." },
+    { chapter: "SQL", type: "input", question: "Welcher Join gibt alle Zeilen der ersten Tabelle und die passenden der zweiten zurück?", correctAnswers: ["Left Join"], explanation: "Gibt links alles aus, rechts nur Treffer." },
+    { chapter: "WiSo", type: "single", question: "Was ist das Ziel der 'Mitbestimmung'?", options: ["Diktatur der Chefs", "Teilhabe der Arbeitnehmer an betrieblichen Entscheidungen", "Verbot von Überstunden"], correctAnswers: [1], explanation: "Umgesetzt durch den Betriebsrat." },
+    { chapter: "Security", type: "input", question: "Wie nennt man ein Programm, das sich selbst vervielfältigt und über Netzwerke verbreitet?", correctAnswers: ["Wurm", "Computerwurm"], explanation: "Im Gegensatz zum Virus braucht ein Wurm kein Wirtsprogramm." }
 ];
 
-// QUIZ LOGIK
-let currentQuestions = [];
-let currentIdx = 0;
+// INITIALISIERUNG
+let curQ = [];
+let curIdx = 0;
 let score = 0;
-let isExam = false;
+
+document.getElementById('status-text').innerText = `${allQuestions.length} Fragen geladen. Bereit für 200!`;
 
 function startQuiz(mode) {
-    isExam = (mode === 'exam');
-    currentQuestions = [...allQuestions];
-    
-    // Shuffle
-    currentQuestions.sort(() => Math.random() - 0.5);
-    
-    if(isExam) {
-        currentQuestions = currentQuestions.slice(0, 20);
+    curQ = [...allQuestions];
+    if(mode === 'exam') {
+        curQ = curQ.sort(() => Math.random() - 0.5).slice(0, 25);
     }
-
     document.getElementById('setup-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
-    currentIdx = 0;
-    score = 0;
-    showQuestion();
+    curIdx = 0; score = 0;
+    showQ();
 }
 
-function showQuestion() {
-    const q = currentQuestions[currentIdx];
-    document.getElementById('progress-fill').style.width = `${((currentIdx) / currentQuestions.length) * 100}%`;
-    document.getElementById('meta').innerText = `${q.chapter} | Frage ${currentIdx + 1} von ${currentQuestions.length}`;
+function showQ() {
+    const q = curQ[curIdx];
+    document.getElementById('progress-fill').style.width = `${(curIdx / curQ.length) * 100}%`;
+    document.getElementById('meta').innerText = `${q.chapter} | Frage ${curIdx + 1} von ${curQ.length}`;
     document.getElementById('question-text').innerText = q.question;
     
+    const badge = document.getElementById('type-badge');
+    badge.innerText = q.type === 'multi' ? 'Mehrfachauswahl' : (q.type === 'single' ? 'Einfachauswahl' : 'Texteingabe');
+    badge.style.background = q.type === 'multi' ? '#fef3c7' : '#e2e8f0';
+
     const container = document.getElementById('options-container');
     container.innerHTML = '';
     document.getElementById('feedback-area').classList.add('hidden');
@@ -162,12 +356,10 @@ function showQuestion() {
             const div = document.createElement('div');
             div.className = 'option-item';
             div.innerText = opt;
-            div.dataset.origIdx = idx;
+            div.dataset.idx = idx;
             div.onclick = () => {
-                if(!document.getElementById('check-btn').classList.contains('hidden')) {
-                    if(q.type === 'single') container.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
-                    div.classList.toggle('selected');
-                }
+                if(q.type === 'single') container.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+                div.classList.toggle('selected');
             };
             container.appendChild(div);
         });
@@ -175,7 +367,7 @@ function showQuestion() {
         const input = document.createElement('input');
         input.type = 'text';
         input.id = 'user-input';
-        input.placeholder = 'Antwort hier eingeben...';
+        input.placeholder = 'Antwort eingeben...';
         input.onkeypress = (e) => { if(e.key === 'Enter') checkAnswer(); };
         container.appendChild(input);
         input.focus();
@@ -183,20 +375,25 @@ function showQuestion() {
 }
 
 function checkAnswer() {
-    const q = currentQuestions[currentIdx];
+    const q = curQ[curIdx];
     let isCorrect = false;
 
     if(q.type === 'input') {
-        const userIn = document.getElementById('user-input').value.trim().toLowerCase();
-        if(!userIn) return;
-        isCorrect = q.correctAnswers.some(a => userIn === a.toLowerCase() || userIn.includes(a.toLowerCase()));
+        const val = document.getElementById('user-input').value.trim().toLowerCase();
+        if(!val) return;
+        // Check gegen alle erlaubten Antwort-Varianten
+        isCorrect = q.correctAnswers.some(ans => {
+            const a = ans.toLowerCase();
+            return val === a || (val.length > 3 && a.includes(val));
+        });
     } else {
-        const sel = Array.from(document.querySelectorAll('.option-item.selected')).map(el => parseInt(el.dataset.origIdx));
-        if(sel.length === 0) return alert("Bitte eine Antwort wählen!");
+        const sel = Array.from(document.querySelectorAll('.option-item.selected')).map(el => parseInt(el.dataset.idx));
+        if(sel.length === 0) return alert("Wähle eine Antwort!");
+        // Bei Multi: Müssen exakt übereinstimmen
         isCorrect = JSON.stringify(sel.sort()) === JSON.stringify(q.correctAnswers.sort());
 
         document.querySelectorAll('.option-item').forEach(el => {
-            const idx = parseInt(el.dataset.origIdx);
+            const idx = parseInt(el.dataset.idx);
             if(q.correctAnswers.includes(idx)) el.classList.add('correct-ui');
             else if(el.classList.contains('selected')) el.classList.add('wrong-ui');
         });
@@ -210,16 +407,14 @@ function checkAnswer() {
 }
 
 function nextQuestion() {
-    currentIdx++;
-    if(currentIdx < currentQuestions.length) showQuestion();
-    else showResults();
-}
-
-function showResults() {
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-    const p = Math.round((score / currentQuestions.length) * 100);
-    document.getElementById('score-display').innerHTML = `Du hast <b>${score}</b> von <b>${currentQuestions.length}</b> richtig beantwortet.<br>Das entspricht <b>${p}%</b>.`;
+    curIdx++;
+    if(curIdx < curQ.length) showQ();
+    else {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        const p = Math.round((score/curQ.length)*100);
+        document.getElementById('score-display').innerHTML = `Ergebnis: ${score} von ${curQ.length} korrekt (${p}%).`;
+    }
 }
 </script>
 </body>
