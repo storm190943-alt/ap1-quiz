@@ -314,7 +314,48 @@ const allQuestions = [
     { chapter: "Hardware", type: "single", question: "Was beschreibt der 'MTBF'-Wert?", options: ["Maximale Temperatur", "Mittlere Betriebsdauer zwischen Ausfällen", "Grafikleistung"], correctAnswers: [1], explanation: "Mean Time Between Failures." },
     { chapter: "SQL", type: "input", question: "Welcher Join gibt alle Zeilen der ersten Tabelle und die passenden der zweiten zurück?", correctAnswers: ["Left Join"], explanation: "Gibt links alles aus, rechts nur Treffer." },
     { chapter: "WiSo", type: "single", question: "Was ist das Ziel der 'Mitbestimmung'?", options: ["Diktatur der Chefs", "Teilhabe der Arbeitnehmer an betrieblichen Entscheidungen", "Verbot von Überstunden"], correctAnswers: [1], explanation: "Umgesetzt durch den Betriebsrat." },
-    { chapter: "Security", type: "input", question: "Wie nennt man ein Programm, das sich selbst vervielfältigt und über Netzwerke verbreitet?", correctAnswers: ["Wurm", "Computerwurm"], explanation: "Im Gegensatz zum Virus braucht ein Wurm kein Wirtsprogramm." }
+    { chapter: "Security", type: "input", question: "Wie nennt man ein Programm, das sich selbst vervielfältigt und über Netzwerke verbreitet?", correctAnswers: ["Wurm", "Computerwurm"], explanation: "Im Gegensatz zum Virus braucht ein Wurm kein Wirtsprogramm." },
+
+// --- FINALER BLOCK: FRAGEN 196-200 (Die Korrektur) ---
+    { 
+        chapter: "Hardware", 
+        type: "single", 
+        question: "Welches RAID-System bietet die höchste Ausfallsicherheit bei gleichzeitig hoher Performance (Kombination aus Spiegelung und Striping)?", 
+        options: ["RAID 0", "RAID 5", "RAID 10"], 
+        correctAnswers: [2], 
+        explanation: "RAID 10 kombiniert die Sicherheit von RAID 1 mit dem Speed von RAID 0. Hier die Übersicht:<br><table><tr><th>RAID</th><th>Prinzip</th><th>Min. Disks</th><th>Sicherheit</th></tr><tr><td>0</td><td>Striping</td><td>2</td><td>Keine</td></tr><tr><td>1</td><td>Mirroring</td><td>2</td><td>Hoch</td></tr><tr><td>5</td><td>Parity</td><td>3</td><td>Mittel</td></tr><tr><td>10</td><td>0 + 1</td><td>4</td><td>Sehr Hoch</td></tr></table>" 
+    },
+    
+    { 
+        chapter: "WiSo", 
+        type: "input", 
+        question: "Wie nennt man die Form der betrieblichen Mitbestimmung, die auf Unternehmensebene durch Arbeitnehmervertreter im Aufsichtsrat stattfindet?", 
+        correctAnswers: ["Unternehmensmitbestimmung", "Montan-Mitbestimmung"], 
+        explanation: "Abhängig von der Mitarbeiterzahl (z.B. über 2000 Mitarbeiter) greift das Mitbestimmungsgesetz." 
+    },
+    { 
+        chapter: "Netzwerk", 
+        type: "single", 
+        question: "Was ist der Unterschied zwischen TCP und UDP?", 
+        options: ["TCP ist schneller", "TCP ist verbindungsorientiert und sicher", "UDP prüft jedes Paket auf Fehler"], 
+        correctAnswers: [1], 
+        explanation: "TCP garantiert die Zustellung, UDP ist für Echtzeit-Anwendungen (Streaming/Gaming) besser geeignet.<br><table><tr><th>Feature</th><th>TCP</th><th>UDP</th></tr><tr><td>Modus</td><td>Verbindung</td><td>Verbindungslos</td></tr><tr><td>Speed</td><td>Langsamer</td><td>Schneller</td></tr></table>" 
+    },
+    { 
+        chapter: "SQL", 
+        type: "single", 
+        question: "Was bedeutet die Abkürzung ACID in Bezug auf Datenbank-Transaktionen?", 
+        options: ["Verschlüsselungs-Standard", "Regelwerk für Atomarität, Konsistenz, Isolation, Dauerhaftigkeit", "Ein SQL-Dialekt"], 
+        correctAnswers: [1], 
+        explanation: "ACID garantiert, dass Datenbank-Transaktionen auch bei Fehlern valide bleiben." 
+    },
+    { 
+        chapter: "WiSo", 
+        type: "input", 
+        question: "Wie nennt man die Situation, in der ein Käufer eine Ware erhält, die nicht der vereinbarten Beschaffenheit entspricht?", 
+        correctAnswers: ["Sachmangel", "Schlechtleistung"], 
+        explanation: "Bei einem Sachmangel hat der Käufer zunächst das Recht auf Nacherfüllung (Reparatur oder Ersatz)." 
+    }
 ];
 
 // INITIALISIERUNG
