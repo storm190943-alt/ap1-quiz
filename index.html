@@ -995,12 +995,33 @@ let activeQuestions = [];
 let cur = 0;
 let score = 0;
 
-function startQuiz() {
-    const filter = document.getElementById('category-filter').value;
-    activeQuestions = (filter === 'all') ? [...allQuestions] : allQuestions.filter(q => q.chapter === filter);
+function startQuiz(mode) {
+    const filterElement = document.getElementById('category-filter');
+    const filterValue = filterElement ? filterElement.value : 'all';
     
-    if(activeQuestions.length === 0) return alert("Keine Fragen gefunden!");
+    // Filtern der Fragen basierend auf der Auswahl
+    if (filterValue === 'all') {
+        activeQuestions = [...allQuestions];
+    } else {
+        activeQuestions = allQuestions.filter(q => q.chapter === filterValue);
+    }
+
+    // Sicherheitscheck
+    if (activeQuestions.length === 0) {
+        alert("Hoppla! In dieser Kategorie wurden keine Fragen gefunden. Check mal die Kapitelnamen.");
+        return;
+    }
+
+    // Zufällige Reihenfolge
+    activeQuestions.sort(() => Math.random() - 0.5);
     
+    // Wenn 'Simulation' geklickt wurde, auf 25 begrenzen
+    if (mode === 'exam') {
+        activeQuestions = activeQuestions.slice(0, 25);
+    }
+
+    curIdx = 0;
+    score = 0;
     document.getElementById('setup-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
